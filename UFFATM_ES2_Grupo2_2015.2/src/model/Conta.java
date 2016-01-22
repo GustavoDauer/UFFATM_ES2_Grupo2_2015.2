@@ -10,7 +10,13 @@ package model;
  * @author ccz
  */
 public abstract class Conta {
+
+    public String numero;
     private int saldo;
     private String cartao; //número de identificação do cartão
-    
+
+    abstract void geraNumero();
+
+    abstract void geraCartao();
+
 }
