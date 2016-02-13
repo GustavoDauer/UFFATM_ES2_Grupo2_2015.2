@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -17,13 +18,48 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Cliente implements DatabaseActions {
 
+    String id, nome, status;
+    
     public Cliente() {
+        id = "0";
+        nome = "";
+        status = "";
     }
 
-    @Override
-    public boolean insert(HttpServletRequest request) {
-        String nome = request.getParameter("nome");
+    public Cliente(HttpServletRequest request) {
+        id = request.getParameter("id");
+        nome = request.getParameter("nome");
+        status = request.getParameter("status");
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
+
+    @Override
+    public boolean insert() {
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -37,17 +73,13 @@ public class Cliente implements DatabaseActions {
 
             conexao.close();
             return true;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {            
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             return false;
         }
     }
 
     @Override
-    public boolean edit(HttpServletRequest request) {
-        String id = request.getParameter("id"); // Numero
-        String nome = request.getParameter("nome"); // String
-        String status = request.getParameter("status"); // TRUE ou FALSE
-
+    public boolean edit() {
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -70,9 +102,7 @@ public class Cliente implements DatabaseActions {
     }
 
     @Override
-    public boolean delete(HttpServletRequest request) {
-        String id = request.getParameter("id"); // Numero        
-
+    public boolean delete() {
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -93,8 +123,6 @@ public class Cliente implements DatabaseActions {
 
     @Override
     public boolean view(HttpServletRequest request) {
-        String id = request.getParameter("id"); // Numero        
-
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -110,9 +138,11 @@ public class Cliente implements DatabaseActions {
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                request.setAttribute("id", id);
-                request.setAttribute("nome", rs.getString("nome"));
-                request.setAttribute("status", rs.getString("status"));
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getString("idCliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setStatus(rs.getString("status"));
+                request.setAttribute("cliente", cliente);
 
                 conexao.close();
                 return true;
@@ -142,12 +172,17 @@ public class Cliente implements DatabaseActions {
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
 
-            String todosClientes = "";
-            
+            ArrayList<Cliente> todosClientes = new ArrayList();
+
             while (rs.next()) {
-                todosClientes += "<a href='ClienteController?command=view&id=" + rs.getString("idCliente") + "'>" + rs.getString("nome") + "</a><br />";
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getString("idCliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setStatus(rs.getString("status"));
+                
+                todosClientes.add(cliente);
             }
-            
+
             request.setAttribute("todosClientes", todosClientes);
 
             conexao.close();
@@ -156,5 +191,4 @@ public class Cliente implements DatabaseActions {
             return false;
         }
     }
-
 }

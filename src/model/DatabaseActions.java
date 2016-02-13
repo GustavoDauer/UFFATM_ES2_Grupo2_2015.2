@@ -6,7 +6,6 @@
 package model;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface DatabaseActions {
     
-    public boolean insert(HttpServletRequest request);
-    public boolean edit(HttpServletRequest request);
-    public boolean delete(HttpServletRequest request);
+    public boolean insert();
+    public boolean edit();
+    public boolean delete();
     public boolean view(HttpServletRequest request);
     public boolean viewAll(HttpServletRequest request);
 }

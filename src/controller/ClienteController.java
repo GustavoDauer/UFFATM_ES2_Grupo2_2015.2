@@ -43,13 +43,13 @@ public class ClienteController extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet ClienteController at " + request.getContextPath() + "</h1>");
 
-            Cliente client = new Cliente();
+            Cliente client = new Cliente(request);
 
             // Lista de ações disponíveis
             switch (request.getParameter("command")) {
 
                 case "insert":
-                    if (client.insert(request)) {
+                    if (client.insert()) {
                         out.println("<div><b> Cliente inserido! </b></div>");
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
                     } else {
@@ -59,7 +59,7 @@ public class ClienteController extends HttpServlet {
                     break;
 
                 case "edit":
-                    if (client.edit(request)) {
+                    if (client.edit()) {
                         out.println("<div><b> Cliente editado! </b></div>");
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
                     } else {
@@ -69,7 +69,7 @@ public class ClienteController extends HttpServlet {
                     break;
 
                 case "delete":
-                    if (client.delete(request)) {
+                    if (client.delete()) {
                         out.println("<div><b> Cliente deletado! </b></div>");
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
                     } else {
@@ -80,7 +80,7 @@ public class ClienteController extends HttpServlet {
 
                 case "view":
                     if (client.view(request)) {
-                        out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");
+                        //out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");
                         request.getRequestDispatcher("cliente_view.jsp").forward(request, response);
                     } else {
                         out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
@@ -88,9 +88,9 @@ public class ClienteController extends HttpServlet {
 
                     break;
 
-                case "viewAll":
+                case "viewAll":                    
                     if (client.viewAll(request)) {
-                        out.println("<div><b> Redirecionar para visualização dos clientes...! </b></div>");
+                        //out.println("<div><b> Redirecionar para visualização dos clientes...! </b></div>");
                         request.getRequestDispatcher("cliente_viewAll.jsp").forward(request, response);
                     } else {
                         out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
