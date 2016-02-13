@@ -77,9 +77,9 @@ public class ClienteController extends HttpServlet {
                     break;
                     
                 case "view":
-                    if(client.delete(request)) {
-                        out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");
-                        //Exemplo: response.sendRedirect("client_view.jsp?ID=" + client.getID());
+                    if(client.view(request)) {
+                        out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");                        
+                        request.getRequestDispatcher("cliente_view.jsp").forward(request, response);
                     }
                     else {
                         out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
