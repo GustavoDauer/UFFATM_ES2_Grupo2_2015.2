@@ -8,6 +8,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import model.Cliente;
  *
  * @author gustavo
  */
+@WebServlet(name = "ClienteController", urlPatterns = {"/ClienteController"})
 public class ClienteController extends HttpServlet {
 
     /**
@@ -36,58 +38,67 @@ public class ClienteController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ClienteController</title>");            
+            out.println("<title>Servlet ClienteController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ClienteController at " + request.getContextPath() + "</h1>");
-            
+
             Cliente client = new Cliente();
-            
+
             // Lista de ações disponíveis
-            switch (request.getParameter("command")) {                
-                    
-                case "insert":                     
-                    if(client.insert(request)) {
+            switch (request.getParameter("command")) {
+
+                case "insert":
+                    if (client.insert(request)) {
                         out.println("<div><b> Cliente inserido! </b></div>");
-                    }
-                    else {
+                        out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
+                    } else {
                         out.println("<div><b> Cliente não inserido! </b></div>");
                     }
-                    
+
                     break;
-                    
-                case "edit":                    
-                    if(client.edit(request)) {
+
+                case "edit":
+                    if (client.edit(request)) {
                         out.println("<div><b> Cliente editado! </b></div>");
-                    }
-                    else {
+                        out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
+                    } else {
                         out.println("<div><b> Cliente não editado! </b></div>");
                     }
-                    
+
                     break;
-                    
-                case "delete":                    
-                    if(client.delete(request)) {
+
+                case "delete":
+                    if (client.delete(request)) {
                         out.println("<div><b> Cliente deletado! </b></div>");
-                    }
-                    else {
+                        out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
+                    } else {
                         out.println("<div><b> Cliente não deletado! </b></div>");
                     }
-                                        
+
                     break;
-                    
+
                 case "view":
-                    if(client.view(request)) {
-                        out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");                        
+                    if (client.view(request)) {
+                        out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");
                         request.getRequestDispatcher("cliente_view.jsp").forward(request, response);
-                    }
-                    else {
+                    } else {
                         out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
                     }
-                    
+
+                    break;
+
+                case "viewAll":
+                    if (client.viewAll(request)) {
+                        out.println("<div><b> Redirecionar para visualização dos clientes...! </b></div>");
+                        request.getRequestDispatcher("cliente_viewAll.jsp").forward(request, response);
+                    } else {
+                        out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
+                    }
+
                     break;
             }
-            
+
             out.println("</body>");
             out.println("</html>");
         }

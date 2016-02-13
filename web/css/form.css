@@ -1,0 +1,61 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13/02/2016, 15:57:43
+    Author     : gustavo
+*/
+
+form .botao {
+    padding: 4px 5px 4px 5px;
+    background: #fddda9;
+}
+
+.formulario {    
+    border-bottom: 1px solid lightblue;
+    border-left: 1px solid lightblue;
+    border-right: 1px solid lightblue;
+}
+
+.formulario td {
+    padding: 5px;
+    background: aliceblue;
+
+    color: #4e4e8b;
+    font-family: sans-serif;
+    font-weight: bold;    
+    font-size: 14px;
+}
+
+.formulario textarea {
+    width: 500px;
+    height: 200px;
+    padding: 7px;
+
+    color: darkblue;
+    font-family: sans-serif;    
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.formulario .campo {
+    width: 500px;
+    padding: 7px;
+
+    color: darkblue;
+    font-family: sans-serif;    
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.formulario select {
+    width: 500px;
+    padding: 7px;
+
+    color: darkblue;
+    font-family: sans-serif;    
+    font-size: 14px;
+    letter-spacing: 2px;
+}

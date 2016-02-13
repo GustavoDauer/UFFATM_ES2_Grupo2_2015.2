@@ -18,4 +18,5 @@ public interface DatabaseActions {
     public boolean edit(HttpServletRequest request);
     public boolean delete(HttpServletRequest request);
     public boolean view(HttpServletRequest request);
+    public boolean viewAll(HttpServletRequest request);
 }
