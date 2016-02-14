@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.CaixaEletronico;
 import model.Cliente;
 
 /**
@@ -42,7 +43,9 @@ public class LoginController extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");                     
-            out.println("<h2> TODO </h2>");
+            
+            CaixaEletronico caixaEletronico = new CaixaEletronico();
+            
             out.println("</body>");
             out.println("</html>");
         }

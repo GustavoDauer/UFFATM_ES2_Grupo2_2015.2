@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author ccz
  */
 public class CaixaEletronico implements DatabaseActions {
-    
+
     private String idCaixaEletronico, nota2, nota5, nota10, nota20;
     private String nota50, nota100, cheque, papelComprovante, dataDoCaixa;
 
@@ -28,9 +28,9 @@ public class CaixaEletronico implements DatabaseActions {
         papelComprovante = "";
         dataDoCaixa = "";
     }
-    
+
     public CaixaEletronico(HttpServletRequest request) {
-        idCaixaEletronico = request.getParameter("idCaixaEletronico");
+        idCaixaEletronico = request.getParameter("id");
         nota2 = request.getParameter("nota2");
         nota5 = request.getParameter("nota5");
         nota10 = request.getParameter("nota10");
@@ -131,7 +131,7 @@ public class CaixaEletronico implements DatabaseActions {
             conexao = Conexao.conectar();
 
             query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`idCaixaEletronico`, `nota2`, `nota5`, `nota10`, `nota20`, `nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
-                    + "VALUES ('" 
+                    + "VALUES ('"
                     + idCaixaEletronico + "', '"
                     + nota2 + "', '"
                     + nota5 + "', '"
@@ -159,8 +159,8 @@ public class CaixaEletronico implements DatabaseActions {
         try {
             conexao = Conexao.conectar();
 
-            query = "UPDATE `BD_ES2`.`CaixaEletronico` "                    
-                    + "SET "                                                            
+            query = "UPDATE `BD_ES2`.`CaixaEletronico` "
+                    + "SET "
                     + "`nota2` = '" + nota2 + "',"
                     + "`nota5` = '" + nota5 + "',"
                     + "`nota10` = " + nota10 + ","
@@ -169,7 +169,7 @@ public class CaixaEletronico implements DatabaseActions {
                     + "`nota100` = " + nota100 + ","
                     + "`cheque` = " + cheque + ","
                     + "`papelComprovante` = " + papelComprovante + ","
-                    + "`dataDoCaixa` = " + dataDoCaixa                    
+                    + "`dataDoCaixa` = " + dataDoCaixa
                     + " WHERE `idCaixaEletronico` = " + idCaixaEletronico;
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
@@ -211,14 +211,13 @@ public class CaixaEletronico implements DatabaseActions {
 
             query = "SELECT `CaixaEletronico`.`idCaixaEletronico`,"
                     + "`CaixaEletronico`.`nota2`,"
-                    + "`CaixaEletronico`.`nota5` "
-                    + "`CaixaEletronico`.`nota10` "
-                    + "`CaixaEletronico`.`nota20` "
-                    + "`CaixaEletronico`.`nota50` "
-                    + "`CaixaEletronico`.`nota100` "
-                    + "`CaixaEletronico`.`cheque` "
-                    + "`CaixaEletronico`.`papelComprovante` "
-                    + "`CaixaEletronico`.`status` "
+                    + "`CaixaEletronico`.`nota5`, "
+                    + "`CaixaEletronico`.`nota10`, "
+                    + "`CaixaEletronico`.`nota20`, "
+                    + "`CaixaEletronico`.`nota50`, "
+                    + "`CaixaEletronico`.`nota100`, "
+                    + "`CaixaEletronico`.`cheque`, "
+                    + "`CaixaEletronico`.`papelComprovante`, "                    
                     + "`CaixaEletronico`.`dataDoCaixa` "
                     + "FROM `BD_ES2`.`CaixaEletronico` "
                     + "WHERE `idCaixaEletronico` = " + idCaixaEletronico;
@@ -237,7 +236,7 @@ public class CaixaEletronico implements DatabaseActions {
                 caixaEletronico.setCheque(rs.getString("cheque"));
                 caixaEletronico.setPapelComprovante(rs.getString("papelComprovante"));
                 caixaEletronico.setDataDoCaixa(rs.getString("dataDoCaixa"));
-                
+
                 request.setAttribute("caixaEletronico", caixaEletronico);
 
                 conexao.close();
@@ -255,24 +254,22 @@ public class CaixaEletronico implements DatabaseActions {
 
     @Override
     public boolean viewAll(HttpServletRequest request) {
+        ArrayList<CaixaEletronico> todosCaixasEletronicos = CaixaEletronico.getAll();
+        
+        if (todosCaixasEletronicos != null) {
+            request.setAttribute("todosCaixasEletronicos", todosCaixasEletronicos);
+            return true;
+        }
+        return false;
+    }
+
+    public static ArrayList<CaixaEletronico> getAll() {
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
         try {
             conexao = Conexao.conectar();
 
-           /* query = "SELECT `CaixaEletronico`.`idCaixaEletronico`,"
-                    + "`CaixaEletronico`.`nota2`,"
-                    + "`CaixaEletronico`.`nota5`, "
-                    + "`CaixaEletronico`.`nota10`, "
-                    + "`CaixaEletronico`.`nota20`, "
-                    + "`CaixaEletronico`.`nota50`, "
-                    + "`CaixaEletronico`.`nota100`, "
-                    + "`CaixaEletronico`.`cheque`, "
-                    + "`CaixaEletronico`.`papelComprovante`, "
-                    + "`CaixaEletronico`.`dataDoCaixa` "
-                    + "FROM `BD_ES2`.`CaixaEletronico`";
-            */
             query = "SELECT * FROM `BD_ES2`.`CaixaEletronico`";
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
@@ -291,16 +288,14 @@ public class CaixaEletronico implements DatabaseActions {
                 caixaEletronico.setCheque(rs.getString("cheque"));
                 caixaEletronico.setPapelComprovante(rs.getString("papelComprovante"));
                 caixaEletronico.setDataDoCaixa(rs.getString("dataDoCaixa"));
-                
+
                 todosCaixasEletronicos.add(caixaEletronico);
             }
 
-            request.setAttribute("todosCaixasEletronicos", todosCaixasEletronicos);
-
             conexao.close();
-            return true;
+            return todosCaixasEletronicos;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            return false;
+            return null;
         }
     }
 }

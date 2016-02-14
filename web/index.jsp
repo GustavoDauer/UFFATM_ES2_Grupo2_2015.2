@@ -4,6 +4,8 @@
     Author     : gustavo
 --%>
 
+<%@page import="model.CaixaEletronico"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +21,7 @@
             <li><a href="ClienteController?command=viewAll">Listar Clientes</a></li>
         </ul>                
         <hr>
-        
+
         <h1>Teste do Módulo Conta</h1>
         <ul>
             <li><a href="conta_insert.jsp">Cadastrar Conta</a></li>
@@ -33,12 +35,26 @@
             <li><a href="CaixaEletronicoController?command=viewAll">Listar Caixas Eletrônicos</a></li>
         </ul>                  
         <hr>
-        
+
         <h1>Teste do Módulo Login - TODO</h1>
         <form action="LoginController" method="POST">
             <input type="text" name="numeroCartao" value="716726747" />
             <input type="password" name="senha" value="716726747" />
-            <input type="submit" value="Inserir cartão (Login)" disabled="disabled" /> <!-- TODO -->
+            <%
+                ArrayList<CaixaEletronico> listaCaixas = CaixaEletronico.getAll();
+            %>
+            <select name="caixaEletronico">
+                <option value="0">Nenhum caixa eletrônico selecionado</option>
+                <%
+                    for (CaixaEletronico caixaEletronico : listaCaixas) {
+                %>
+                <option value="<%=caixaEletronico.getIdCaixaEletronico()%>">Caixa Eletrônico <%=caixaEletronico.getIdCaixaEletronico()%></option>
+                <%
+                    }
+                %>
+            </select>
+            <input type="submit" value="Inserir cartão (Login)" disabled="disabled" />
+            <input type="submit" value="Não correntista" disabled="disabled" />
         </form>
         <hr>
     </body>
