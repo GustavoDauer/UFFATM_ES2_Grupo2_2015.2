@@ -4,11 +4,55 @@
     Author     : gustavo
 --%>
 
-<%@include file="include/header.jsp" %>                           
-<form action="<%=request.getContextPath()%>/ContaController" method="post">
+<%@page import="model.Cliente"%>
+<%@page import="java.util.ArrayList"%>
+<%@include file="include/header.jsp" %>   
+<script type="text/javascript">
+    function checkForm(form)
+    {
+        if (!(form.senha.value != "" && form.senha.value == form.senha2.value)) {   
+            alert('As senhas devem ser iguais e não devem estar em branco!');
+            return false;
+        }
+        
+        if(form.idCliente.value == "0") {
+            alert('Você deve selecionar um cliente!');
+            return false;
+        }
+        
+        return true;
+    }
+</script>
+<form action="<%=request.getContextPath()%>/ContaController" method="post" onsubmit="return checkForm(this)">
     <input type="hidden" name="command" value="insert" />            
     <h1>Cadastrar Conta</h1>
     <table class="formulario" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="right">Cliente </td> 
+            <td>
+                <select name="idCliente">
+                    <option value="0">Selecione um cliente</option>
+                    <%
+                        ArrayList<Cliente> todosClientes = (ArrayList) Cliente.getAll();
+
+                        for (Cliente cliente : todosClientes) {
+                    %>
+                    <option value="<%=cliente.getId()%>"><%=cliente.getNome()%></option>
+                    <%
+                        }
+                    %>
+                </select>
+            </td>
+        </tr> 
+        <tr>
+            <td align="right">Número cartão: </td> <td><input class="campo" type="text" name="numeroCartao" value="Gerado automaticamente" readonly="readonly" /></td>
+        </tr> 
+        <tr>
+            <td align="right">Senha: </td> <td><input class="campo" type="password" name="senha" value="" /></td>
+        </tr> 
+        <tr>
+            <td align="right">Repetir Senha: </td> <td><input class="campo" type="password" name="senha2" value="" /></td>
+        </tr>
         <tr>
             <td align="right">Agência: </td> <td><input class="campo" type="text" name="agencia" value="0125-0" /></td>
         </tr> 

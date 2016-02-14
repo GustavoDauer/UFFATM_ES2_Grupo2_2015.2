@@ -9,9 +9,8 @@
 <%@include file="include/header.jsp" %>                       
 <h1>Lista de todos clientes</h1>
 <%
-    ArrayList todosClientes = (ArrayList) request.getAttribute("todosClientes");
-    for (Object clientObject : todosClientes) {
-        Cliente cliente = (Cliente) clientObject;
+    ArrayList<Cliente> todosClientes = (ArrayList) request.getAttribute("todosClientes");
+    for (Cliente cliente : todosClientes) {        
 %>
 <ul>
     <li> 

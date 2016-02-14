@@ -50,10 +50,11 @@ public class ContaController extends HttpServlet {
 
                 case "insert":
                     if (conta.insert()) {
-                        out.println("<div><b> Conta inserida! </b></div>");
+                        out.println("<div><b> Conta inserida e associada a cliente! </b></div>");
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todas contas</a>");
+                        out.println("<div><a href='index.jsp'>Home</a>");
                     } else {
-                        out.println("<div><b> Conta não inserido! </b></div>");
+                        out.println("<div><b> Conta não inserido e/ou não associada a cliente! </b></div>");
                     }
 
                     break;
@@ -62,6 +63,7 @@ public class ContaController extends HttpServlet {
                     if (conta.edit()) {
                         out.println("<div><b> Conta editado! </b></div>");
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todos contas</a>");
+                        out.println("<div><a href='index.jsp'>Home</a>");
                     } else {
                         out.println("<div><b> Conta não editado! </b></div>");
                     }
@@ -72,6 +74,7 @@ public class ContaController extends HttpServlet {
                     if (conta.delete()) {
                         out.println("<div><b> Conta deletado! </b></div>");
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todos contas</a>");
+                        out.println("<div><a href='index.jsp'>Home</a>");
                     } else {
                         out.println("<div><b> Conta não deletado! </b></div>");
                     }

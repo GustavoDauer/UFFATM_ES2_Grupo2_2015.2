@@ -9,9 +9,8 @@
 <%@include file="include/header.jsp" %>                       
 <h1>Lista de todas contas</h1>
 <%
-    ArrayList todasContas = (ArrayList) request.getAttribute("todasContas");
-    for (Object contaObject : todasContas) {
-        Conta conta = (Conta) contaObject;
+    ArrayList<Conta> todasContas = (ArrayList) request.getAttribute("todasContas");
+    for (Conta conta : todasContas) {        
 %>
 <ul>
     <li> 

@@ -19,9 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 public class Conta implements DatabaseActions {
 
     String id, saldo, saldo_centavos, limite, agencia, banco, status, poupanca_status;
+    String idCliente, numeroCartao, senha;
+    ArrayList<Cliente> listaClientes;
 
     public Conta() {
-
+        listaClientes = new ArrayList();
     }
 
     public Conta(HttpServletRequest request) {
@@ -33,6 +35,11 @@ public class Conta implements DatabaseActions {
         banco = request.getParameter("banco");
         status = request.getParameter("status");
         poupanca_status = request.getParameter("poupanca_status");
+
+        idCliente = request.getParameter("idCliente");
+        numeroCartao = request.getParameter("numeroCartao");
+        senha = request.getParameter("senha");
+        listaClientes = new ArrayList();
     }
 
     public String getId() {
@@ -99,6 +106,38 @@ public class Conta implements DatabaseActions {
         this.poupanca_status = poupanca_status;
     }
 
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public ArrayList<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+    public void setListaClientes(ArrayList<Cliente> listaClientes) {
+        this.listaClientes = listaClientes;
+    }    
+
     public void geraNumero() {
 
     }
@@ -128,9 +167,36 @@ public class Conta implements DatabaseActions {
                     + "'" + agencia + "',"
                     + "'" + banco + "',"
                     + status + ","
-                    + poupanca_status + ")";
-            stmt = conexao.prepareStatement(query);
+                    + poupanca_status + ");";
+
+            stmt = conexao.prepareStatement(query); // Conta
             stmt.executeUpdate(query);
+
+            query = "SELECT MAX(idConta) FROM Conta;";
+
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                id = rs.getString("MAX(idConta)");
+
+                query = "INSERT INTO `BD_ES2`.`Cliente_has_Conta` "
+                        + "(`Cliente_idCliente`,"
+                        + "`Conta_idConta`,"
+                        + "`numeroCartao`,"
+                        + "`senha`)"
+                        + "VALUES"
+                        + "("
+                        + idCliente + "," // ID do cliente primário
+                        + id + ",'"
+                        + numeroCartao + "','"
+                        + senha + "')";
+
+                stmt = conexao.prepareStatement(query); // Cliente_has_Conta
+                stmt.executeUpdate(query);
+            } else {
+                conexao.close();
+                return false;
+            }
 
             conexao.close();
             return true;
@@ -147,16 +213,34 @@ public class Conta implements DatabaseActions {
         try {
             conexao = Conexao.conectar();
 
-            query = "UPDATE `BD_ES2`.`Conta` "                    
-                    + "SET "                                                            
+            query = "UPDATE `BD_ES2`.`Conta` "
+                    + "SET "
                     + "`limite` = " + limite + ","
                     + "`agencia` = '" + agencia + "',"
                     + "`banco` = '" + banco + "',"
                     + "`status` = " + status + ","
-                    + "`poupanca_status` = " + poupanca_status                    
+                    + "`poupanca_status` = " + poupanca_status
                     + " WHERE `idConta` = " + id;
+            
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
+            
+            if(!idCliente.equals("0")) {
+                query = "INSERT INTO `BD_ES2`.`Cliente_has_Conta` "
+                        + "(`Cliente_idCliente`,"
+                        + "`Conta_idConta`,"
+                        + "`numeroCartao`,"
+                        + "`senha`)"
+                        + "VALUES"
+                        + "("
+                        + idCliente + "," // ID do cliente primário
+                        + id + ",'"
+                        + numeroCartao + "','"
+                        + senha + "')";
+
+                stmt = conexao.prepareStatement(query); // Cliente_has_Conta
+                stmt.executeUpdate(query);
+            }
 
             conexao.close();
             return true;
@@ -218,6 +302,23 @@ public class Conta implements DatabaseActions {
                 conta.setSaldo(rs.getString("saldo"));
                 conta.setSaldo_centavos(rs.getString("saldo_centavos"));
                 conta.setStatus(rs.getString("status"));
+
+                query = "SELECT Cliente_idCliente, Conta_idConta, numeroCartao, senha, "
+                        + "nome "                        
+                        + "FROM Cliente_has_Conta "
+                        + "INNER JOIN Cliente on idCliente = Cliente_idCliente "
+                        + "WHERE Conta_idConta = " + id;
+
+                stmt = conexao.prepareStatement(query);
+                ResultSet rs2 = stmt.executeQuery(query);
+                
+                while(rs2.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setId(rs2.getString("Cliente_idCliente"));
+                    cliente.setNome(rs2.getString("nome"));
+                    
+                    conta.listaClientes.add(cliente);
+                }
 
                 request.setAttribute("conta", conta);
 

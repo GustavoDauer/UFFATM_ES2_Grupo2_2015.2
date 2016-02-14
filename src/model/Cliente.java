@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author ccz
  */
-public class Cliente implements DatabaseActions {
+public class Cliente implements DatabaseActions, Comparable<Cliente> {
 
     String id, nome, status;
-    
+
     public Cliente() {
         id = "0";
         nome = "";
@@ -55,8 +55,6 @@ public class Cliente implements DatabaseActions {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
 
     @Override
     public boolean insert() {
@@ -159,6 +157,16 @@ public class Cliente implements DatabaseActions {
 
     @Override
     public boolean viewAll(HttpServletRequest request) {
+        ArrayList<Cliente> todosClientes = getAll();
+
+        if (todosClientes != null) {
+            request.setAttribute("todosClientes", todosClientes);
+            return true;
+        }
+        return false;
+    }
+
+    public static ArrayList<Cliente> getAll() {
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -179,16 +187,28 @@ public class Cliente implements DatabaseActions {
                 cliente.setId(rs.getString("idCliente"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setStatus(rs.getString("status"));
-                
+
                 todosClientes.add(cliente);
             }
 
-            request.setAttribute("todosClientes", todosClientes);
-
             conexao.close();
-            return true;
+            return todosClientes;
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            return false;
+            return null;
         }
+    }
+
+    @Override
+    public int compareTo(Cliente o) {
+        if (this.id.compareTo(o.id) > 0) {
+            return 1;
+        }
+        
+        if (this.id.compareTo(o.id) < 0) {
+            return -1;
+        }
+        
+        return 0;
     }
 }
