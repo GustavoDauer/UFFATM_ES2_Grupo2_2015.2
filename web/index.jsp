@@ -26,6 +26,13 @@
             <li><a href="ContaController?command=viewAll">Listar Contas</a></li>
         </ul>                  
         <hr>
+
+        <h1>Teste do Módulo Caixa Eletrônico</h1>
+        <ul>
+            <li><a href="caixa_insert.jsp">Cadastrar Caixa Eletrônico</a></li>
+            <li><a href="CaixaEletronicoController?command=viewAll">Listar Caixas Eletrônicos</a></li>
+        </ul>                  
+        <hr>
         
         <h1>Teste do Módulo Login - TODO</h1>
         <form action="LoginController" method="POST">
