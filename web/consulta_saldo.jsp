@@ -31,10 +31,13 @@
             Quantidade de papel para impressão de comprovantes no caixa: <%=caixaEletronico.getPapelComprovante()%>
         </h2>
         <hr>
-        <h1>Consultas</h1>
+        <h1>Consulta saldo</h1>
+        <p>
+            Saldo: R$ <%=conta.getSaldo()%>,<%=conta.getSaldo_centavos()%>
+        </p>
         <ul>
-            <li><a href="consulta_saldo.jsp">Consulta saldo</a></li>            
+            <li><a href="login.jsp">Página inicial da conta</a></li>            
         </ul>                
-        <hr>          
+        <hr>           
     </body>
 </html>
