@@ -41,6 +41,22 @@ public class Conta implements DatabaseActions {
         senha = request.getParameter("senha");
         listaClientes = new ArrayList();
     }
+    
+    public Conta(Conta conta) {
+        id = conta.id;
+        saldo = conta.saldo;
+        saldo_centavos = conta.saldo_centavos;
+        limite = conta.limite;
+        agencia = conta.agencia;
+        banco = conta.banco;
+        status = conta.status;
+        poupanca_status = conta.poupanca_status;
+
+        idCliente = conta.idCliente;
+        numeroCartao = conta.numeroCartao;
+        senha = conta.senha;
+        listaClientes = conta.listaClientes;
+    }
 
     public String getId() {
         return id;
@@ -135,8 +151,57 @@ public class Conta implements DatabaseActions {
     }
 
     public void setListaClientes(ArrayList<Cliente> listaClientes) {
-        this.listaClientes = listaClientes;
-    }    
+        if (listaClientes != null && !listaClientes.isEmpty()) {
+            this.listaClientes = listaClientes;
+        } else if(!this.id.equals("0") && !this.id.isEmpty() && this.id != null) {
+            this.listaClientes = new ArrayList();
+            
+            Connection conexao = null;
+            PreparedStatement stmt;
+            String query;
+            try {
+                conexao = Conexao.conectar();
+
+                query = "SELECT `Conta`.`idConta`,"
+                        + "    `Conta`.`saldo`,"
+                        + "    `Conta`.`saldo_centavos`,"
+                        + "    `Conta`.`limite`,"
+                        + "    `Conta`.`agencia`,"
+                        + "    `Conta`.`banco`,"
+                        + "    `Conta`.`status`,"
+                        + "    `Conta`.`poupanca_status`,"
+                        + "    `Conta`.`poupanca_saldo`,"
+                        + "    `Conta`.`poupanca_saldo_centavos`"
+                        + " FROM `BD_ES2`.`Conta` "
+                        + "WHERE `idConta` = " + id;
+                stmt = conexao.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery(query);
+
+                if (rs.next()) {                    
+                    query = "SELECT Cliente_idCliente, Conta_idConta, numeroCartao, senha, "
+                            + "nome, Cliente.status "
+                            + "FROM Cliente_has_Conta "
+                            + "INNER JOIN Cliente on idCliente = Cliente_idCliente "
+                            + "WHERE Conta_idConta = " + id;
+
+                    stmt = conexao.prepareStatement(query);
+                    ResultSet rs2 = stmt.executeQuery(query);
+
+                    while (rs2.next()) {
+                        Cliente cliente = new Cliente();
+                        cliente.setId(rs2.getString("Cliente_idCliente"));
+                        cliente.setNome(rs2.getString("nome"));
+                        cliente.setNome(rs2.getString("Cliente.status"));
+
+                        listaClientes.add(cliente);
+                    }                                                                   
+                }
+                
+                conexao.close();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {                
+            }
+        }
+    }
 
     public void geraNumero() {
 
@@ -178,6 +243,7 @@ public class Conta implements DatabaseActions {
 
             if (rs.next()) {
                 id = rs.getString("MAX(idConta)");
+                numeroCartao = idCliente; // Pra facilitar, o numero do cartao sera o ID do cliente por enquanto.                
 
                 query = "INSERT INTO `BD_ES2`.`Cliente_has_Conta` "
                         + "(`Cliente_idCliente`,"
@@ -221,11 +287,12 @@ public class Conta implements DatabaseActions {
                     + "`status` = " + status + ","
                     + "`poupanca_status` = " + poupanca_status
                     + " WHERE `idConta` = " + id;
-            
+
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
-            
-            if(!idCliente.equals("0")) {
+
+            if (!idCliente.equals("0")) {
+                numeroCartao = idCliente;
                 query = "INSERT INTO `BD_ES2`.`Cliente_has_Conta` "
                         + "(`Cliente_idCliente`,"
                         + "`Conta_idConta`,"
@@ -304,19 +371,19 @@ public class Conta implements DatabaseActions {
                 conta.setStatus(rs.getString("status"));
 
                 query = "SELECT Cliente_idCliente, Conta_idConta, numeroCartao, senha, "
-                        + "nome "                        
+                        + "nome "
                         + "FROM Cliente_has_Conta "
                         + "INNER JOIN Cliente on idCliente = Cliente_idCliente "
                         + "WHERE Conta_idConta = " + id;
 
                 stmt = conexao.prepareStatement(query);
                 ResultSet rs2 = stmt.executeQuery(query);
-                
-                while(rs2.next()) {
+
+                while (rs2.next()) {
                     Cliente cliente = new Cliente();
                     cliente.setId(rs2.getString("Cliente_idCliente"));
                     cliente.setNome(rs2.getString("nome"));
-                    
+
                     conta.listaClientes.add(cliente);
                 }
 

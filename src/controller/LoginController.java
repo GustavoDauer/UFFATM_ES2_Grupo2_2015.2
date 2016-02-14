@@ -46,6 +46,14 @@ public class LoginController extends HttpServlet {
             
             CaixaEletronico caixaEletronico = new CaixaEletronico();
             
+            if((caixaEletronico.login(request))) {                
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+            else {
+                request.setAttribute("erroLogin", "1");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+            
             out.println("</body>");
             out.println("</html>");
         }

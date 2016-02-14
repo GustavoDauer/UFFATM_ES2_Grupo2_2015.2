@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -15,6 +16,7 @@ public class CaixaEletronico implements DatabaseActions {
 
     private String idCaixaEletronico, nota2, nota5, nota10, nota20;
     private String nota50, nota100, cheque, papelComprovante, dataDoCaixa;
+    static HttpSession sessao;
 
     public CaixaEletronico() {
         idCaixaEletronico = "0";
@@ -30,7 +32,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(HttpServletRequest request) {
-        idCaixaEletronico = request.getParameter("id");
+        idCaixaEletronico = request.getParameter("idCaixaEletronico");
         nota2 = request.getParameter("nota2");
         nota5 = request.getParameter("nota5");
         nota10 = request.getParameter("nota10");
@@ -40,6 +42,19 @@ public class CaixaEletronico implements DatabaseActions {
         cheque = request.getParameter("cheque");
         papelComprovante = request.getParameter("papelComprovante");
         dataDoCaixa = request.getParameter("dataDoCaixa");
+    }
+    
+    public CaixaEletronico(CaixaEletronico caixaEletronico) {
+        idCaixaEletronico = caixaEletronico.idCaixaEletronico;
+        nota2 = caixaEletronico.nota2;
+        nota5 = caixaEletronico.nota5;
+        nota10 = caixaEletronico.nota10;
+        nota20 = caixaEletronico.nota20;
+        nota50 = caixaEletronico.nota50;
+        nota100 = caixaEletronico.nota100;
+        cheque = caixaEletronico.cheque;
+        papelComprovante = caixaEletronico.papelComprovante;
+        dataDoCaixa = caixaEletronico.dataDoCaixa;
     }
 
     public String getIdCaixaEletronico() {
@@ -120,6 +135,14 @@ public class CaixaEletronico implements DatabaseActions {
 
     public void setDataDoCaixa(String dataDoCaixa) {
         this.dataDoCaixa = dataDoCaixa;
+    }
+
+    public static HttpSession getSessao() {
+        return sessao;
+    }
+
+    public static void setSessao(HttpSession sessao) {
+        CaixaEletronico.sessao = sessao;
     }
 
     @Override
@@ -217,7 +240,7 @@ public class CaixaEletronico implements DatabaseActions {
                     + "`CaixaEletronico`.`nota50`, "
                     + "`CaixaEletronico`.`nota100`, "
                     + "`CaixaEletronico`.`cheque`, "
-                    + "`CaixaEletronico`.`papelComprovante`, "                    
+                    + "`CaixaEletronico`.`papelComprovante`, "
                     + "`CaixaEletronico`.`dataDoCaixa` "
                     + "FROM `BD_ES2`.`CaixaEletronico` "
                     + "WHERE `idCaixaEletronico` = " + idCaixaEletronico;
@@ -255,7 +278,7 @@ public class CaixaEletronico implements DatabaseActions {
     @Override
     public boolean viewAll(HttpServletRequest request) {
         ArrayList<CaixaEletronico> todosCaixasEletronicos = CaixaEletronico.getAll();
-        
+
         if (todosCaixasEletronicos != null) {
             request.setAttribute("todosCaixasEletronicos", todosCaixasEletronicos);
             return true;
@@ -296,6 +319,78 @@ public class CaixaEletronico implements DatabaseActions {
             return todosCaixasEletronicos;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             return null;
+        }
+    }
+
+    public boolean login(HttpServletRequest request) {
+        String numeroCartao = request.getParameter("numeroCartao");
+        String senha = request.getParameter("senha");
+        String idCaixa = request.getParameter("idCaixaEletronico");
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "SELECT * FROM `BD_ES2`.`CaixaEletronico` "
+                    + "WHERE idCaixaEletronico = " + idCaixa;
+
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                setIdCaixaEletronico(rs.getString("idCaixaEletronico"));
+                setNota2(rs.getString("nota2"));
+                setNota5(rs.getString("nota5"));
+                setNota10(rs.getString("nota10"));
+                setNota20(rs.getString("nota20"));
+                setNota50(rs.getString("nota50"));
+                setNota100(rs.getString("nota100"));
+                setCheque(rs.getString("cheque"));
+                setPapelComprovante(rs.getString("papelComprovante"));
+                setDataDoCaixa(rs.getString("dataDoCaixa"));
+
+                query = "SELECT * FROM `BD_ES2`.`Cliente_has_Conta` "
+                        + "INNER JOIN Cliente on Cliente_idCliente = idCliente "
+                        + "INNER JOIN Conta on Conta_idConta = idConta "
+                        + "WHERE numeroCartao = '" + numeroCartao + "' AND senha = '" + senha + "'";
+
+                stmt = conexao.prepareStatement(query);
+                ResultSet rs2 = stmt.executeQuery(query);
+
+                if (rs2.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setId(rs2.getString("idCliente"));
+                    cliente.setNome(rs2.getString("nome"));
+                    cliente.setStatus(rs2.getString("status"));
+
+                    Conta conta = new Conta();
+                    conta.setAgencia(rs2.getString("agencia"));
+                    conta.setBanco(rs2.getString("banco"));
+                    conta.setId(rs2.getString("idConta"));
+                    conta.setIdCliente(rs2.getString("idCliente"));
+                    conta.setLimite(rs2.getString("limite"));
+                    conta.setNumeroCartao(rs2.getString("numeroCartao"));
+                    conta.setPoupanca_status(rs2.getString("poupanca_status"));
+                    conta.setSaldo(rs2.getString("saldo"));
+                    conta.setSaldo_centavos(rs2.getString("saldo_centavos"));
+                    conta.setStatus(rs2.getString("Conta.status"));
+                    //conta.setListaClientes(null); // Irá preencher a lista de clientes da conta
+
+                    CaixaEletronico.sessao = request.getSession(true);
+                    CaixaEletronico.sessao.setAttribute("cliente", cliente);
+                    CaixaEletronico.sessao.setAttribute("conta", conta);
+                    CaixaEletronico.sessao.setAttribute("caixaEletronico", this);                                       
+
+                    conexao.close();
+                    return true;
+                }                                
+            }
+            
+            return false;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
         }
     }
 }

@@ -31,6 +31,12 @@ public class Cliente implements DatabaseActions, Comparable<Cliente> {
         nome = request.getParameter("nome");
         status = request.getParameter("status");
     }
+    
+    public Cliente(Cliente cliente) {
+        this.id = cliente.id;
+        this.nome = cliente.nome;
+        this.status = cliente.status;
+    }
 
     public String getId() {
         return id;
