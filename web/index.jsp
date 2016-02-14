@@ -13,6 +13,26 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <a href="cliente_insert.jsp">Cadastrar Cliente</a>
+        <h1>Teste do Módulo Cliente</h1>
+        <ul>
+            <li><a href="cliente_insert.jsp">Cadastrar Cliente</a></li>
+            <li><a href="ClienteController?command=viewAll">Listar Clientes</a></li>
+        </ul>                
+        <hr>
+        
+        <h1>Teste do Módulo Conta</h1>
+        <ul>
+            <li><a href="conta_insert.jsp">Cadastrar Conta</a></li>
+            <li><a href="ContaController?command=viewAll">Listar Contas</a></li>
+        </ul>                  
+        <hr>
+        
+        <h1>Teste do Módulo Login - TODO</h1>
+        <form action="LoginController" method="POST">
+            <input type="text" name="numeroCartao" value="716726747" />
+            <input type="password" name="senha" value="716726747" />
+            <input type="submit" value="Inserir cartão (Login)" disabled="disabled" /> <!-- TODO -->
+        </form>
+        <hr>
     </body>
 </html>
