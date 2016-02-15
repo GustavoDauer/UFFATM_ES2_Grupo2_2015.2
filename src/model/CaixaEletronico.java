@@ -396,14 +396,14 @@ public class CaixaEletronico implements DatabaseActions {
 
             query = "UPDATE `BD_ES2`.`CaixaEletronico` "
                     + "SET papelComprovante = papelComprovante - 1 "
-                    + "WHERE idCaixaEletronico = " + ((CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico")).getIdCaixaEletronico();
+                    + "WHERE idCaixaEletronico = " + ((CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico")).getId();
 
             stmt = conexao.prepareStatement(query);
             if (stmt.executeUpdate(query) > 0) {
 
                 // Atualizar valor da sessão
                 query = "SELECT papelComprovante FROM `BD_ES2`.`CaixaEletronico` "
-                        + "WHERE idCaixaEletronico = " + ((CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico")).getIdCaixaEletronico();
+                        + "WHERE idCaixaEletronico = " + ((CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico")).getId();
 
                 stmt = conexao.prepareStatement(query);
                 ResultSet rs = stmt.executeQuery(query);
