@@ -10,7 +10,7 @@
     <h1>Cadastrar Caixa Eletrônico</h1>
     <table class="formulario" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="right">Id </td> <td><input class="campo" type="text" name="idCaixaEletronico" value="" /></td>
+            <td align="right">Id </td> <td><input class="campo" type="text" name="id" value="" /></td>
         </tr> 
         <tr>
             <td align="right">Nota 2 reais </td> <td><input class="campo" type="text" name="nota2" value="100" required="required" /></td>

@@ -1,9 +1,11 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,12 +16,12 @@ import javax.servlet.http.HttpSession;
  */
 public class CaixaEletronico implements DatabaseActions {
 
-    private String idCaixaEletronico, nota2, nota5, nota10, nota20;
+    private String id, nota2, nota5, nota10, nota20;
     private String nota50, nota100, cheque, papelComprovante, dataDoCaixa;
     static HttpSession sessao;
 
     public CaixaEletronico() {
-        idCaixaEletronico = "0";
+        id = "0";
         nota2 = "";
         nota5 = "";
         nota10 = "";
@@ -32,7 +34,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(HttpServletRequest request) {
-        idCaixaEletronico = request.getParameter("idCaixaEletronico");
+        id = request.getParameter("id");
         nota2 = request.getParameter("nota2");
         nota5 = request.getParameter("nota5");
         nota10 = request.getParameter("nota10");
@@ -45,7 +47,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
     
     public CaixaEletronico(CaixaEletronico caixaEletronico) {
-        idCaixaEletronico = caixaEletronico.idCaixaEletronico;
+        id = caixaEletronico.id;
         nota2 = caixaEletronico.nota2;
         nota5 = caixaEletronico.nota5;
         nota10 = caixaEletronico.nota10;
@@ -57,12 +59,12 @@ public class CaixaEletronico implements DatabaseActions {
         dataDoCaixa = caixaEletronico.dataDoCaixa;
     }
 
-    public String getIdCaixaEletronico() {
-        return idCaixaEletronico;
+    public String getId() {
+        return id;
     }
 
-    public void setIdCaixaEletronico(String idCaixaEletronico) {
-        this.idCaixaEletronico = idCaixaEletronico;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNota2() {
@@ -155,7 +157,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`idCaixaEletronico`, `nota2`, `nota5`, `nota10`, `nota20`, `nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
                     + "VALUES ('"
-                    + idCaixaEletronico + "', '"
+                    + id + "', '"
                     + nota2 + "', '"
                     + nota5 + "', '"
                     + nota10 + "', '"
@@ -186,14 +188,14 @@ public class CaixaEletronico implements DatabaseActions {
                     + "SET "
                     + "`nota2` = '" + nota2 + "',"
                     + "`nota5` = '" + nota5 + "',"
-                    + "`nota10` = " + nota10 + ","
-                    + "`nota20` = " + nota20 + ","
-                    + "`nota50` = " + nota50 + ","
-                    + "`nota100` = " + nota100 + ","
-                    + "`cheque` = " + cheque + ","
-                    + "`papelComprovante` = " + papelComprovante + ","
-                    + "`dataDoCaixa` = " + dataDoCaixa
-                    + " WHERE `idCaixaEletronico` = " + idCaixaEletronico;
+                    + "`nota10` = '" + nota10 + "',"
+                    + "`nota20` = '" + nota20 + "',"
+                    + "`nota50` = '" + nota50 + "',"
+                    + "`nota100` = '" + nota100 + "',"
+                    + "`cheque` = '" + cheque + "',"
+                    + "`papelComprovante` = '" + papelComprovante + "',"
+                    + "`dataDoCaixa` = '" + dataDoCaixa
+                    + "' WHERE `idCaixaEletronico` = " + id;
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
 
@@ -213,7 +215,7 @@ public class CaixaEletronico implements DatabaseActions {
             conexao = Conexao.conectar();
 
             query = "DELETE FROM `BD_ES2`.`CaixaEletronico` "
-                    + "WHERE `idCaixaEletronico` = " + idCaixaEletronico;
+                    + "WHERE `idCaixaEletronico` = " + id;
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
 
@@ -232,24 +234,13 @@ public class CaixaEletronico implements DatabaseActions {
         try {
             conexao = Conexao.conectar();
 
-            query = "SELECT `CaixaEletronico`.`idCaixaEletronico`,"
-                    + "`CaixaEletronico`.`nota2`,"
-                    + "`CaixaEletronico`.`nota5`, "
-                    + "`CaixaEletronico`.`nota10`, "
-                    + "`CaixaEletronico`.`nota20`, "
-                    + "`CaixaEletronico`.`nota50`, "
-                    + "`CaixaEletronico`.`nota100`, "
-                    + "`CaixaEletronico`.`cheque`, "
-                    + "`CaixaEletronico`.`papelComprovante`, "
-                    + "`CaixaEletronico`.`dataDoCaixa` "
-                    + "FROM `BD_ES2`.`CaixaEletronico` "
-                    + "WHERE `idCaixaEletronico` = " + idCaixaEletronico;
+            query = "SELECT * FROM `BD_ES2`.`CaixaEletronico` WHERE `idCaixaEletronico` = " + id;
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
-                caixaEletronico.setIdCaixaEletronico(rs.getString("idCaixaEletronico"));
+                caixaEletronico.setId(rs.getString("idCaixaEletronico"));
                 caixaEletronico.setNota2(rs.getString("nota2"));
                 caixaEletronico.setNota5(rs.getString("nota5"));
                 caixaEletronico.setNota10(rs.getString("nota10"));
@@ -301,7 +292,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             while (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
-                caixaEletronico.setIdCaixaEletronico(rs.getString("idCaixaEletronico"));
+                caixaEletronico.setId(rs.getString("idCaixaEletronico"));
                 caixaEletronico.setNota2(rs.getString("nota2"));
                 caixaEletronico.setNota5(rs.getString("nota5"));
                 caixaEletronico.setNota10(rs.getString("nota10"));
@@ -340,7 +331,7 @@ public class CaixaEletronico implements DatabaseActions {
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                setIdCaixaEletronico(rs.getString("idCaixaEletronico"));
+                setId(rs.getString("idCaixaEletronico"));
                 setNota2(rs.getString("nota2"));
                 setNota5(rs.getString("nota5"));
                 setNota10(rs.getString("nota10"));
@@ -394,5 +385,24 @@ public class CaixaEletronico implements DatabaseActions {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             return false;
         }
+    }
+    
+    public final String dataFormat(String oldData) {
+        if(oldData != null && !oldData.equalsIgnoreCase("null")) {
+            Date date = null;
+            
+            try {
+                date = (Date) new SimpleDateFormat("dd-MM-yyyy").parse(oldData);
+            } catch(Exception e) {
+                return "";
+            }
+            
+            String newData = "";
+            if (date != null)
+                newData = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            
+            return newData;
+        }
+        return "";
     }
 }

@@ -43,12 +43,12 @@
             <%
                 ArrayList<CaixaEletronico> listaCaixas = CaixaEletronico.getAll();
             %>
-            <select name="idCaixaEletronico">
+            <select name="id">
                 <option value="0">Nenhum caixa eletrônico selecionado</option>
                 <%
                     for (CaixaEletronico caixaEletronico : listaCaixas) {
                 %>
-                <option value="<%=caixaEletronico.getIdCaixaEletronico()%>">Caixa Eletrônico <%=caixaEletronico.getIdCaixaEletronico()%></option>
+                <option value="<%=caixaEletronico.getId()%>">Caixa Eletrônico <%=caixaEletronico.getId()%></option>
                 <%
                     }
                 %>
