@@ -33,7 +33,8 @@
         <hr>
         <h1>Consulta poupança</h1>
         <p>
-            Poupança: R$ <%=conta.getPoupanca()%>,<%=conta.getPoupanca_centavos()%>
+            Poupança: R$ <%=conta.getPoupanca()%>,<%=conta.getPoupanca_centavos()%> 
+            <input type="button" value="Imprimir comprovante" onclick="document.location='CaixaEletronicoController?command=printPage'" />
         </p>
         <ul>
             <li><a href="login.jsp">Página inicial da conta</a></li>            

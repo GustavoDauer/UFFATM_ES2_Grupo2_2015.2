@@ -43,7 +43,7 @@ public class CaixaEletronico implements DatabaseActions {
         papelComprovante = request.getParameter("papelComprovante");
         dataDoCaixa = request.getParameter("dataDoCaixa");
     }
-    
+
     public CaixaEletronico(CaixaEletronico caixaEletronico) {
         idCaixaEletronico = caixaEletronico.idCaixaEletronico;
         nota2 = caixaEletronico.nota2;
@@ -383,13 +383,50 @@ public class CaixaEletronico implements DatabaseActions {
                     CaixaEletronico.sessao = request.getSession(true);
                     CaixaEletronico.sessao.setAttribute("cliente", cliente);
                     CaixaEletronico.sessao.setAttribute("conta", conta);
-                    CaixaEletronico.sessao.setAttribute("caixaEletronico", this);                                       
+                    CaixaEletronico.sessao.setAttribute("caixaEletronico", this);
 
                     conexao.close();
                     return true;
-                }                                
+                }
             }
-            
+
+            return false;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean printPage() {
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "UPDATE `BD_ES2`.`CaixaEletronico` "
+                    + "SET papelComprovante = papelComprovante - 1 "
+                    + "WHERE idCaixaEletronico = " + ((CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico")).getIdCaixaEletronico();
+
+            stmt = conexao.prepareStatement(query);
+            if (stmt.executeUpdate(query) > 0) {
+
+                // Atualizar valor da sessão
+                query = "SELECT papelComprovante FROM `BD_ES2`.`CaixaEletronico` "
+                        + "WHERE idCaixaEletronico = " + ((CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico")).getIdCaixaEletronico();
+
+                stmt = conexao.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery(query);
+
+                if (rs.next()) {
+                    CaixaEletronico caixaEletronico = (CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico");
+                    caixaEletronico.setPapelComprovante(rs.getString("papelComprovante"));
+                    CaixaEletronico.sessao.setAttribute("caixaEletronico", caixaEletronico);
+
+                    conexao.close();
+                    return true;
+                }
+            }
+
             return false;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             return false;
