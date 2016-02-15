@@ -33,7 +33,8 @@
         <hr>
         <h1>Consulta limite</h1>
         <p>
-            Limite: R$ <%=conta.getLimite()%>,00
+            Limite: R$ <%=conta.getLimite()%>,00 
+            <input type="button" value="Imprimir comprovante" onclick="document.location='CaixaEletronicoController?command=printPage'" />            
         </p>
         <ul>
             <li><a href="login.jsp">Página inicial da conta</a></li>            
