@@ -26,7 +26,7 @@
             Bem vindo <%=cliente.getNome()%> (<%=cliente.getId()%>) 
             logado pela conta <%=conta.getId()%> - Agência <%=conta.getAgencia()%> (<%=conta.getBanco()%>)
             <br /><br />
-            Caixa Eletrônico <%=caixaEletronico.getIdCaixaEletronico()%> <br />
+            Caixa Eletrônico <%=caixaEletronico.getId()%> <br />
             Data de hoje: <%=caixaEletronico.getDataDoCaixa()%> <br />                 
             Quantidade de papel para impressão de comprovantes no caixa: <%=caixaEletronico.getPapelComprovante()%>
         </h2>
