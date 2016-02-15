@@ -376,6 +376,8 @@ public class CaixaEletronico implements DatabaseActions {
                     conta.setSaldo(rs2.getString("saldo"));
                     conta.setSaldo_centavos(rs2.getString("saldo_centavos"));
                     conta.setStatus(rs2.getString("Conta.status"));
+                    conta.setPoupanca(rs2.getString("poupanca_saldo"));
+                    conta.setPoupanca_centavos(rs2.getString("poupanca_saldo_centavos"));
                     //conta.setListaClientes(null); // Irá preencher a lista de clientes da conta
 
                     CaixaEletronico.sessao = request.getSession(true);

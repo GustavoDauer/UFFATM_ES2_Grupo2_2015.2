@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Conta implements DatabaseActions {
 
-    String id, saldo, saldo_centavos, limite, agencia, banco, status, poupanca_status;
+    String id, saldo, saldo_centavos, limite, agencia, banco, status, poupanca_status, poupanca, poupanca_centavos;
     String idCliente, numeroCartao, senha;
     ArrayList<Cliente> listaClientes;
 
@@ -35,6 +35,8 @@ public class Conta implements DatabaseActions {
         banco = request.getParameter("banco");
         status = request.getParameter("status");
         poupanca_status = request.getParameter("poupanca_status");
+        poupanca = request.getParameter("poupanca");
+        poupanca_centavos = request.getParameter("poupanca_centavos");
 
         idCliente = request.getParameter("idCliente");
         numeroCartao = request.getParameter("numeroCartao");
@@ -51,6 +53,8 @@ public class Conta implements DatabaseActions {
         banco = conta.banco;
         status = conta.status;
         poupanca_status = conta.poupanca_status;
+        poupanca = conta.poupanca;
+        poupanca_centavos = conta.poupanca_centavos;
 
         idCliente = conta.idCliente;
         numeroCartao = conta.numeroCartao;
@@ -201,6 +205,22 @@ public class Conta implements DatabaseActions {
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {                
             }
         }
+    }
+
+    public String getPoupanca() {
+        return poupanca;
+    }
+
+    public void setPoupanca(String poupanca) {
+        this.poupanca = poupanca;
+    }
+
+    public String getPoupanca_centavos() {
+        return poupanca_centavos;
+    }
+
+    public void setPoupanca_centavos(String poupanca_centavos) {
+        this.poupanca_centavos = poupanca_centavos;
     }
 
     public void geraNumero() {
@@ -369,6 +389,8 @@ public class Conta implements DatabaseActions {
                 conta.setSaldo(rs.getString("saldo"));
                 conta.setSaldo_centavos(rs.getString("saldo_centavos"));
                 conta.setStatus(rs.getString("status"));
+                conta.setPoupanca(rs.getString("poupanca_saldo"));
+                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
 
                 query = "SELECT Cliente_idCliente, Conta_idConta, numeroCartao, senha, "
                         + "nome "
@@ -436,6 +458,8 @@ public class Conta implements DatabaseActions {
                 conta.setSaldo(rs.getString("saldo"));
                 conta.setSaldo_centavos(rs.getString("saldo_centavos"));
                 conta.setStatus(rs.getString("status"));
+                conta.setPoupanca(rs.getString("poupanca_saldo"));
+                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
 
                 todasContas.add(conta);
             }
