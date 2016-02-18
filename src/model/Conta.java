@@ -533,7 +533,7 @@ public class Conta implements DatabaseActions {
 
     public boolean saque(HttpServletRequest request) {
         String idConta = request.getParameter("id");
-        String valor = request.getParameter("valor");        
+        String valor = request.getParameter("valor");
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -554,11 +554,11 @@ public class Conta implements DatabaseActions {
                     + "WHERE idConta = " + idConta;
 
             stmt = conexao.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery(query);    
-            
+            ResultSet rs = stmt.executeQuery(query);
+
             Conta conta = new Conta();
-            
-            if (rs.next()) {                
+
+            if (rs.next()) {
                 conta.setId(rs.getString("idConta"));
                 conta.setAgencia(rs.getString("agencia"));
                 conta.setBanco(rs.getString("banco"));
@@ -568,8 +568,8 @@ public class Conta implements DatabaseActions {
                 conta.setSaldo_centavos(rs.getString("saldo_centavos"));
                 conta.setStatus(rs.getString("status"));
                 conta.setPoupanca(rs.getString("poupanca_saldo"));
-                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));                
-            }     
+                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
+            }
 
             if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) /*verificar notas caixa eletronico &&*/) {
                 query = "UPDATE `BD_ES2`.`Conta` "
@@ -579,9 +579,9 @@ public class Conta implements DatabaseActions {
 
                 stmt = conexao.prepareStatement(query);
                 stmt.executeUpdate(query);
-                                
-                conta.setSaldo( String.valueOf( (Integer.parseInt(conta.saldo)-Integer.parseInt(valor)) ) );
-                request.getSession().setAttribute("conta", conta);                
+
+                conta.setSaldo(String.valueOf((Integer.parseInt(conta.saldo) - Integer.parseInt(valor))));
+                request.getSession().setAttribute("conta", conta);
             } else {
                 return false;
             }
@@ -604,14 +604,6 @@ public class Conta implements DatabaseActions {
         try {
             conexao = Conexao.conectar();
 
-            query = "UPDATE `BD_ES2`.`Conta` "
-                    + "SET "
-                    + "`saldo` = saldo - " + valor
-                    + " WHERE `idConta` = " + id;
-
-            stmt = conexao.prepareStatement(query);
-            stmt.executeUpdate(query);
-
             query = "SELECT `Conta`.`idConta`,"
                     + "    `Conta`.`saldo`,"
                     + "    `Conta`.`saldo_centavos`,"
@@ -627,9 +619,9 @@ public class Conta implements DatabaseActions {
 
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
-
+            
+            Conta conta = new Conta();
             if (rs.next()) {
-                Conta conta = new Conta();
                 conta.setId(rs.getString("idConta"));
                 conta.setAgencia(rs.getString("agencia"));
                 conta.setBanco(rs.getString("banco"));
@@ -643,6 +635,22 @@ public class Conta implements DatabaseActions {
 
                 request.getSession().setAttribute("conta", conta);
             }
+
+            if ((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) {
+                query = "UPDATE `BD_ES2`.`Conta` "
+                        + "SET "
+                        + "`saldo` = `saldo` - " + valor
+                        + " WHERE `idConta` = " + id;
+
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+
+                conta.setSaldo(String.valueOf((Integer.parseInt(conta.saldo) - Integer.parseInt(valor))));
+                request.getSession().setAttribute("conta", conta);
+            } else {
+                return false;
+            }
+            /*Criar Transação*/
 
             conexao.close();
             return true;
