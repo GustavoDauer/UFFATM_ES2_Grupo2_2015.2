@@ -571,7 +571,7 @@ public class Conta implements DatabaseActions {
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));                
             }     
 
-            if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) > Integer.parseInt(conta.limite))) /*verificar notas caixa eletronico &&*/) {
+            if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) /*verificar notas caixa eletronico &&*/) {
                 query = "UPDATE `BD_ES2`.`Conta` "
                         + "SET "
                         + "`saldo` = `saldo` - " + valor
