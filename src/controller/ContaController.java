@@ -98,6 +98,13 @@ public class ContaController extends HttpServlet {
                     }
 
                     break;
+                case "deposit":
+                    if (conta.deposit(request.getParameter("valor"))) {
+                        out.println("<div><b> Depósito realizado! </b></div>");
+                    } else {
+                        out.println("<div><b> Depósito não pode ser realizado! </b></div>");
+                    }
+                    break;
             }
 
             out.println("</body>");

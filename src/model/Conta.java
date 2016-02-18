@@ -231,6 +231,19 @@ public class Conta implements DatabaseActions {
 
     }
 
+    public boolean deposit(String valor) {
+        try {
+            int deposito = Integer.parseInt(valor);
+            int isaldo = Integer.parseInt(saldo);
+            isaldo += deposito;
+            System.out.println(isaldo);
+            saldo = Integer.toString(isaldo);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     @Override
     public boolean insert() {
         Connection conexao = null;
