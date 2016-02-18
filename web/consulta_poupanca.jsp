@@ -15,22 +15,12 @@
     Conta conta = (Conta) request.getSession().getAttribute("conta");
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
 %>    
-<h1>Logado com sucesso!</h1>
-<h2>         
-    Bem vindo <%=cliente.getNome()%> (<%=cliente.getId()%>) 
-    logado pela conta <%=conta.getId()%> - Agência <%=conta.getAgencia()%> (<%=conta.getBanco()%>)
-    <br /><br />
-    Caixa Eletrônico <%=caixaEletronico.getId()%> <br />
-    Data de hoje: <%=caixaEletronico.getDataDoCaixa()%> <br />                 
-    Quantidade de papel para impressão de comprovantes no caixa: <%=caixaEletronico.getPapelComprovante()%>
-</h2>
-<hr>
 <h1>Consulta poupança</h1>
-<p>
+<div>
     Poupança: R$ <%=conta.getPoupanca()%>,<%=conta.getPoupanca_centavos()%> 
     <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />
-</p>
-<ul>
-    <li><a href="login.jsp">Página inicial da conta</a></li>            
-</ul>                
+    <ul>
+        <li><a href="login.jsp">Página inicial da conta</a></li>            
+    </ul>    
+</div>            
 <%@include file="include/footer.jsp" %>                       

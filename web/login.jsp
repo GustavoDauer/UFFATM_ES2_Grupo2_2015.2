@@ -15,12 +15,12 @@
     Conta conta = (Conta) request.getSession().getAttribute("conta");
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
 %>    
-<h1>Logado com sucesso!</h1>
+<h1>Caixa Eletrônico <%=caixaEletronico.getId()%></h1>
 <h2>         
-    Bem vindo <%=cliente.getNome()%> (<%=cliente.getId()%>) 
-    logado pela conta <%=conta.getId()%> - Agência <%=conta.getAgencia()%> (<%=conta.getBanco()%>)
+    Bem vindo <%=cliente.getNome()%> (ID: <%=cliente.getId()%>)<br />
+    Conta: <%=conta.getId()%> - Agência <%=conta.getAgencia()%> (<%=conta.getBanco()%>)
     <br /><br />
-    Caixa Eletrônico <%=caixaEletronico.getId()%> <br />
+    
     Data de hoje: <%=caixaEletronico.getDataDoCaixa()%> <br />                 
     Quantidade de papel para impressão de comprovantes no caixa: <%=caixaEletronico.getPapelComprovante()%>
 </h2>

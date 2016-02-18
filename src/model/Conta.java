@@ -43,7 +43,7 @@ public class Conta implements DatabaseActions {
         senha = request.getParameter("senha");
         listaClientes = new ArrayList();
     }
-    
+
     public Conta(Conta conta) {
         id = conta.id;
         saldo = conta.saldo;
@@ -157,9 +157,9 @@ public class Conta implements DatabaseActions {
     public void setListaClientes(ArrayList<Cliente> listaClientes) {
         if (listaClientes != null && !listaClientes.isEmpty()) {
             this.listaClientes = listaClientes;
-        } else if(!this.id.equals("0") && !this.id.isEmpty() && this.id != null) {
+        } else if (!this.id.equals("0") && !this.id.isEmpty() && this.id != null) {
             this.listaClientes = new ArrayList();
-            
+
             Connection conexao = null;
             PreparedStatement stmt;
             String query;
@@ -181,7 +181,7 @@ public class Conta implements DatabaseActions {
                 stmt = conexao.prepareStatement(query);
                 ResultSet rs = stmt.executeQuery(query);
 
-                if (rs.next()) {                    
+                if (rs.next()) {
                     query = "SELECT Cliente_idCliente, Conta_idConta, numeroCartao, senha, "
                             + "nome, Cliente.status "
                             + "FROM Cliente_has_Conta "
@@ -198,11 +198,11 @@ public class Conta implements DatabaseActions {
                         cliente.setNome(rs2.getString("Cliente.status"));
 
                         listaClientes.add(cliente);
-                    }                                                                   
+                    }
                 }
-                
+
                 conexao.close();
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {                
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             }
         }
     }
@@ -313,7 +313,7 @@ public class Conta implements DatabaseActions {
 
             if (!idCliente.equals("0")) {
                 numeroCartao = idCliente; // Pra facilitar, o numero do cartao sera o ID do cliente por enquanto.  
-                
+
                 query = "INSERT INTO `BD_ES2`.`Cliente_has_Conta` "
                         + "(`Cliente_idCliente`,"
                         + "`Conta_idConta`,"
@@ -466,6 +466,177 @@ public class Conta implements DatabaseActions {
             }
 
             request.setAttribute("todasContas", todasContas);
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean deposit(HttpServletRequest request) {
+        String idConta = request.getParameter("id");
+        String valor = request.getParameter("valor");
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "UPDATE `BD_ES2`.`Conta` "
+                    + "SET "
+                    + "`saldo` = saldo + " + valor
+                    + " WHERE `idConta` = " + id;
+
+            stmt = conexao.prepareStatement(query);
+            stmt.executeUpdate(query);
+
+            query = "SELECT `Conta`.`idConta`,"
+                    + "    `Conta`.`saldo`,"
+                    + "    `Conta`.`saldo_centavos`,"
+                    + "    `Conta`.`limite`,"
+                    + "    `Conta`.`agencia`,"
+                    + "    `Conta`.`banco`,"
+                    + "    `Conta`.`status`,"
+                    + "    `Conta`.`poupanca_status`,"
+                    + "    `Conta`.`poupanca_saldo`,"
+                    + "    `Conta`.`poupanca_saldo_centavos`"
+                    + "FROM `BD_ES2`.`Conta` "
+                    + "WHERE idConta = " + idConta;
+
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                Conta conta = new Conta();
+                conta.setId(rs.getString("idConta"));
+                conta.setAgencia(rs.getString("agencia"));
+                conta.setBanco(rs.getString("banco"));
+                conta.setLimite(rs.getString("limite"));
+                conta.setPoupanca_status(rs.getString("poupanca_status"));
+                conta.setSaldo(rs.getString("saldo"));
+                conta.setSaldo_centavos(rs.getString("saldo_centavos"));
+                conta.setStatus(rs.getString("status"));
+                conta.setPoupanca(rs.getString("poupanca_saldo"));
+                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
+
+                request.getSession().setAttribute("conta", conta);
+            }
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean saque(HttpServletRequest request) {
+        String idConta = request.getParameter("id");
+        String valor = request.getParameter("valor");
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "UPDATE `BD_ES2`.`Conta` "
+                    + "SET "
+                    + "`saldo` = saldo - " + valor
+                    + " WHERE `idConta` = " + id;
+
+            stmt = conexao.prepareStatement(query);
+            stmt.executeUpdate(query);
+
+            query = "SELECT `Conta`.`idConta`,"
+                    + "    `Conta`.`saldo`,"
+                    + "    `Conta`.`saldo_centavos`,"
+                    + "    `Conta`.`limite`,"
+                    + "    `Conta`.`agencia`,"
+                    + "    `Conta`.`banco`,"
+                    + "    `Conta`.`status`,"
+                    + "    `Conta`.`poupanca_status`,"
+                    + "    `Conta`.`poupanca_saldo`,"
+                    + "    `Conta`.`poupanca_saldo_centavos`"
+                    + "FROM `BD_ES2`.`Conta` "
+                    + "WHERE idConta = " + idConta;
+
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                Conta conta = new Conta();
+                conta.setId(rs.getString("idConta"));
+                conta.setAgencia(rs.getString("agencia"));
+                conta.setBanco(rs.getString("banco"));
+                conta.setLimite(rs.getString("limite"));
+                conta.setPoupanca_status(rs.getString("poupanca_status"));
+                conta.setSaldo(rs.getString("saldo"));
+                conta.setSaldo_centavos(rs.getString("saldo_centavos"));
+                conta.setStatus(rs.getString("status"));
+                conta.setPoupanca(rs.getString("poupanca_saldo"));
+                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
+
+                request.getSession().setAttribute("conta", conta);
+            }
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean pagamento(HttpServletRequest request) {
+        String idConta = request.getParameter("id");
+        String valor = request.getParameter("valor");
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "UPDATE `BD_ES2`.`Conta` "
+                    + "SET "
+                    + "`saldo` = saldo - " + valor
+                    + " WHERE `idConta` = " + id;
+
+            stmt = conexao.prepareStatement(query);
+            stmt.executeUpdate(query);
+
+            query = "SELECT `Conta`.`idConta`,"
+                    + "    `Conta`.`saldo`,"
+                    + "    `Conta`.`saldo_centavos`,"
+                    + "    `Conta`.`limite`,"
+                    + "    `Conta`.`agencia`,"
+                    + "    `Conta`.`banco`,"
+                    + "    `Conta`.`status`,"
+                    + "    `Conta`.`poupanca_status`,"
+                    + "    `Conta`.`poupanca_saldo`,"
+                    + "    `Conta`.`poupanca_saldo_centavos`"
+                    + "FROM `BD_ES2`.`Conta` "
+                    + "WHERE idConta = " + idConta;
+
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                Conta conta = new Conta();
+                conta.setId(rs.getString("idConta"));
+                conta.setAgencia(rs.getString("agencia"));
+                conta.setBanco(rs.getString("banco"));
+                conta.setLimite(rs.getString("limite"));
+                conta.setPoupanca_status(rs.getString("poupanca_status"));
+                conta.setSaldo(rs.getString("saldo"));
+                conta.setSaldo_centavos(rs.getString("saldo_centavos"));
+                conta.setStatus(rs.getString("status"));
+                conta.setPoupanca(rs.getString("poupanca_saldo"));
+                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
+
+                request.getSession().setAttribute("conta", conta);
+            }
 
             conexao.close();
             return true;

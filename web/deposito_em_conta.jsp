@@ -14,14 +14,17 @@
     Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
     Conta conta = (Conta) request.getSession().getAttribute("conta");
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
-%>
-<h1>Consulta limite</h1>
-<div>
-    Cheque especial R$ <%=conta.getLimite()%>,00 
-    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />            
-    <ul>
-        <li><a href="login.jsp">Página inicial da conta</a></li>            
-    </ul>          
-</div>
-
+%>    
+<h1>Depositar em conta</h1>
+<p>
+<form action="ContaController" method="post">
+    <input type="hidden" name="command" value="deposit" /> 
+    <input type="hidden" name="id" value="<%=conta.getId()%>" /> 
+    R$ <input type="text" name="valor" class="campo" /> 
+    <input type="submit" value="Depositar" />    
+</form>
+</p>
+<ul>
+    <li><a href="login.jsp">Página inicial da conta</a></li>            
+</ul>                       
 <%@include file="include/footer.jsp" %>                       

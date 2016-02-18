@@ -47,6 +47,17 @@ body {
     background: #a80101;
 }
 
+#conteudo h2 {
+    margin: 25px;
+    
+    font-family: verdana;
+    font-size: 14px;
+}
+
+#conteudo div {
+    margin: 25px;
+}
+
 #footer {
     vertical-align: middle;
     text-align: center;
