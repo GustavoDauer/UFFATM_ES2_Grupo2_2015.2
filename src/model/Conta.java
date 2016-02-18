@@ -312,7 +312,8 @@ public class Conta implements DatabaseActions {
             stmt.executeUpdate(query);
 
             if (!idCliente.equals("0")) {
-                numeroCartao = idCliente;
+                numeroCartao = idCliente; // Pra facilitar, o numero do cartao sera o ID do cliente por enquanto.  
+                
                 query = "INSERT INTO `BD_ES2`.`Cliente_has_Conta` "
                         + "(`Cliente_idCliente`,"
                         + "`Conta_idConta`,"

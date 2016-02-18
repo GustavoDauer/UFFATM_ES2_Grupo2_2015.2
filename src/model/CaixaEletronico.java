@@ -314,9 +314,11 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public boolean login(HttpServletRequest request) {
-        String numeroCartao = request.getParameter("numeroCartao");
+        //String numeroCartao = request.getParameter("numeroCartao"); // Será usado no futuro
+        String idCliente = request.getParameter("numeroCartao"); // Por enquanto o numeroCartao é o ID do cliente, então
+                                                                 //  vamos consultar logo o idCliente
         String senha = request.getParameter("senha");
-        String idCaixa = request.getParameter("idCaixaEletronico");
+        String idCaixa = request.getParameter("id");
 
         Connection conexao = null;
         PreparedStatement stmt;
@@ -345,7 +347,8 @@ public class CaixaEletronico implements DatabaseActions {
                 query = "SELECT * FROM `BD_ES2`.`Cliente_has_Conta` "
                         + "INNER JOIN Cliente on Cliente_idCliente = idCliente "
                         + "INNER JOIN Conta on Conta_idConta = idConta "
-                        + "WHERE numeroCartao = '" + numeroCartao + "' AND senha = '" + senha + "'";
+                        //+ "WHERE numeroCartao = '" + numeroCartao + "' AND senha = '" + senha + "'";
+                        + "WHERE numeroCartao = '" + idCliente + "' AND senha = '" + senha + "'";
 
                 stmt = conexao.prepareStatement(query);
                 ResultSet rs2 = stmt.executeQuery(query);

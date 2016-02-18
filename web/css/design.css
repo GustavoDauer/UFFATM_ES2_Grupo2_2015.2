@@ -1,0 +1,91 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13/02/2016, 15:57:43
+    Author     : gustavo
+*/
+
+body {
+    margin: 0;
+}
+
+#menu {
+    vertical-align: top;
+    width: 250px;
+    
+    font-family: verdana;
+    color: white;
+    background: #4c4c4c;
+}
+
+#menu a {
+    text-decoration: none;
+    color: white;
+    font-family: verdana;
+    line-height: 25px;
+}
+
+#conteudo {
+    vertical-align: top;
+    text-align: left;
+    height: 650px;
+    
+    font-family: verdana;
+    color: black;
+    background: #e4e4e4;
+}
+
+#conteudo h1 {
+    margin: 0;
+    padding: 7px;
+    
+    font-family: verdana;
+    color: white;
+    background: #a80101;
+}
+
+#footer {
+    vertical-align: middle;
+    text-align: center;
+    height: 70px;
+    
+    font-family: verdana;
+    color: white;
+    background: black;
+}
+
+#login {
+    margin: 70px;
+}
+
+#login .campo {
+    width: 314px;
+    height: 25px;
+    margin: 5px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+#login select {    
+    height: 25px;
+    margin: 5px;
+    letter-spacing: 2px;
+    text-align: center;
+    
+    background: #fecaca
+}
+
+#login .botao {    
+    width: 319px;
+    margin: 5px;
+    padding: 7px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+#login a {
+    margin: 5px;    
+}
