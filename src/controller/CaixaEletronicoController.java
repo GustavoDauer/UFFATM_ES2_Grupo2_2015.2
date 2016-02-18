@@ -92,7 +92,7 @@ public class CaixaEletronicoController extends HttpServlet {
                     break;
                 case "printPage":
                     if(caixaEletronico.printPage()) {
-                        out.println("<div><b> Comprovante/Extrato impresso com sucesso! </b><br /><a href='#' onclick='login.jsp'>Voltar</a></div>");
+                        out.println("<div><b> Comprovante/Extrato impresso com sucesso! </b><br /><a href='login.jsp'>Voltar</a></div>");
                         //request.getRequestDispatcher((String) request.getAttribute("javax.servlet.forward.request_uri")).forward(request, response);
                     } else {
                         out.println("<div><b> Caixa Eletrônico não conseguiu imprimir! </b><br /><a href='login.jsp'>Voltar</a></div>");

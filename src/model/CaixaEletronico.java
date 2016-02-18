@@ -375,6 +375,7 @@ public class CaixaEletronico implements DatabaseActions {
                     //conta.setListaClientes(null); // Irá preencher a lista de clientes da conta
 
                     CaixaEletronico.sessao = request.getSession(true);
+                    CaixaEletronico.sessao.setMaxInactiveInterval(2000); // Tempo de inatividade máximo (segundos)
                     CaixaEletronico.sessao.setAttribute("cliente", cliente);
                     CaixaEletronico.sessao.setAttribute("conta", conta);
                     CaixaEletronico.sessao.setAttribute("caixaEletronico", this);
