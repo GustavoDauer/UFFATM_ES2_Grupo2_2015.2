@@ -1,11 +1,9 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -165,7 +163,9 @@ public class CaixaEletronico implements DatabaseActions {
                     + nota50 + "', '"
                     + nota100 + "', '"
                     + cheque + "', '"
-                    + papelComprovante + "', CURDATE());";
+                    + papelComprovante + "', '"
+                    + dataDoCaixa + "'"
+                    + ");";
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
 
@@ -293,10 +293,10 @@ public class CaixaEletronico implements DatabaseActions {
             while (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
                 caixaEletronico.setId(rs.getString("idCaixaEletronico"));
-                caixaEletronico.setNota2(rs.getString("nota2"));
-                caixaEletronico.setNota5(rs.getString("nota5"));
-                caixaEletronico.setNota10(rs.getString("nota10"));
-                caixaEletronico.setNota20(rs.getString("nota20"));
+                caixaEletronico.setNota2(rs.getString("nota2")); // Remover na proxima versao
+                caixaEletronico.setNota5(rs.getString("nota5")); // Remover na proxima versao
+                caixaEletronico.setNota10(rs.getString("nota10")); // Remover na proxima versao
+                caixaEletronico.setNota20(rs.getString("nota20")); // Remover na proxima versao
                 caixaEletronico.setNota50(rs.getString("nota50"));
                 caixaEletronico.setNota100(rs.getString("nota100"));
                 caixaEletronico.setCheque(rs.getString("cheque"));
@@ -316,7 +316,7 @@ public class CaixaEletronico implements DatabaseActions {
     public boolean login(HttpServletRequest request) {
         //String numeroCartao = request.getParameter("numeroCartao"); // Será usado no futuro
         String idCliente = request.getParameter("numeroCartao"); // Por enquanto o numeroCartao é o ID do cliente, então
-                                                                 //  vamos consultar logo o idCliente
+        //  vamos consultar logo o idCliente
         String senha = request.getParameter("senha");
         String idCaixa = request.getParameter("id");
 
@@ -334,10 +334,10 @@ public class CaixaEletronico implements DatabaseActions {
 
             if (rs.next()) {
                 setId(rs.getString("idCaixaEletronico"));
-                setNota2(rs.getString("nota2"));
-                setNota5(rs.getString("nota5"));
-                setNota10(rs.getString("nota10"));
-                setNota20(rs.getString("nota20"));
+                setNota2(rs.getString("nota2")); // Remover na proxima versao
+                setNota5(rs.getString("nota5")); // Remover na proxima versao
+                setNota10(rs.getString("nota10")); // Remover na proxima versao
+                setNota20(rs.getString("nota20")); // Remover na proxima versao
                 setNota50(rs.getString("nota50"));
                 setNota100(rs.getString("nota100"));
                 setCheque(rs.getString("cheque"));
@@ -427,23 +427,17 @@ public class CaixaEletronico implements DatabaseActions {
             return false;
         }
     }
-    
-    public final String dataFormat(String oldData) {
-        if(oldData != null && !oldData.equalsIgnoreCase("null")) {
-            Date date = null;
-            
-            try {
-                date = (Date) new SimpleDateFormat("dd-MM-yyyy").parse(oldData);
-            } catch(Exception e) {
-                return "";
-            }
-            
-            String newData = "";
-            if (date != null)
-                newData = new SimpleDateFormat("yyyy-MM-dd").format(date);
-            
-            return newData;
+
+    public static final String toDateNormalFormat(String oldDataString) {
+        String data = "";
+        
+        if (oldDataString.length() > 9) {
+            String ano = oldDataString.substring(0, 4);
+            String mes = oldDataString.substring(5, 7);
+            String dia = oldDataString.substring(8, 10);
+            data = dia.concat("-").concat(mes).concat("-").concat(ano);
         }
-        return "";
+
+        return data;
     }
 }

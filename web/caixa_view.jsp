@@ -40,7 +40,7 @@
             <td align="right">Papel Comprovante: </td> <td><input class="campo" type="text" name="papelComprovante" value="<%=caixaEletronico.getPapelComprovante()%>" required="required" /></td>
         </tr>
         <tr>
-            <td align="right">Data: </td> <td><input class="campo" type="text" name="dataDoCaixa" value="<%=caixaEletronico.getDataDoCaixa()%>" required="required" readonly/></td>
+            <td align="right">Data: </td> <td><input class="campo" type="date" name="dataDoCaixa" value="<%=caixaEletronico.getDataDoCaixa()%>" required="required"/></td>
         </tr>
         <tr>
             <td></td>

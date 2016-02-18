@@ -37,7 +37,7 @@
             <td align="right">Papel de Comprovante </td> <td><input class="campo" type="text" name="papelComprovante" value="1000" required="required" /></td>
         </tr>
         <tr>
-            <td align="right">Data </td> <td><input class="campo" type="date" name="Data" required="required" /></td>
+            <td align="right">Data </td> <td><input class="campo" type="date" name="dataDoCaixa" required="required" /></td>
         </tr>
         <tr>
             <td></td>
