@@ -109,7 +109,7 @@ public class ContaController extends HttpServlet {
 
                     break;
 
-                case "saque":
+                case "saque":                    
                     if (conta.saque(request)) {
                         out.println("<div><b> Sacado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");

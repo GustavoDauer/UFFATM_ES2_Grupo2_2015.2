@@ -533,21 +533,12 @@ public class Conta implements DatabaseActions {
 
     public boolean saque(HttpServletRequest request) {
         String idConta = request.getParameter("id");
-        String valor = request.getParameter("valor");
-
+        String valor = request.getParameter("valor");        
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
         try {
             conexao = Conexao.conectar();
-
-            query = "UPDATE `BD_ES2`.`Conta` "
-                    + "SET "
-                    + "`saldo` = saldo - " + valor
-                    + " WHERE `idConta` = " + id;
-
-            stmt = conexao.prepareStatement(query);
-            stmt.executeUpdate(query);
 
             query = "SELECT `Conta`.`idConta`,"
                     + "    `Conta`.`saldo`,"
@@ -563,10 +554,9 @@ public class Conta implements DatabaseActions {
                     + "WHERE idConta = " + idConta;
 
             stmt = conexao.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery(query);
-
-            if (rs.next()) {
-                Conta conta = new Conta();
+            ResultSet rs = stmt.executeQuery(query);    
+            Conta conta = new Conta();
+            if (rs.next()) {                
                 conta.setId(rs.getString("idConta"));
                 conta.setAgencia(rs.getString("agencia"));
                 conta.setBanco(rs.getString("banco"));
@@ -579,7 +569,20 @@ public class Conta implements DatabaseActions {
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
 
                 request.getSession().setAttribute("conta", conta);
+            }     
+
+            if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) > Integer.parseInt(conta.limite))) /*verificar notas caixa eletronico &&*/) {
+                query = "UPDATE `BD_ES2`.`Conta` "
+                        + "SET "
+                        + "`saldo` = `saldo` - " + valor
+                        + " WHERE `idConta` = " + id;
+
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+            } else {
+                return false;
             }
+            /*Criar Transação*/
 
             conexao.close();
             return true;
@@ -587,7 +590,7 @@ public class Conta implements DatabaseActions {
             return false;
         }
     }
-    
+
     public boolean pagamento(HttpServletRequest request) {
         String idConta = request.getParameter("id");
         String valor = request.getParameter("valor");
