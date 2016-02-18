@@ -18,6 +18,11 @@
                 <td id="menu">
                     <!-- MENU -->
                     <ul>
+                        <!-- Home -->                
+                        <li><a href="index.jsp">Página inicial</a></li>
+                        <li><a href="login.jsp">Página inicial da conta</a></li>                                    
+                    </ul>                    
+                    <ul>
                         <!-- Usuário -->                
                         <li><a href="consulta_saldo.jsp">Consulta saldo</a></li>
                         <li><a href="consulta_poupanca.jsp">Consulta poupança</a></li>
