@@ -17,7 +17,7 @@
 %>    
 <h1>Saque</h1>
 <p>
-<form action="ContaController" method="post">
+<form action="ContaController" method="post">    
     <input type="hidden" name="command" value="saque" /> 
     <input type="hidden" name="id" value="<%=conta.getId()%>" /> 
     R$ <input type="text" name="valor" class="campo" /> 

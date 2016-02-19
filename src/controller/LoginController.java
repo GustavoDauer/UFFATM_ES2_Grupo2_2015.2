@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
          
             
            
-            if (request.getSession(false).isNew()) {            
+            if((caixaEletronico.login(request))) {              
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             else {

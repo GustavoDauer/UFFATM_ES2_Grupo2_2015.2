@@ -18,11 +18,17 @@
                 <td id="menu">
                     <!-- MENU -->
 
-                    
+                     <ul>
+                        <!-- Home -->                
+                        <li><a href="index.jsp">Página inicial</a></li>
+                        <li><a href="login.jsp">Página inicial da conta</a></li>                                    
+                    </ul>   
                 
 
                <c:if test="${pageContext.request.getSession(false).getAttribute("cliente") != null}">
+                                    
                     <ul>
+                        <!-- Usuário -->                
                         <li><a href="consulta_saldo.jsp">Consulta saldo</a></li>
                         <li><a href="consulta_poupanca.jsp">Consulta poupança</a></li>
                         <li><a href="consulta_limite.jsp">Consulta limite</a></li>                
