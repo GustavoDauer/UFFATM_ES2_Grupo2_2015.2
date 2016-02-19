@@ -21,7 +21,7 @@
     Conta: <%=conta.getId()%> - Agência <%=conta.getAgencia()%> (<%=conta.getBanco()%>)
     <br /><br />
     
-    Data de hoje: <%=caixaEletronico.getDataDoCaixa()%> <br />                 
+    Data de hoje: <%=CaixaEletronico.toDateNormalFormat(caixaEletronico.getDataDoCaixa())%> <br />                 
     Quantidade de papel para impressão de comprovantes no caixa: <%=caixaEletronico.getPapelComprovante()%>
 </h2>
 <%@include file="include/footer.jsp" %>                       

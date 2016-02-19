@@ -165,7 +165,9 @@ public class CaixaEletronico implements DatabaseActions {
                     + nota50 + "', '"
                     + nota100 + "', '"
                     + cheque + "', '"
-                    + papelComprovante + "', CURDATE());";
+                    + papelComprovante + "', '"
+                    + dataDoCaixa + "'"
+                    + ");";
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
 
@@ -429,23 +431,15 @@ public class CaixaEletronico implements DatabaseActions {
         }
     }
 
-    public final String dataFormat(String oldData) {
-        if (oldData != null && !oldData.equalsIgnoreCase("null")) {
-            Date date = null;
-
-            try {
-                date = (Date) new SimpleDateFormat("dd-MM-yyyy").parse(oldData);
-            } catch (Exception e) {
-                return "";
-            }
-
-            String newData = "";
-            if (date != null) {
-                newData = new SimpleDateFormat("yyyy-MM-dd").format(date);
-            }
-
-            return newData;
+    public static final String toDateNormalFormat(String oldDataString) {
+        String data = "";
+        if (oldDataString.length() > 9) {
+            String ano = oldDataString.substring(0, 4);
+            String mes = oldDataString.substring(5, 7);
+            String dia = oldDataString.substring(8, 10);
+            data = dia.concat("-").concat(mes).concat("-").concat(ano);
         }
-        return "";
+
+        return data;
     }
 }

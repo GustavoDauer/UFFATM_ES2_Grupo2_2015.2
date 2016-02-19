@@ -14,7 +14,7 @@
 %>
 <ul>
     <li> 
-        Nome: <%=cliente.getNome()%> 
+        Nome: <%=cliente.getNome()%> | ID: <%=cliente.getId()%>
         <input type="button" value="Editar" onclick="document.location='ClienteController?command=view&id=<%=cliente.getId()%>'" />
         <input type="button" value="Remover" onclick="document.location='ClienteController?command=delete&id=<%=cliente.getId()%>'" />
     </li> 
