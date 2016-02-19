@@ -316,7 +316,7 @@ public class CaixaEletronico implements DatabaseActions {
     public boolean login(HttpServletRequest request) {
         //String numeroCartao = request.getParameter("numeroCartao"); // Será usado no futuro
         String idCliente = request.getParameter("numeroCartao"); // Por enquanto o numeroCartao é o ID do cliente, então
-                                                                 //  vamos consultar logo o idCliente
+        //  vamos consultar logo o idCliente
         String senha = request.getParameter("senha");
         String idCaixa = request.getParameter("id");
 
@@ -374,13 +374,15 @@ public class CaixaEletronico implements DatabaseActions {
                     conta.setPoupanca_centavos(rs2.getString("poupanca_saldo_centavos"));
                     //conta.setListaClientes(null); // Irá preencher a lista de clientes da conta
 
-                    CaixaEletronico.sessao = request.getSession(true);
-                    CaixaEletronico.sessao.setAttribute("cliente", cliente);
-                    CaixaEletronico.sessao.setAttribute("conta", conta);
-                    CaixaEletronico.sessao.setAttribute("caixaEletronico", this);
-
+                    if (!request.getSession(false).isNew()) {
+                        CaixaEletronico.sessao = request.getSession(true);
+                        CaixaEletronico.sessao.setAttribute("cliente", cliente);
+                        CaixaEletronico.sessao.setAttribute("conta", conta);
+                        CaixaEletronico.sessao.setAttribute("caixaEletronico", this);
+                        return true;
+                    }
                     conexao.close();
-                    return true;
+
                 }
             }
 
@@ -426,21 +428,22 @@ public class CaixaEletronico implements DatabaseActions {
             return false;
         }
     }
-    
+
     public final String dataFormat(String oldData) {
-        if(oldData != null && !oldData.equalsIgnoreCase("null")) {
+        if (oldData != null && !oldData.equalsIgnoreCase("null")) {
             Date date = null;
-            
+
             try {
                 date = (Date) new SimpleDateFormat("dd-MM-yyyy").parse(oldData);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 return "";
             }
-            
+
             String newData = "";
-            if (date != null)
+            if (date != null) {
                 newData = new SimpleDateFormat("yyyy-MM-dd").format(date);
-            
+            }
+
             return newData;
         }
         return "";

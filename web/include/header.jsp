@@ -3,7 +3,7 @@
     Created on : 13/02/2016, 15:51:39
     Author     : gustavo
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,8 +17,12 @@
             <tr>
                 <td id="menu">
                     <!-- MENU -->
+
+                    
+                
+
+               <c:if test="${pageContext.request.getSession(false).getAttribute("cliente") != null}">
                     <ul>
-                        <!-- Usuário -->                
                         <li><a href="consulta_saldo.jsp">Consulta saldo</a></li>
                         <li><a href="consulta_poupanca.jsp">Consulta poupança</a></li>
                         <li><a href="consulta_limite.jsp">Consulta limite</a></li>                
@@ -36,10 +40,16 @@
                         <li><a href="ContaController?command=viewAll">Listar Contas</a></li>                
                         <li><a href="caixa_insert.jsp">Cadastrar Caixa Eletrônico</a></li>
                         <li><a href="CaixaEletronicoController?command=viewAll">Listar Caixas Eletrônicos</a></li>
+                    </ul>  
+                    <ul>
+                        <li><a href="LogoutController">LogOut</a></li>
                     </ul>
-                </td>   
-                <td id="conteudo">
-                    <!-- CONTEUDO -->
-                
-                          
+
+                </c:if>
+
+
+            <td id="conteudo">
+                <!-- CONTEUDO -->
+
+
 
