@@ -571,7 +571,59 @@ public class Conta implements DatabaseActions {
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
             }
 
-            if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) /*verificar notas caixa eletronico &&*/) {
+            // Calcula notas necessárias
+            int[] notas = {100,50,20,10,5,2};
+            int ivalor = Integer.parseInt(valor);
+            boolean pgtoPossivel = false;
+            
+            for (int i = 0; i < notas.length; i++) {
+                /* Obs: 
+                 * Note que o array notas foi reaproveitado
+                 * No inicio da iteraçao, guardava o valor das notas
+                 * Ao final, irá conter a quantidade de notas de cada tipo para fazer o saque
+                 */
+                notas[i] = ivalor / notas[i]; // número de cedulas de um certo tipo
+                ivalor %= notas[i];           
+            }
+            
+            if (ivalor == 0) {
+                pgtoPossivel = true;
+
+                // Decrementa cédulas disponíveis no CaixaEletronico
+                CaixaEletronico atm = (CaixaEletronico) request.getSession().getAttribute("CaixaEletronico");
+                String novoValor = String.valueOf(Integer.parseInt(atm.getNota100()) - notas[0] );
+                atm.setNota100(novoValor);
+                novoValor = String.valueOf(Integer.parseInt(atm.getNota50()) - notas[1] );
+                atm.setNota50(novoValor);
+                novoValor = String.valueOf(Integer.parseInt(atm.getNota20()) - notas[2] );
+                atm.setNota20(novoValor);
+                novoValor = String.valueOf(Integer.parseInt(atm.getNota10()) - notas[3] );
+                atm.setNota10(novoValor);
+                novoValor = String.valueOf(Integer.parseInt(atm.getNota5()) - notas[4] );
+                atm.setNota5(novoValor);
+                novoValor = String.valueOf(Integer.parseInt(atm.getNota2()) - notas[5] );
+                atm.setNota2(novoValor);
+
+                // Atualiza valores no BD
+                query = "UPDATE `BD_ES2`, `CaixaEletronico`"
+                        + "SET "
+                        + "`notas2` = " + atm.getNota2()
+                        + "`notas5` = " + atm.getNota5()
+                        + "`notas10` = " + atm.getNota10()
+                        + "`notas20` = " + atm.getNota20()
+                        + "`notas50` = " + atm.getNota50()
+                        + "`notas100` = " + atm.getNota100()
+                        + "where idCaixaEletronico = " + atm.getId();
+                        
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+
+                request.getSession().setAttribute("CaixaEletronico", atm);
+            }
+            
+            ivalor = Integer.parseInt(valor);
+            
+            if ((( ivalor < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - ivalor) >= Integer.parseInt(conta.limite))) && pgtoPossivel) {
                 query = "UPDATE `BD_ES2`.`Conta` "
                         + "SET "
                         + "`saldo` = `saldo` - " + valor
@@ -580,8 +632,10 @@ public class Conta implements DatabaseActions {
                 stmt = conexao.prepareStatement(query);
                 stmt.executeUpdate(query);
 
-                conta.setSaldo(String.valueOf((Integer.parseInt(conta.saldo) - Integer.parseInt(valor))));
+                conta.setSaldo(String.valueOf((Integer.parseInt(conta.saldo) - ivalor)));
                 request.getSession().setAttribute("conta", conta);
+                
+                
             } else {
                 return false;
             }
