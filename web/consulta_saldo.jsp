@@ -17,10 +17,8 @@
 %>    
 <h1>Consulta saldo</h1>
 <div>
-    Saldo: R$ <%=conta.getSaldo()%>,<%=conta.getSaldo_centavos()%> 
-    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />
-    <ul>
-        <li><a href="login.jsp">Página inicial da conta</a></li>            
-    </ul>  
+    Saldo
+    <br /><br />R$ <%=conta.getSaldo()%>,<%=conta.getSaldo_centavos()%><br /><br />
+    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />     
 </div>                     
 <%@include file="include/footer.jsp" %>                       

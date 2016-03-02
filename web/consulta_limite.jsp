@@ -17,11 +17,9 @@
 %>
 <h1>Consulta limite</h1>
 <div>
-    Cheque especial R$ <%=conta.getLimite()%>,00 
-    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />            
-    <ul>
-        <li><a href="login.jsp">Página inicial da conta</a></li>            
-    </ul>          
+    Cheque especial
+    <br /><br />R$ <%=Integer.parseInt(conta.getLimite())*-1%>,00 <br /><br />
+    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />                     
 </div>
 
 <%@include file="include/footer.jsp" %>                       

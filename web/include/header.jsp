@@ -3,6 +3,7 @@
     Created on : 13/02/2016, 15:51:39
     Author     : gustavo
 --%>
+<%@page import="model.CaixaEletronico"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,15 +21,12 @@
 
                      <ul>
                         <!-- Home -->                
-                        <li><a href="index.jsp">Página inicial</a></li>
-                        <li><a href="login.jsp">Página inicial da conta</a></li>                                    
-                    </ul>   
-                
-
-               <c:if test="${pageContext.request.getSession(false).getAttribute("cliente") != null}">
-                                    
+                        <li><a href="index.jsp">Página inicial</a></li>                                                       
+                    </ul>                   
+                     <%//if(CaixaEletronico.getSessao() != null && CaixaEletronico.getSessao().getAttribute("Cliente") != null) {%>                    
                     <ul>
-                        <!-- Usuário -->                
+                        <!-- Usuário -->    
+                        <li><a href="login.jsp">Página inicial da conta</a></li>                  
                         <li><a href="consulta_saldo.jsp">Consulta saldo</a></li>
                         <li><a href="consulta_poupanca.jsp">Consulta poupança</a></li>
                         <li><a href="consulta_limite.jsp">Consulta limite</a></li>                
@@ -51,7 +49,7 @@
                         <li><a href="LogoutController">LogOut</a></li>
                     </ul>
 
-                </c:if>
+                <%//}%>
 
 
             <td id="conteudo">

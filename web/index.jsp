@@ -25,6 +25,6 @@
     <input class="campo" type="text" name="numeroCartao" placeholder="NÚMERO DO CARTÃO" /><br />
     <input class="campo" type="password" name="senha" placeholder="SENHA" /><br />
     <input class="botao" type="submit" value="Inserir cartão" /><br />
-    <a href="#">Não correntista</a>
+    <a href="#">Não correntista</a> <a href="#">Gerente</a>
 </form>
 <%@include file="include/footer.jsp" %>   

@@ -20,19 +20,15 @@
     <form action="ContaController" method="post">
         <input type="hidden" name="command" value="pagamento" /> 
         <input type="hidden" name="id" value="<%=conta.getId()%>" /> 
-        <table>
-            <tr>
-                <td  align="right">Número do documento</td>
-                <td><input type="text" name="numeroDocumento" class="campo" value="28786926527" /></td>
-            </tr>
-            <tr>
-                <td align="right">R$ </td>
-                <td><input type="text" name="valor" placeholder="Valor" class="campo" />  <input type="submit" value="Pagar" />   </td>
+        <table class="formulario">            
+            <tr>                
+                <td>
+                    <input type="text" placeholder="NÚMERO DO DOCUMENTO" name="numeroDocumento" class="campo" /> <br />
+                    <input type="text" name="valor" placeholder="Valor" class="campo" /> <br />
+                    <input type="submit" value="Pagar" class="botao" />   
+                </td>
             </tr>
         </table> 
     </form>
-</div>
-<ul>
-    <li><a href="login.jsp">Página inicial da conta</a></li>            
-</ul>                       
+</div>               
 <%@include file="include/footer.jsp" %>                       

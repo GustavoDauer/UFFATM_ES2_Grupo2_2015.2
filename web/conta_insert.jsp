@@ -10,34 +10,38 @@
 <script type="text/javascript">
     function checkForm(form)
     {
-        if (!(form.senha.value != "" && form.senha.value == form.senha2.value)) {   
+        if (!(form.senha.value != "" && form.senha.value == form.senha2.value)) {
             alert('As senhas devem ser iguais e não devem estar em branco!');
             return false;
         }
-        
-        if(form.idCliente.value == "0") {
+
+        if (form.idCliente.value == "0" || form.idCliente.value == "") {
             alert('Você deve selecionar um cliente!');
             return false;
         }
-        
+
         return true;
     }
-</script>
+
+    function numeroCartao()
+    {
+        document.getElementById("numeroCartao").value = document.getElementById("idCliente").value;
+    }
+</script>  
 <form action="<%=request.getContextPath()%>/ContaController" method="post" onsubmit="return checkForm(this)">
     <input type="hidden" name="command" value="insert" />            
     <h1>Cadastrar Conta</h1>
     <table class="formulario" cellpadding="0" cellspacing="0">
-        <tr>
-            <td align="right">Cliente </td> 
+        <tr>            
             <td>
-                <select name="idCliente">
-                    <option value="0">Selecione um cliente</option>
+                <select id="idCliente" name="idCliente" onclick="this.options[this.selectedIndex].onclick()">
+                    <option value="">Selecione um cliente</option>
                     <%
                         ArrayList<Cliente> todosClientes = (ArrayList) Cliente.getAll();
 
                         for (Cliente cliente : todosClientes) {
                     %>
-                    <option value="<%=cliente.getId()%>"><%=cliente.getNome()%></option>
+                    <option value="<%=cliente.getId()%>" onclick="javascript:numeroCartao();"><%=cliente.getNome()%></option>
                     <%
                         }
                     %>
@@ -45,36 +49,33 @@
             </td>
         </tr> 
         <tr>
-            <td align="right">Número cartão: </td> <td><input class="campo" type="text" name="numeroCartao" value="Gerado automaticamente" readonly="readonly" /></td>
+            <td><input id="numeroCartao" placeholder="NÚMERO CARTÃO" class="campo" type="text" name="numeroCartao" readonly="readonly" />
+                <br /><sub>(Gerado automaticamente)</sub></td>
+        </tr>     
+        <tr>
+            <td><select name="banco"><option selected="selected">Banco UFF</option></select></td>
+        </tr>
+        <tr>
+            <td><input class="campo" placeholder="AGÊNCIA" type="text" name="agencia" /></td>
+        </tr>                 
+        <tr>
+            <td><input class="campo" placeholder="LIMITE" type="text" name="limite" /></td>
+        </tr>    
+        <tr>
+            <td><input type="checkbox" name="poupanca_status" checked="checked" value="1"/> Poupança</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="status" checked="checked" value="1" /> Conta ativa</td>
+        </tr>
+        <tr>
+            <td><input class="campo" placeholder="SENHA" type="password" name="senha" value="" /></td>
         </tr> 
         <tr>
-            <td align="right">Senha: </td> <td><input class="campo" type="password" name="senha" value="" /></td>
-        </tr> 
-        <tr>
-            <td align="right">Repetir Senha: </td> <td><input class="campo" type="password" name="senha2" value="" /></td>
+            <td><input placeholder="REPETIR SENHA" class="campo" type="password" name="senha2" value="" /></td>
         </tr>
-        <tr>
-            <td align="right">Agência: </td> <td><input class="campo" type="text" name="agencia" value="0125-0" /></td>
-        </tr> 
-        <tr>
-            <td align="right">Banco </td> <td><select name="banco"><option selected="selected">Banco UFF</option></select></td>
-        </tr>
-        <tr>
-            <td align="right">Poupança </td> <td><input type="checkbox" name="poupanca_status" checked="checked" value="1"/> Ativada</td>
-        </tr>
-        <tr>
-            <td align="right">Status da conta </td> <td><input type="checkbox" name="status" checked="checked" value="1" /> Ativada</td>
-        </tr>
-        <tr>
-            <td align="right">Limite </td> <td><input class="campo" type="text" name="limite" value="-1000" /></td>
-        </tr>
-        <tr>
-            <td align="right">Saldo </td> <td><input class="campo" type="text" name="saldo" disabled="disabled" /></td>
-        </tr>        
-        <tr>
-            <td></td>
-            <td align="right"><input class="botao" type="submit" value="Cadastrar" /></td>
+        <tr>            
+            <td><input class="botao" type="submit" value="Cadastrar" /></td>
         </tr>
     </table>
-</form>
+</form>     
 <%@include file="include/footer.jsp" %>            

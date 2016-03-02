@@ -100,3 +100,23 @@ body {
 #login a {
     margin: 5px;    
 }
+
+.formulario {
+    text-align: center;
+    padding: 25px;    
+}
+
+.formulario input, .formulario select {
+    margin-top: 14px;       
+}
+
+.formulario .campo, .formulario select, .formulario .botao {
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 400px;
+    height: 25px;
+    text-align: center;
+    font-family: verdana;
+    font-size: 14px;    
+    letter-spacing: 2px;    
+}

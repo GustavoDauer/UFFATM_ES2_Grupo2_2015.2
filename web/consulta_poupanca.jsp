@@ -17,10 +17,8 @@
 %>    
 <h1>Consulta poupança</h1>
 <div>
-    Poupança: R$ <%=conta.getPoupanca()%>,<%=conta.getPoupanca_centavos()%> 
-    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />
-    <ul>
-        <li><a href="login.jsp">Página inicial da conta</a></li>            
-    </ul>    
+    Poupança
+    <br /><br />R$ <%=conta.getPoupanca()%>,<%if(conta.getPoupanca_centavos().length() == 1) { %>0<%=conta.getPoupanca_centavos()%><% } else { %><%=conta.getPoupanca_centavos()%><% } %><br /><br />
+    <input type="button" value="Imprimir comprovante" onclick="document.location = 'CaixaEletronicoController?command=printPage'" />    
 </div>            
 <%@include file="include/footer.jsp" %>                       

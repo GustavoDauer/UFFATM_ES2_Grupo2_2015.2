@@ -10,10 +10,9 @@
     <h1>Cadastrar Cliente</h1>
     <table class="formulario" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="right">Nome: </td> <td><input class="campo" type="text" name="nome" value="Anônimo" required="required" /></td>
+            <td><input class="campo" type="text" name="nome" placeholder="NOME" required="required" /></td>
         </tr>        
-        <tr>
-            <td></td>
+        <tr>           
             <td align="right"><input class="botao" type="submit" value="Cadastrar" /></td>
         </tr>
     </table>

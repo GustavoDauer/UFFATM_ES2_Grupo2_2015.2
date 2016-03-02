@@ -13,17 +13,15 @@
     <h1>Editar Cliente</h1>
     <table class="formulario" cellpadding="0" cellspacing="0">
         <tr>
-            <td align="right">Nome: </td> <td><input class="campo" type="text" name="nome" value="<%=cliente.getNome()%>" required="required" /></td>
+            <td><input class="campo" type="text" name="nome" value="<%=cliente.getNome()%>" required="required" /></td>
         </tr> 
-        <tr>
-            <td align="right">Status: </td> 
+        <tr>            
             <td>
                 <input type="radio" name="status" <%if (cliente.getStatus().equals("1")) { %> checked="checked"<% } %> value="1"/> Ativo 
                 <input type="radio" name="status" <%if (cliente.getStatus().equals("0")) { %> checked="checked"<% }%> value="0"/> Inativo
             </td>
         </tr>
-        <tr>
-            <td></td>
+        <tr>            
             <td align="right">
                 <input class="botao" type="submit" value="Editar" />
             </td>

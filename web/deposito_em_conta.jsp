@@ -16,15 +16,17 @@
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
 %>    
 <h1>Depositar em conta</h1>
-<p>
 <form action="ContaController" method="post">
-    <input type="hidden" name="command" value="deposit" /> 
-    <input type="hidden" name="id" value="<%=conta.getId()%>" /> 
-    R$ <input type="text" name="valor" class="campo" /> 
-    <input type="submit" value="Depositar" />    
-</form>
-</p>
-<ul>
-    <li><a href="login.jsp">Página inicial da conta</a></li>            
-</ul>                       
+    <table class="formulario">
+        <tr>
+            <td>
+                <input type="hidden" name="command" value="deposit" /> 
+                <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
+                <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
+                R$ <input type="text" name="valor" class="campo" /> 
+                <input type="submit" value="Depositar" />    
+            </td>
+        </tr>
+    </table>
+</form>                   
 <%@include file="include/footer.jsp" %>                       
