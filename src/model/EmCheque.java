@@ -5,10 +5,16 @@
  */
 package model;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author ccz
  */
 public class EmCheque extends Deposito {
+
+    public EmCheque(HttpServletRequest request) {
+        super(request);
+    }
     
 }

@@ -248,7 +248,7 @@ public class Conta implements DatabaseActions {
                     + "`poupanca_status`) "
                     + "VALUES"
                     + "("
-                    + limite + ","
+                    + "-" + limite + "," // ATENÇAO: LIMITE E MULTIPLICADO POR -1 PARA SER CADASTRADO NEGATIVO!
                     + "'" + agencia + "',"
                     + "'" + banco + "',"
                     + status + ","
@@ -301,7 +301,7 @@ public class Conta implements DatabaseActions {
 
             query = "UPDATE `BD_ES2`.`Conta` "
                     + "SET "
-                    + "`limite` = " + limite + ","
+                    + "`limite` = -" + limite + ","
                     + "`agencia` = '" + agencia + "',"
                     + "`banco` = '" + banco + "',"
                     + "`status` = " + status + ","
@@ -474,61 +474,9 @@ public class Conta implements DatabaseActions {
         }
     }
 
-    public boolean deposit(HttpServletRequest request) {
-        String idConta = request.getParameter("id");
-        String valor = request.getParameter("valor");
-
-        Connection conexao = null;
-        PreparedStatement stmt;
-        String query;
-        try {
-            conexao = Conexao.conectar();
-
-            query = "UPDATE `BD_ES2`.`Conta` "
-                    + "SET "
-                    + "`saldo` = saldo + " + valor
-                    + " WHERE `idConta` = " + id;
-
-            stmt = conexao.prepareStatement(query);
-            stmt.executeUpdate(query);
-
-            query = "SELECT `Conta`.`idConta`,"
-                    + "    `Conta`.`saldo`,"
-                    + "    `Conta`.`saldo_centavos`,"
-                    + "    `Conta`.`limite`,"
-                    + "    `Conta`.`agencia`,"
-                    + "    `Conta`.`banco`,"
-                    + "    `Conta`.`status`,"
-                    + "    `Conta`.`poupanca_status`,"
-                    + "    `Conta`.`poupanca_saldo`,"
-                    + "    `Conta`.`poupanca_saldo_centavos`"
-                    + "FROM `BD_ES2`.`Conta` "
-                    + "WHERE idConta = " + idConta;
-
-            stmt = conexao.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery(query);
-
-            if (rs.next()) {
-                Conta conta = new Conta();
-                conta.setId(rs.getString("idConta"));
-                conta.setAgencia(rs.getString("agencia"));
-                conta.setBanco(rs.getString("banco"));
-                conta.setLimite(rs.getString("limite"));
-                conta.setPoupanca_status(rs.getString("poupanca_status"));
-                conta.setSaldo(rs.getString("saldo"));
-                conta.setSaldo_centavos(rs.getString("saldo_centavos"));
-                conta.setStatus(rs.getString("status"));
-                conta.setPoupanca(rs.getString("poupanca_saldo"));
-                conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
-
-                request.getSession().setAttribute("conta", conta);
-            }
-
-            conexao.close();
-            return true;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            return false;
-        }
+    public boolean deposit(HttpServletRequest request) {                
+        Deposito deposito = new Deposito(request);
+        return deposito.insert();
     }
 
     public boolean saque(HttpServletRequest request) {

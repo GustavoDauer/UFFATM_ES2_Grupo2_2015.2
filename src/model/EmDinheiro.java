@@ -5,10 +5,16 @@
  */
 package model;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author ccz
  */
 public class EmDinheiro extends Deposito{
+
+    public EmDinheiro(HttpServletRequest request) {
+        super(request);
+    }
     
 }
