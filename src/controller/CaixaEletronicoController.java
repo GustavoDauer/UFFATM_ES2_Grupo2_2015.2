@@ -47,6 +47,7 @@ public class CaixaEletronicoController extends HttpServlet {
                     if (caixaEletronico.insert()) {
                         out.println("<div><b> Caixa Eletrônico inserido! </b></div>");
                         out.println("<div><a href='CaixaEletronicoController?command=viewAll'>Visualizar todos caixas eletrônicos</a>");
+                        response.sendRedirect("CaixaEletronicoController?command=viewAll");
                     } else {
                         out.println("<div><b> Caixa Eletrônico não inserido! </b></div>");
                     }
@@ -57,6 +58,7 @@ public class CaixaEletronicoController extends HttpServlet {
                     if (caixaEletronico.edit()) {
                         out.println("<div><b> Caixa Eletrônico editado! </b></div>");
                         out.println("<div><a href='CaixaEletronicoController?command=viewAll'>Visualizar todos caixas eletrônicos</a>");
+                        response.sendRedirect("CaixaEletronicoController?command=viewAll");
                     } else {
                         out.println("<div><b> Caixa Eletrônico não editado! </b></div>");
                     }
@@ -67,6 +69,7 @@ public class CaixaEletronicoController extends HttpServlet {
                     if (caixaEletronico.delete()) {
                         out.println("<div><b> Caixa Eletrônico deletado! </b></div>");
                         out.println("<div><a href='CaixaEletronicoController?command=viewAll'>Visualizar todos caixas eletrônicos</a>");
+                        response.sendRedirect("CaixaEletronicoController?command=viewAll");
                     } else {
                         out.println("<div><b> Caixa Eletrônico não deletado! </b></div>");
                     }

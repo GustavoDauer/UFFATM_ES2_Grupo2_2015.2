@@ -16,16 +16,12 @@ import javax.servlet.http.HttpSession;
  */
 public class CaixaEletronico implements DatabaseActions {
 
-    private String id, nota2, nota5, nota10, nota20;
+    private String id;
     private String nota50, nota100, cheque, papelComprovante, dataDoCaixa;
     static HttpSession sessao;
 
     public CaixaEletronico() {
-        id = "0";
-        nota2 = "";
-        nota5 = "";
-        nota10 = "";
-        nota20 = "";
+        id = "0";       
         nota50 = "";
         nota100 = "";
         cheque = "";
@@ -34,11 +30,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(HttpServletRequest request) {
-        id = request.getParameter("id");
-        nota2 = request.getParameter("nota2");
-        nota5 = request.getParameter("nota5");
-        nota10 = request.getParameter("nota10");
-        nota20 = request.getParameter("nota20");
+        id = request.getParameter("id");        
         nota50 = request.getParameter("nota50");
         nota100 = request.getParameter("nota100");
         cheque = request.getParameter("cheque");
@@ -47,11 +39,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(CaixaEletronico caixaEletronico) {
-        id = caixaEletronico.id;
-        nota2 = caixaEletronico.nota2;
-        nota5 = caixaEletronico.nota5;
-        nota10 = caixaEletronico.nota10;
-        nota20 = caixaEletronico.nota20;
+        id = caixaEletronico.id;        
         nota50 = caixaEletronico.nota50;
         nota100 = caixaEletronico.nota100;
         cheque = caixaEletronico.cheque;
@@ -65,38 +53,6 @@ public class CaixaEletronico implements DatabaseActions {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getNota2() {
-        return nota2;
-    }
-
-    public void setNota2(String nota2) {
-        this.nota2 = nota2;
-    }
-
-    public String getNota5() {
-        return nota5;
-    }
-
-    public void setNota5(String nota5) {
-        this.nota5 = nota5;
-    }
-
-    public String getNota10() {
-        return nota10;
-    }
-
-    public void setNota10(String nota10) {
-        this.nota10 = nota10;
-    }
-
-    public String getNota20() {
-        return nota20;
-    }
-
-    public void setNota20(String nota20) {
-        this.nota20 = nota20;
     }
 
     public String getNota50() {
@@ -155,13 +111,9 @@ public class CaixaEletronico implements DatabaseActions {
         try {
             conexao = Conexao.conectar();
 
-            query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`idCaixaEletronico`, `nota2`, `nota5`, `nota10`, `nota20`, `nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
+            query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`idCaixaEletronico`, `nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
                     + "VALUES ('"
-                    + id + "', '"
-                    + nota2 + "', '"
-                    + nota5 + "', '"
-                    + nota10 + "', '"
-                    + nota20 + "', '"
+                    + id + "', '"                    
                     + nota50 + "', '"
                     + nota100 + "', '"
                     + cheque + "', '"
@@ -187,11 +139,7 @@ public class CaixaEletronico implements DatabaseActions {
             conexao = Conexao.conectar();
 
             query = "UPDATE `BD_ES2`.`CaixaEletronico` "
-                    + "SET "
-                    + "`nota2` = '" + nota2 + "',"
-                    + "`nota5` = '" + nota5 + "',"
-                    + "`nota10` = '" + nota10 + "',"
-                    + "`nota20` = '" + nota20 + "',"
+                    + "SET "                   
                     + "`nota50` = '" + nota50 + "',"
                     + "`nota100` = '" + nota100 + "',"
                     + "`cheque` = '" + cheque + "',"
@@ -242,11 +190,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             if (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
-                caixaEletronico.setId(rs.getString("idCaixaEletronico"));
-                caixaEletronico.setNota2(rs.getString("nota2"));
-                caixaEletronico.setNota5(rs.getString("nota5"));
-                caixaEletronico.setNota10(rs.getString("nota10"));
-                caixaEletronico.setNota20(rs.getString("nota20"));
+                caixaEletronico.setId(rs.getString("idCaixaEletronico"));                
                 caixaEletronico.setNota50(rs.getString("nota50"));
                 caixaEletronico.setNota100(rs.getString("nota100"));
                 caixaEletronico.setCheque(rs.getString("cheque"));
@@ -294,11 +238,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             while (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
-                caixaEletronico.setId(rs.getString("idCaixaEletronico"));
-                caixaEletronico.setNota2(rs.getString("nota2"));
-                caixaEletronico.setNota5(rs.getString("nota5"));
-                caixaEletronico.setNota10(rs.getString("nota10"));
-                caixaEletronico.setNota20(rs.getString("nota20"));
+                caixaEletronico.setId(rs.getString("idCaixaEletronico"));                
                 caixaEletronico.setNota50(rs.getString("nota50"));
                 caixaEletronico.setNota100(rs.getString("nota100"));
                 caixaEletronico.setCheque(rs.getString("cheque"));
@@ -335,11 +275,7 @@ public class CaixaEletronico implements DatabaseActions {
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                setId(rs.getString("idCaixaEletronico"));
-                setNota2(rs.getString("nota2"));
-                setNota5(rs.getString("nota5"));
-                setNota10(rs.getString("nota10"));
-                setNota20(rs.getString("nota20"));
+                setId(rs.getString("idCaixaEletronico"));               
                 setNota50(rs.getString("nota50"));
                 setNota100(rs.getString("nota100"));
                 setCheque(rs.getString("cheque"));

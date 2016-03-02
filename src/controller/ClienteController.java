@@ -52,7 +52,7 @@ public class ClienteController extends HttpServlet {
                     if (client.insert()) {
                         out.println("<div><b> Cliente inserido! </b></div>");
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("ClienteController?command=viewAll");
                     } else {
                         out.println("<div><b> Cliente não inserido! </b></div>");
                     }
@@ -63,7 +63,7 @@ public class ClienteController extends HttpServlet {
                     if (client.edit()) {
                         out.println("<div><b> Cliente editado! </b></div>");
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("ClienteController?command=viewAll");
                     } else {
                         out.println("<div><b> Cliente não editado! </b></div>");
                     }
@@ -74,7 +74,7 @@ public class ClienteController extends HttpServlet {
                     if (client.delete()) {
                         out.println("<div><b> Cliente deletado! </b></div>");
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("ClienteController?command=viewAll");
                     } else {
                         out.println("<div><b> Cliente não deletado! </b></div>");
                     }
@@ -82,8 +82,7 @@ public class ClienteController extends HttpServlet {
                     break;
 
                 case "view":
-                    if (client.view(request)) {
-                        //out.println("<div><b> Redirecionar para visualização do cliente...! </b></div>");
+                    if (client.view(request)) {                        
                         request.getRequestDispatcher("cliente_view.jsp").forward(request, response);
                     } else {
                         out.println("<div><b> Cliente não pode ser visualizado! </b></div>");

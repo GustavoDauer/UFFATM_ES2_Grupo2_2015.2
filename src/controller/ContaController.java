@@ -52,7 +52,7 @@ public class ContaController extends HttpServlet {
                     if (conta.insert()) {
                         out.println("<div><b> Conta inserida e associada a cliente! </b></div>");
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todas contas</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("ContaController?command=viewAll");
                     } else {
                         out.println("<div><b> Conta não inserido e/ou não associada a cliente! </b></div>");
                     }
@@ -63,7 +63,7 @@ public class ContaController extends HttpServlet {
                     if (conta.edit()) {
                         out.println("<div><b> Conta editado! </b></div>");
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todos contas</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("ContaController?command=viewAll");
                     } else {
                         out.println("<div><b> Conta não editado! </b></div>");
                     }
@@ -74,7 +74,7 @@ public class ContaController extends HttpServlet {
                     if (conta.delete()) {
                         out.println("<div><b> Conta deletado! </b></div>");
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todos contas</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("ContaController?command=viewAll");
                     } else {
                         out.println("<div><b> Conta não deletado! </b></div>");
                     }
@@ -102,7 +102,7 @@ public class ContaController extends HttpServlet {
                     if (conta.deposit(request)) {
                         out.println("<div><b> Depositado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("consulta_saldo.jsp");
                     } else {
                         out.println("<div><b> Depósito não efetuado! </b></div>");
                     }
@@ -113,7 +113,7 @@ public class ContaController extends HttpServlet {
                     if (conta.saque(request)) {
                         out.println("<div><b> Sacado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("consulta_saldo.jsp");
                     } else {
                         out.println("<div><b> Saque não efetuado! </b></div>");
                     }
@@ -123,7 +123,7 @@ public class ContaController extends HttpServlet {
                     if (conta.pagamento(request)) {
                         out.println("<div><b> Pagamento feito com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
-                        out.println("<div><a href='index.jsp'>Home</a>");
+                        response.sendRedirect("consulta_saldo.jsp");
                     } else {
                         out.println("<div><b> Pagamento não efetuado! </b></div>");
                     }
