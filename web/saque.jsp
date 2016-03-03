@@ -21,7 +21,8 @@
         <tr>
             <td>
                 <input type="hidden" name="command" value="saque" /> 
-                <input type="hidden" name="id" value="<%=conta.getId()%>" /> 
+                <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
+                <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
                 R$ 
                 <select name="valor">
                     <%
