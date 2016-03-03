@@ -19,7 +19,8 @@
 <div>
     <form action="ContaController" method="post">
         <input type="hidden" name="command" value="pagamento" /> 
-        <input type="hidden" name="id" value="<%=conta.getId()%>" /> 
+        <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
+        <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
         <table class="formulario">            
             <tr>                
                 <td>
