@@ -29,7 +29,8 @@
                         <li><a href="login.jsp">Página inicial da conta</a></li>                  
                         <li><a href="consulta_saldo.jsp">Consulta saldo</a></li>
                         <li><a href="consulta_poupanca.jsp">Consulta poupança</a></li>
-                        <li><a href="consulta_limite.jsp">Consulta limite</a></li>                
+                        <li><a href="consulta_limite.jsp">Consulta limite</a></li>   
+                        <li><a href="consulta_extrato.jsp">Consulta extrato</a></li>
                         <li><a href="deposito_em_conta.jsp">Depósito</a></li>
                         <!--<li><a href="deposito_terceiro.jsp">Depósito à terceiro</a></li>                -->
                         <li><a href="saque.jsp">Saque</a></li>                                

@@ -52,4 +52,59 @@ public class Transacao {
         idContaTransferencia = request.getParameter("idContaTransferencia");;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public String getIdConta() {
+        return idConta;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public String getValor_centavos() {
+        return valor_centavos;
+    }
+
+    public tipoTransacao getTipo() {
+        return tipo;
+    }
+
+    public String getIdContaTransferencia() {
+        return idContaTransferencia;
+    }    
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public void setIdConta(String idConta) {
+        this.idConta = idConta;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
+    public void setValor_centavos(String valor_centavos) {
+        this.valor_centavos = valor_centavos;
+    }
+
+    public void setTipo(tipoTransacao tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setIdContaTransferencia(String idContaTransferencia) {
+        this.idContaTransferencia = idContaTransferencia;
+    }    
 }

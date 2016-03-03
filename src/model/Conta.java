@@ -474,18 +474,59 @@ public class Conta implements DatabaseActions {
         }
     }
 
-    public boolean deposit(HttpServletRequest request) {                
+    public boolean deposit(HttpServletRequest request) {
         Deposito deposito = new Deposito(request);
         return deposito.insert();
     }
 
     public boolean saque(HttpServletRequest request) {
         Saque saque = new Saque(request);
-        return saque.insert();                
+        return saque.insert();
     }
 
     public boolean pagamento(HttpServletRequest request) {
         Pagamento pagamento = new Pagamento(request);
         return pagamento.insert();
+    }
+
+    public ArrayList<Transacao> getExtrato() {
+        ArrayList<Transacao> transacaoList = new ArrayList();
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "SELECT `Transacao`.`data`,"
+                    + "    `Transacao`.`Cliente_idCliente`,"
+                    + "    `Transacao`.`Conta_idConta`,"
+                    + "    `Transacao`.`valor`,"
+                    + "    `Transacao`.`valor_centavos`,"
+                    + "    `Transacao`.`tipoTransacao`,"
+                    + "    `Transacao`.`Transferencia_Conta_idConta` "
+                    + "FROM `BD_ES2`.`Transacao` "
+                    + "WHERE Conta_idConta = " + id;
+
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+           
+            while (rs.next()) {
+                Transacao transacao = new Transacao();
+                transacao.setData(rs.getString("data"));
+                transacao.setIdCliente(rs.getString("Cliente_idCliente"));
+                transacao.setIdConta(rs.getString("Conta_idConta"));
+                transacao.setIdContaTransferencia(rs.getString("Transferencia_Conta_idConta"));
+                transacao.setTipo(Transacao.tipoTransacao.valueOf(rs.getString("tipoTransacao")));
+                transacao.setValor(rs.getString("valor"));
+                transacao.setValor_centavos(rs.getString("valor_centavos"));  
+                transacaoList.add(transacao);
+            }            
+
+            conexao.close();
+            return transacaoList;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return transacaoList;
+        }        
     }
 }
