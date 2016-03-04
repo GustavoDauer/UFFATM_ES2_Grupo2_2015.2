@@ -78,7 +78,6 @@ public class Transferencia extends Transacao implements DatabaseActions {
                 stmt = conexao.prepareStatement(query);
                 ResultSet rsa = stmt.executeQuery(query);
                 if (rsa.next()) {
-                    System.out.println("entrou aki");
                     query = "UPDATE `BD_ES2`.`Conta` "
                             + "SET "
                             + "`saldo` = `saldo` + " + valor
@@ -131,8 +130,10 @@ public class Transferencia extends Transacao implements DatabaseActions {
                             + this.valor + ", "
                             + this.valor_centavos + ", "
                             + "'" + this.tipo + "', "
-                            + "NULL"
+                            + "'" + this.idConta + "'"
                             + ")";
+                    stmt = conexao.prepareStatement(query);
+                    stmt.executeUpdate(query);
                 }
             } else {
                 return false;
@@ -141,7 +142,6 @@ public class Transferencia extends Transacao implements DatabaseActions {
             conexao.close();
             return true;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            System.out.println("ex " + ex.getMessage());
             return false;
         }
     }
