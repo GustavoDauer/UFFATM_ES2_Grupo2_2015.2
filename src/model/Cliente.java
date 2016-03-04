@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.sql.Connection;
@@ -216,5 +211,58 @@ public class Cliente implements DatabaseActions, Comparable<Cliente> {
         }
         
         return 0;
+    }
+    
+    public boolean insertComTodosCampos() {
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "INSERT INTO `BD_ES2`.`Cliente` "
+                    + "VALUES(" + id + ",'" + nome + "'," + status + ")";
+            stmt = conexao.prepareStatement(query);
+            stmt.executeUpdate(query);
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+    
+    public static Cliente findById(String id, int status) {
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        Cliente cliente = new Cliente();
+        try {
+            conexao = Conexao.conectar();
+
+            query = "SELECT `Cliente`.`idCliente`,"
+                    + "`Cliente`.`nome`,"
+                    + "`Cliente`.`status` "
+                    + "FROM `BD_ES2`.`Cliente` "
+                    + "WHERE `idCliente` = " + id;
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.last()) {
+                cliente.setId(rs.getString("idCliente"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setStatus(rs.getString("status"));
+
+                conexao.close();
+                status = 1;
+            } else {
+                conexao.close();
+                status = -1;
+            }
+            return cliente;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            status = -2;
+            return null;
+        }
     }
 }
