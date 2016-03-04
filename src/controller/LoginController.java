@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CaixaEletronico;
-import model.Cliente;
+import model.Gerente;
 
 /**
  *
@@ -42,21 +42,19 @@ public class LoginController extends HttpServlet {
             out.println("<title>Servlet LoginController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");                     
-            
+            out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
+
             CaixaEletronico caixaEletronico = new CaixaEletronico();
-            
-         
-            
-           
-            if((caixaEletronico.login(request))) {              
+
+            if ((caixaEletronico.login(request))) {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-            else {
+            } else if (Gerente.login(request)) {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            } else {
                 request.setAttribute("erroLogin", "1");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
-            
+
             out.println("</body>");
             out.println("</html>");
         }

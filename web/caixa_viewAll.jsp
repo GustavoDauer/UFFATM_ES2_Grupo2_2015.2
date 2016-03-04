@@ -8,23 +8,46 @@
 <%@page import="java.util.ArrayList"%>
 <%@include file="include/header.jsp" %>                       
 <h1>Lista de todos Caixas Eletrônicos</h1>
-<%
-    ArrayList<CaixaEletronico> todosCaixasEletronicos = (ArrayList) request.getAttribute("todosCaixasEletronicos");
-    for (CaixaEletronico caixa : todosCaixasEletronicos) {
-%>
-<ul>
-    <li> 
-        ID: <%=caixa.getId()%> | 
-        Nota 50: <%=caixa.getNota50()%> | 
-        Nota 100: <%=caixa.getNota100()%> | 
-        Cheque: <%=caixa.getCheque()%> | 
-        Comprovante: <%=caixa.getPapelComprovante()%> | 
-        Data: <%=CaixaEletronico.toDateNormalFormat(caixa.getDataDoCaixa())%>
-        <input type="button" value="Editar" onclick="document.location = 'CaixaEletronicoController?command=view&id=<%=caixa.getId()%>'" />
-        <input type="button" value="Remover" onclick="document.location = 'CaixaEletronicoController?command=delete&id=<%=caixa.getId()%>'" />
-    </li> 
-</ul>
-<%
-    }
-%>
+<table class="dadosTabelados" cellpadding="0" cellspacing="0">    
+    <tr>
+        <th>ID</th>
+        <th>Notas 50</th>
+        <th>Notas 100</th>
+        <th>Cheque</th>
+        <th>Comprovante</th>        
+        <th>Data</th>
+        <th>&nbsp;</th>
+    </tr>
+    <%
+        ArrayList<CaixaEletronico> todosCaixasEletronicos = (ArrayList) request.getAttribute("todosCaixasEletronicos");
+        for (CaixaEletronico caixa : todosCaixasEletronicos) {
+    %>
+    <tr>
+        <td> 
+            <%=caixa.getId()%>
+        </td>
+        <td>
+            <%=caixa.getNota50()%>
+        </td>
+        <td>
+            <%=caixa.getNota100()%>
+        </td>
+        <td>
+            <%=caixa.getCheque()%>
+        </td>
+        <td>
+            <%=caixa.getPapelComprovante()%>
+        </td>
+        <td>
+            <%=CaixaEletronico.toDateNormalFormat(caixa.getDataDoCaixa())%>
+        </td>
+        <td>
+            <input type="button" value="Editar" onclick="document.location = 'CaixaEletronicoController?command=view&id=<%=caixa.getId()%>'" />
+            <input type="button" value="Remover" onclick="document.location = 'CaixaEletronicoController?command=delete&id=<%=caixa.getId()%>'" />
+        </td>
+    </tr>
+    <%
+        }
+    %>
+</table>
 <%@include file="include/footer.jsp" %>                

@@ -19,11 +19,11 @@
     ArrayList<Transacao> transacaoList = conta.getExtrato();
 %>    
 <h1>Consulta extrato</h1>
-<table>
+<table class="dadosTabelados" cellpadding="0" cellspacing="0">    
     <tr>
-        <td>Transação</td>
-        <td>Valor</td>        
-    </tr>
+        <th>Transação</th>
+        <th>Valor</th>                   
+    </tr>    
     <%
         for (Transacao transacao : transacaoList) {
     %>

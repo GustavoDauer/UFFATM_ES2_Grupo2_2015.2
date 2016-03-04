@@ -31,7 +31,10 @@ public class LogoutController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         if (request.getSession(false) != null) {
-            request.getSession(false).invalidate();
+            //request.getSession(false).invalidate();
+            request.getSession(true).setAttribute("cliente", null);
+            request.getSession(true).setAttribute("gerente", null);
+            request.getSession(true).setAttribute("caixaEletronico", null);
             response.sendRedirect("index.jsp");
         }
 

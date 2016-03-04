@@ -19,11 +19,11 @@
                 <td id="menu">
                     <!-- MENU -->
 
-                     <ul>
+                    <ul>
                         <!-- Home -->                
                         <li><a href="index.jsp">Página inicial</a></li>                                                       
                     </ul>                   
-                     <%//if(CaixaEletronico.getSessao() != null && CaixaEletronico.getSessao().getAttribute("Cliente") != null) {%>                    
+                    <%if (CaixaEletronico.getSessao() != null && CaixaEletronico.getSessao().getAttribute("cliente") != null) {%>                    
                     <ul>
                         <!-- Usuário -->    
                         <li><a href="login.jsp">Página inicial da conta</a></li>                  
@@ -37,7 +37,11 @@
                         <li><a href="pagamento_autenticado.jsp">Pagamentos</a></li>                
                         <li><a href="transferencia.jsp">Transferência</a></li>                
                     </ul>
-                    <br />
+                    <ul>
+                        <li><a href="LogoutController">LogOut</a></li>
+                    </ul>
+                    <%}%>
+                    <%if (CaixaEletronico.getSessao() != null && CaixaEletronico.getSessao().getAttribute("gerente") != null) {%>                                        
                     <ul>
                         <!-- Gerência -->                
                         <li><a href="cliente_insert.jsp">Cadastrar Cliente</a></li>
@@ -50,12 +54,9 @@
                     <ul>
                         <li><a href="LogoutController">LogOut</a></li>
                     </ul>
-
-                <%//}%>
-
-
-            <td id="conteudo">
-                <!-- CONTEUDO -->
+                    <%}%>
+                <td id="conteudo">
+                    <!-- CONTEUDO -->
 
 
 

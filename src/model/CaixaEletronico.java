@@ -21,7 +21,7 @@ public class CaixaEletronico implements DatabaseActions {
     static HttpSession sessao;
 
     public CaixaEletronico() {
-        id = "0";       
+        id = "0";
         nota50 = "";
         nota100 = "";
         cheque = "";
@@ -30,7 +30,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(HttpServletRequest request) {
-        id = request.getParameter("id");        
+        id = request.getParameter("id");
         nota50 = request.getParameter("nota50");
         nota100 = request.getParameter("nota100");
         cheque = request.getParameter("cheque");
@@ -39,7 +39,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(CaixaEletronico caixaEletronico) {
-        id = caixaEletronico.id;        
+        id = caixaEletronico.id;
         nota50 = caixaEletronico.nota50;
         nota100 = caixaEletronico.nota100;
         cheque = caixaEletronico.cheque;
@@ -113,7 +113,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`idCaixaEletronico`, `nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
                     + "VALUES ('"
-                    + id + "', '"                    
+                    + id + "', '"
                     + nota50 + "', '"
                     + nota100 + "', '"
                     + cheque + "', '"
@@ -139,7 +139,7 @@ public class CaixaEletronico implements DatabaseActions {
             conexao = Conexao.conectar();
 
             query = "UPDATE `BD_ES2`.`CaixaEletronico` "
-                    + "SET "                   
+                    + "SET "
                     + "`nota50` = '" + nota50 + "',"
                     + "`nota100` = '" + nota100 + "',"
                     + "`cheque` = '" + cheque + "',"
@@ -190,7 +190,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             if (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
-                caixaEletronico.setId(rs.getString("idCaixaEletronico"));                
+                caixaEletronico.setId(rs.getString("idCaixaEletronico"));
                 caixaEletronico.setNota50(rs.getString("nota50"));
                 caixaEletronico.setNota100(rs.getString("nota100"));
                 caixaEletronico.setCheque(rs.getString("cheque"));
@@ -238,7 +238,7 @@ public class CaixaEletronico implements DatabaseActions {
 
             while (rs.next()) {
                 CaixaEletronico caixaEletronico = new CaixaEletronico();
-                caixaEletronico.setId(rs.getString("idCaixaEletronico"));                
+                caixaEletronico.setId(rs.getString("idCaixaEletronico"));
                 caixaEletronico.setNota50(rs.getString("nota50"));
                 caixaEletronico.setNota100(rs.getString("nota100"));
                 caixaEletronico.setCheque(rs.getString("cheque"));
@@ -255,8 +255,7 @@ public class CaixaEletronico implements DatabaseActions {
         }
     }
 
-    public boolean login(HttpServletRequest request) {
-        //String numeroCartao = request.getParameter("numeroCartao"); // Será usado no futuro
+    public boolean login(HttpServletRequest request) {        
         String idCliente = request.getParameter("numeroCartao"); // Por enquanto o numeroCartao é o ID do cliente, então
         //  vamos consultar logo o idCliente
         String senha = request.getParameter("senha");
@@ -275,7 +274,7 @@ public class CaixaEletronico implements DatabaseActions {
             ResultSet rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                setId(rs.getString("idCaixaEletronico"));               
+                setId(rs.getString("idCaixaEletronico"));
                 setNota50(rs.getString("nota50"));
                 setNota100(rs.getString("nota100"));
                 setCheque(rs.getString("cheque"));
