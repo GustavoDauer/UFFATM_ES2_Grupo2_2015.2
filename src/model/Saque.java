@@ -60,8 +60,31 @@ public class Saque extends Transacao implements DatabaseActions {
                 conta.setPoupanca(rs.getString("poupanca_saldo"));
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
             }
+            CaixaEletronico atm = (CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico");
+            int iValor = Integer.parseInt(valor);
+            int iNota100 = Integer.parseInt(atm.getNota100());
+            int iNota50 = Integer.parseInt(atm.getNota50());
+            boolean pagPossivel = true;
 
-            if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) /*verificar notas caixa eletronico &&*/) {
+            while (iValor > 0 && (iNota100 > 0 || iNota50 > 0)) {
+                if ((iNota100 - 1 >= 0) && (iValor - 100 >= 0)) {
+                    iNota100--;
+                    iValor -= 100;
+                } else if ((iNota50 - 1 >= 0) && (iValor - 50 >= 0)) {
+                    iNota50--;
+                    iValor -= 50;
+                }
+            }
+
+            if (iValor == 0) {
+                atm.setNota100(String.valueOf(iNota100));
+                atm.setNota50(String.valueOf(iNota50));
+                pagPossivel = true;
+            } else {
+                pagPossivel = false;
+            }
+
+            if (((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) && pagPossivel) {
                 query = "UPDATE `BD_ES2`.`Conta` "
                         + "SET "
                         + "`saldo` = `saldo` - " + valor
@@ -72,6 +95,16 @@ public class Saque extends Transacao implements DatabaseActions {
 
                 conta.setSaldo(String.valueOf((Integer.parseInt(conta.saldo) - Integer.parseInt(valor))));
                 CaixaEletronico.sessao.setAttribute("conta", conta);
+
+                // Atualiza valores no BD
+                query = "UPDATE `BD_ES2`.`CaixaEletronico`"
+                        + "SET "
+                        + " `nota50` = " + atm.getNota50() + " ,"
+                        + " `nota100` = " + atm.getNota100()
+                        + " WHERE idCaixaEletronico = " + atm.getId();
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+                CaixaEletronico.sessao.setAttribute("caixaEletronico", atm);
 
                 // Armazena transação            
                 query = "INSERT INTO `BD_ES2`.`Transacao` ("

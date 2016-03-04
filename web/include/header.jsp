@@ -35,6 +35,7 @@
                         <!--<li><a href="deposito_terceiro.jsp">Depósito à terceiro</a></li>                -->
                         <li><a href="saque.jsp">Saque</a></li>                                
                         <li><a href="pagamento_autenticado.jsp">Pagamentos</a></li>                
+                        <li><a href="transferencia.jsp">Transferência</a></li>                
                     </ul>
                     <br />
                     <ul>

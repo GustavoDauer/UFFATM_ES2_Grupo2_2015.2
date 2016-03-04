@@ -109,7 +109,7 @@ public class ContaController extends HttpServlet {
 
                     break;
 
-                case "saque":                    
+                case "saque":
                     if (conta.saque(request)) {
                         out.println("<div><b> Sacado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
@@ -126,6 +126,14 @@ public class ContaController extends HttpServlet {
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
                         out.println("<div><b> Pagamento não efetuado! </b></div>");
+                    }
+                case "transferencia":
+                    if (conta.transferencia(request)) {
+                        out.println("<div><b> Transferência efetuada com sucesso!</b></div>");
+                        out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
+                        response.sendRedirect("consulta_saldo.jsp");
+                    } else {
+                        out.println("<div><b> Transferência não efetuada! </b></div>");
                     }
 
                     break;

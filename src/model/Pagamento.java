@@ -60,7 +60,7 @@ public class Pagamento extends Transacao implements DatabaseActions {
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
 
                 CaixaEletronico.sessao.setAttribute("conta", conta);
-            }
+            }                        
 
             if ((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) {
                 query = "UPDATE `BD_ES2`.`Conta` "

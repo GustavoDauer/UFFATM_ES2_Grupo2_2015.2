@@ -488,6 +488,11 @@ public class Conta implements DatabaseActions {
         Pagamento pagamento = new Pagamento(request);
         return pagamento.insert();
     }
+    
+    public boolean transferencia(HttpServletRequest request) {
+        Transferencia transferencia = new Transferencia(request);
+        return transferencia.insert();
+    }
 
     public ArrayList<Transacao> getExtrato() {
         ArrayList<Transacao> transacaoList = new ArrayList();
