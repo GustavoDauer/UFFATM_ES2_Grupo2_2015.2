@@ -130,7 +130,7 @@ public class Transferencia extends Transacao implements DatabaseActions {
                             + this.valor + ", "
                             + this.valor_centavos + ", "
                             + "'" + this.tipo + "', "
-                            + "'" + this.idConta + "'"
+                            + "NULL"
                             + ")";
                     stmt = conexao.prepareStatement(query);
                     stmt.executeUpdate(query);
