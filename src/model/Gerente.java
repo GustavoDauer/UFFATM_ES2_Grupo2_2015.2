@@ -41,7 +41,6 @@ public class Gerente {
     public static boolean login(HttpServletRequest request) {
         String nome = request.getParameter("nome");
         String senha = request.getParameter("senha");
-
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -67,7 +66,7 @@ public class Gerente {
                 }
 
                 conexao.close();
-            } else {
+            } else if (nome != null && senha != null) {
                 if (nome.equals("leomurta") && senha.equals("leomurta")) {
                     gerente.setNome(nome);
                     gerente.setSenha(senha);

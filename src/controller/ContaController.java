@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,7 +55,8 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todas contas</a>");
                         response.sendRedirect("ContaController?command=viewAll");
                     } else {
-                        out.println("<div><b> Conta não inserido e/ou não associada a cliente! </b></div>");
+                        request.setAttribute("msgError", "Conta não inserido e/ou não associada a cliente!");
+                        request.getRequestDispatcher("/conta_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -65,7 +67,8 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todos contas</a>");
                         response.sendRedirect("ContaController?command=viewAll");
                     } else {
-                        out.println("<div><b> Conta não editado! </b></div>");
+                        request.setAttribute("msgError", "Conta não editada!");
+                        request.getRequestDispatcher("/conta_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -76,7 +79,8 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='ContaController?command=viewAll'>Visualizar todos contas</a>");
                         response.sendRedirect("ContaController?command=viewAll");
                     } else {
-                        out.println("<div><b> Conta não deletado! </b></div>");
+                        request.setAttribute("msgError", "Conta não deletada!");
+                        request.getRequestDispatcher("/conta_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -85,7 +89,8 @@ public class ContaController extends HttpServlet {
                     if (conta.view(request)) {
                         request.getRequestDispatcher("conta_view.jsp").forward(request, response);
                     } else {
-                        out.println("<div><b> Conta não pode ser visualizado! </b></div>");
+                        request.setAttribute("msgError", "Conta não pode ser visualizado!");
+                        request.getRequestDispatcher("/conta_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -94,7 +99,8 @@ public class ContaController extends HttpServlet {
                     if (conta.viewAll(request)) {
                         request.getRequestDispatcher("conta_viewAll.jsp").forward(request, response);
                     } else {
-                        out.println("<div><b> Conta não pode ser visualizado! </b></div>");
+                        request.setAttribute("msgError", "Conta não pode ser visualizado!");
+                        request.getRequestDispatcher("/conta_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -104,7 +110,8 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        out.println("<div><b> Depósito não efetuado! </b></div>");
+                        request.setAttribute("msgError", "Depósito não efetuado!");
+                        request.getRequestDispatcher("/deposito_em_conta.jsp").forward(request, response);
                     }
 
                     break;
@@ -115,7 +122,8 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        out.println("<div><b> Saque não efetuado! </b></div>");
+                        request.setAttribute("msgError", "Saque não efetuado!");
+                        request.getRequestDispatcher("/saque.jsp").forward(request, response);
                     }
 
                     break;
@@ -125,15 +133,19 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        out.println("<div><b> Pagamento não efetuado! </b></div>");
+                        request.setAttribute("msgError", "Pagamento não efetuado!");
+                        request.getRequestDispatcher("/pagamento_autenticado.jsp").forward(request, response);;
                     }
+
+                    break;
                 case "transferencia":
                     if (conta.transferencia(request)) {
                         out.println("<div><b> Transferência efetuada com sucesso!</b></div>");
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        out.println("<div><b> Transferência não efetuada! </b></div>");
+                        request.setAttribute("msgError", "Transferência não efetuada!");
+                        request.getRequestDispatcher("/transferencia.jsp").forward(request, response);
                     }
 
                     break;

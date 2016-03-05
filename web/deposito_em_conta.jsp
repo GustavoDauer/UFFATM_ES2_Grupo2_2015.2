@@ -16,17 +16,24 @@
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
 %>    
 <h1>Depositar em conta</h1>
-<form action="ContaController" method="post">
-    <table class="formulario">
-        <tr>
-            <td>
-                <input type="hidden" name="command" value="deposit" /> 
-                <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
-                <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
-                R$ <input type="text" name="valor" class="campo" /> 
-                <input type="submit" value="Depositar" />    
-            </td>
-        </tr>
-    </table>
-</form>                   
+<div>
+    <form action="ContaController" method="post">
+        <input type="hidden" name="command" value="deposit" /> 
+        <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
+        <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
+        <table class="formulario">
+            <tr>
+                <td>
+                    <input type="text" name="valor" placeholder="VALOR"class="campo" /> <br />
+                    <input type="submit" value="Depositar" class="botao" /><br /><br />
+                    <%
+                        if (request.getAttribute("msgError") != null) {
+                            out.println(request.getAttribute("msgError"));
+                        }
+                    %>    
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>                
 <%@include file="include/footer.jsp" %>                       

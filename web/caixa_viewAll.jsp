@@ -43,7 +43,12 @@
         </td>
         <td>
             <input type="button" value="Editar" onclick="document.location = 'CaixaEletronicoController?command=view&id=<%=caixa.getId()%>'" />
-            <input type="button" value="Remover" onclick="document.location = 'CaixaEletronicoController?command=delete&id=<%=caixa.getId()%>'" />
+            <input type="button" value="Remover" onclick="document.location = 'CaixaEletronicoController?command=delete&id=<%=caixa.getId()%>'" /><br /> <br />
+            <%
+                if (request.getAttribute("msgError") != null) {
+                    out.println(request.getAttribute("msgError"));
+                }
+            %>  
         </td>
     </tr>
     <%

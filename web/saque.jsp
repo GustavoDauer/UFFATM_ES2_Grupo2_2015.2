@@ -17,12 +17,13 @@
 %>    
 <h1>Saque</h1>
 <form action="ContaController" method="post">    
+    <input type="hidden" name="command" value="saque" /> 
+    <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
+    <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
     <table class="formulario">        
         <tr>
             <td>
-                <input type="hidden" name="command" value="saque" /> 
-                <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
-                <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
+
                 R$ 
                 <select name="valor">
                     <%
@@ -32,8 +33,13 @@
                     <%
                         }
                     %>
-                </select>
-                <input type="submit" value="Sacar" />    
+                </select> <br />
+                <input type="submit" value="Sacar" class="botao" /><br /><br />
+                <%
+                    if (request.getAttribute("msgError") != null) {
+                        out.println(request.getAttribute("msgError"));
+                    }
+                %>
             </td>
         </tr>
     </table>

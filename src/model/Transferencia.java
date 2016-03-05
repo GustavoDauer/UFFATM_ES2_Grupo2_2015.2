@@ -76,8 +76,8 @@ public class Transferencia extends Transacao implements DatabaseActions {
                         + "FROM `BD_ES2`.`Conta` "
                         + " WHERE `idConta` = " + idContaTransferencia;
                 stmt = conexao.prepareStatement(query);
-                ResultSet rsa = stmt.executeQuery(query);
-                if (rsa.next()) {
+                ResultSet rs1 = stmt.executeQuery(query);
+                if (rs1.next()) {
                     query = "UPDATE `BD_ES2`.`Conta` "
                             + "SET "
                             + "`saldo` = `saldo` + " + valor
@@ -103,7 +103,7 @@ public class Transferencia extends Transacao implements DatabaseActions {
                             + "CURRENT_TIMESTAMP(), "
                             + this.idCliente + ", "
                             + this.idConta + ", "
-                            + this.valor + ", "
+                            + "-" + this.valor + ", "
                             + this.valor_centavos + ", "
                             + "'" + this.tipo + "', "
                             + "'" + this.idContaTransferencia + "'"
@@ -111,6 +111,36 @@ public class Transferencia extends Transacao implements DatabaseActions {
 
                     stmt = conexao.prepareStatement(query);
                     stmt.executeUpdate(query);
+
+                    query = "SELECT `Cliente_idCliente` "
+                            + "FROM `BD_ES2`.`cliente_has_conta` "
+                            + " WHERE `Conta_idConta` = " + idContaTransferencia;
+                    stmt = conexao.prepareStatement(query);
+                    ResultSet rs2 = stmt.executeQuery(query);
+
+                    rs2.next();
+
+                    query = "INSERT INTO `BD_ES2`.`Transacao` ("
+                            + "`data`, "
+                            + "`Cliente_idCliente`, "
+                            + "`Conta_idConta`, "
+                            + "`valor`, "
+                            + "`valor_centavos`, "
+                            + "`tipoTransacao`, "
+                            + "`Transferencia_Conta_idConta`"
+                            + ") "
+                            + "VALUES ("
+                            + "CURRENT_TIMESTAMP(), "
+                            + rs2.getString("Cliente_idCliente") + ", "
+                            + this.idContaTransferencia + ", "
+                            + "+" + this.valor + ", "
+                            + this.valor_centavos + ", "
+                            + "'" + this.tipo + "', "
+                            + "'" + this.idConta + "'"
+                            + ")";
+                    stmt = conexao.prepareStatement(query);
+                    stmt.executeUpdate(query);
+
                 } else {
                     // Conta de outro banco                    
                     // Armazena transação            
@@ -127,7 +157,7 @@ public class Transferencia extends Transacao implements DatabaseActions {
                             + "CURRENT_TIMESTAMP(), "
                             + this.idCliente + ", "
                             + this.idConta + ", "
-                            + this.valor + ", "
+                            + "-" + this.valor + ", "
                             + this.valor_centavos + ", "
                             + "'" + this.tipo + "', "
                             + "NULL"

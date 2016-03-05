@@ -54,7 +54,8 @@ public class ClienteController extends HttpServlet {
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
                         response.sendRedirect("ClienteController?command=viewAll");
                     } else {
-                        out.println("<div><b> Cliente não inserido! </b></div>");
+                        request.setAttribute("msgError", "Cliente não inserido!");
+                        request.getRequestDispatcher("/cliente_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -65,7 +66,8 @@ public class ClienteController extends HttpServlet {
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
                         response.sendRedirect("ClienteController?command=viewAll");
                     } else {
-                        out.println("<div><b> Cliente não editado! </b></div>");
+                        request.setAttribute("msgError", "Cliente não editado!");
+                        request.getRequestDispatcher("/cliente_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -76,25 +78,28 @@ public class ClienteController extends HttpServlet {
                         out.println("<div><a href='ClienteController?command=viewAll'>Visualizar todos clientes</a>");
                         response.sendRedirect("ClienteController?command=viewAll");
                     } else {
-                        out.println("<div><b> Cliente não deletado! </b></div>");
+                        request.setAttribute("msgError", "Cliente não deletado!");
+                        request.getRequestDispatcher("/cliente_viewAll.jsp").forward(request, response);
                     }
 
                     break;
 
                 case "view":
-                    if (client.view(request)) {                        
+                    if (client.view(request)) {
                         request.getRequestDispatcher("cliente_view.jsp").forward(request, response);
                     } else {
-                        out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
+                        request.setAttribute("msgError", "Cliente não pode ser visualizado!");
+                        request.getRequestDispatcher("/cliente_viewAll.jsp").forward(request, response);
                     }
 
                     break;
 
-                case "viewAll":                    
-                    if (client.viewAll(request)) {                        
+                case "viewAll":
+                    if (client.viewAll(request)) {
                         request.getRequestDispatcher("cliente_viewAll.jsp").forward(request, response);
                     } else {
-                        out.println("<div><b> Cliente não pode ser visualizado! </b></div>");
+                        request.setAttribute("msgError", "Cliente não pode ser visualizado!");
+                        request.getRequestDispatcher("/cliente_viewAll.jsp").forward(request, response);
                     }
 
                     break;

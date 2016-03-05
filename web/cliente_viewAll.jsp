@@ -27,7 +27,12 @@
         </td>        
         <td>
             <input type="button" value="Editar" onclick="document.location = 'ClienteController?command=view&id=<%=cliente.getId()%>'" />
-            <input type="button" value="Remover" onclick="document.location = 'ClienteController?command=delete&id=<%=cliente.getId()%>'" />
+            <input type="button" value="Remover" onclick="document.location = 'ClienteController?command=delete&id=<%=cliente.getId()%>'" /><br /> <br />
+            <%
+                if (request.getAttribute("msgError") != null) {
+                    out.println(request.getAttribute("msgError"));
+                }
+            %>  
         </td>
     </tr>
     <%

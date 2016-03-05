@@ -26,7 +26,13 @@
                 <td>
                     <input type="text" placeholder="NÚMERO DO DOCUMENTO" name="numeroDocumento" class="campo" /> <br />
                     <input type="text" name="valor" placeholder="Valor" class="campo" /> <br />
-                    <input type="submit" value="Pagar" class="botao" />   
+                    <input type="submit" value="Pagar" class="botao" /> 
+                    <br /><br />
+                    <%
+                        if (request.getAttribute("msgError") != null) {
+                            out.println(request.getAttribute("msgError"));
+                        }
+                    %>
                 </td>
             </tr>
         </table> 

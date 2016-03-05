@@ -45,13 +45,13 @@ public class LoginController extends HttpServlet {
             out.println("<h1>Servlet LoginController at " + request.getContextPath() + "</h1>");
 
             CaixaEletronico caixaEletronico = new CaixaEletronico();
-
-            if ((caixaEletronico.login(request))) {
+            
+            if ((caixaEletronico.login(request))) {                
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else if (Gerente.login(request)) {
+            } else if (Gerente.login(request)) {                
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else {
-                request.setAttribute("erroLogin", "1");
+            } else {                
+                request.setAttribute("msgError", "Login não efetuado!");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             }
 

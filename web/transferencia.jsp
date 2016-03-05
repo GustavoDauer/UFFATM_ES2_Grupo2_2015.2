@@ -16,18 +16,25 @@
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
 %>    
 <h1>Transferência</h1>
-<form action="ContaController" method="post">
-    <table class="formulario">
-        <tr>
-            <td>
-                <input type="hidden" name="command" value="transferencia" /> 
-                <input type="hidden" name="idConta" value="<%=conta.getId()%>" />
-                <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" />
-                Conta de Destino: <input type="text" name="idContaTransferencia" class="campo" /> 
-                R$ <input type="text" name="valor" class="campo" /> 
-                <input type="submit" value="Transferir" />    
-            </td>
-        </tr>
-    </table>
-</form>        
+<div>
+    <form action="ContaController" method="post">
+        <input type="hidden" name="command" value="transferencia" /> 
+        <input type="hidden" name="idConta" value="<%=conta.getId()%>" />
+        <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" />
+        <table class="formulario">
+            <tr>
+                <td>
+                    <input type="text" placeholder="CONTA DE DESTINO" name="idContaTransferencia" class="campo" /> <br />
+                    <input type="text" name="valor" placeholder="VALOR" class="campo" /> <br />
+                    <input type="submit" value="Transferir" class="botao"/> <br /><br />  
+                    <%
+                        if (request.getAttribute("msgError") != null) {
+                            out.println(request.getAttribute("msgError"));
+                        }
+                    %>
+                </td>
+            </tr>
+        </table>
+    </form>   
+</div>
 <%@include file="include/footer.jsp" %>     

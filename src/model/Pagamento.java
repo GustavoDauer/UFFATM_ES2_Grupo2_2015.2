@@ -23,7 +23,7 @@ public class Pagamento extends Transacao implements DatabaseActions {
     }
 
     @Override
-    public boolean insert() {       
+    public boolean insert() {
         Connection conexao = null;
         PreparedStatement stmt;
         String query;
@@ -45,7 +45,7 @@ public class Pagamento extends Transacao implements DatabaseActions {
 
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
-            
+
             Conta conta = new Conta();
             if (rs.next()) {
                 conta.setId(rs.getString("idConta"));
@@ -60,7 +60,7 @@ public class Pagamento extends Transacao implements DatabaseActions {
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
 
                 CaixaEletronico.sessao.setAttribute("conta", conta);
-            }                        
+            }
 
             if ((Integer.parseInt(valor) < Integer.parseInt(conta.saldo)) || ((Integer.parseInt(conta.saldo) - Integer.parseInt(valor)) >= Integer.parseInt(conta.limite))) {
                 query = "UPDATE `BD_ES2`.`Conta` "
@@ -73,37 +73,37 @@ public class Pagamento extends Transacao implements DatabaseActions {
 
                 conta.setSaldo(String.valueOf((Integer.parseInt(conta.saldo) - Integer.parseInt(valor))));
                 CaixaEletronico.sessao.setAttribute("conta", conta);
-                
-                // Armazena transação            
-            query = "INSERT INTO `BD_ES2`.`Transacao` ("
-                    + "`data`, "
-                    + "`Cliente_idCliente`, "
-                    + "`Conta_idConta`, "
-                    + "`valor`, "
-                    + "`valor_centavos`, "
-                    + "`tipoTransacao`, "
-                    + "`Transferencia_Conta_idConta`"
-                    + ") "
-                    + "VALUES ("
-                    + "CURRENT_TIMESTAMP(), "
-                    + this.idCliente + ", "
-                    + this.idConta + ", "
-                    + this.valor + ", "
-                    + this.valor_centavos + ", "
-                    + "'" + this.tipo + "', "
-                    + "NULL"
-                    + ")";                    
 
-            stmt = conexao.prepareStatement(query);
-            stmt.executeUpdate(query);
-            
+                // Armazena transação            
+                query = "INSERT INTO `BD_ES2`.`Transacao` ("
+                        + "`data`, "
+                        + "`Cliente_idCliente`, "
+                        + "`Conta_idConta`, "
+                        + "`valor`, "
+                        + "`valor_centavos`, "
+                        + "`tipoTransacao`, "
+                        + "`Transferencia_Conta_idConta`"
+                        + ") "
+                        + "VALUES ("
+                        + "CURRENT_TIMESTAMP(), "
+                        + this.idCliente + ", "
+                        + this.idConta + ", "
+                        + "-" + this.valor + ", "
+                        + this.valor_centavos + ", "
+                        + "'" + this.tipo + "', "
+                        + "NULL"
+                        + ")";
+
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+
             } else {
                 return false;
-            }            
-
+            }
+            
             conexao.close();
             return true;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {            
             return false;
         }
     }

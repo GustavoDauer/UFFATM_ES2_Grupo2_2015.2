@@ -54,7 +54,7 @@ public class Deposito extends Transacao implements DatabaseActions {
                     + "CURRENT_TIMESTAMP(), "
                     + this.idCliente + ", "
                     + this.idConta + ", "
-                    + this.valor + ", "
+                    + "+" + this.valor + ", "
                     + this.valor_centavos + ", "
                     + "'" + this.tipo + "', "
                     + "NULL"
@@ -98,7 +98,7 @@ public class Deposito extends Transacao implements DatabaseActions {
 
             conexao.close();
             return true;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {            
             return false;
         }
     }

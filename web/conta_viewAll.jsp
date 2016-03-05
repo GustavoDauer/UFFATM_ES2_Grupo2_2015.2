@@ -31,7 +31,12 @@
         </td>
         <td>
             <input type="button" value="Editar" onclick="document.location = 'ContaController?command=view&id=<%=conta.getId()%>'" />
-            <input type="button" value="Remover" onclick="document.location = 'ContaController?command=delete&id=<%=conta.getId()%>'" />    
+            <input type="button" value="Remover" onclick="document.location = 'ContaController?command=delete&id=<%=conta.getId()%>'" /> <br /> <br />
+            <%
+                if (request.getAttribute("msgError") != null) {
+                    out.println(request.getAttribute("msgError"));
+                }
+            %>  
         </td>
     </tr>
     <%

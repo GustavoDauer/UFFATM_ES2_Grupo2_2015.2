@@ -33,11 +33,11 @@ public class CaixaEletronicoController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CaixaEletronicoController</title>");            
+            out.println("<title>Servlet CaixaEletronicoController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CaixaEletronicoController at " + request.getContextPath() + "</h1>");
-            
+
             CaixaEletronico caixaEletronico = new CaixaEletronico(request);
 
             // Lista de ações disponíveis
@@ -49,7 +49,8 @@ public class CaixaEletronicoController extends HttpServlet {
                         out.println("<div><a href='CaixaEletronicoController?command=viewAll'>Visualizar todos caixas eletrônicos</a>");
                         response.sendRedirect("CaixaEletronicoController?command=viewAll");
                     } else {
-                        out.println("<div><b> Caixa Eletrônico não inserido! </b></div>");
+                        request.setAttribute("msgError", "Caixa Eletrônico não inserido!");
+                        request.getRequestDispatcher("/caixa_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -60,7 +61,8 @@ public class CaixaEletronicoController extends HttpServlet {
                         out.println("<div><a href='CaixaEletronicoController?command=viewAll'>Visualizar todos caixas eletrônicos</a>");
                         response.sendRedirect("CaixaEletronicoController?command=viewAll");
                     } else {
-                        out.println("<div><b> Caixa Eletrônico não editado! </b></div>");
+                        request.setAttribute("msgError", "Caixa Eletrônico não editado!");
+                        request.getRequestDispatcher("/caixa_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -71,7 +73,8 @@ public class CaixaEletronicoController extends HttpServlet {
                         out.println("<div><a href='CaixaEletronicoController?command=viewAll'>Visualizar todos caixas eletrônicos</a>");
                         response.sendRedirect("CaixaEletronicoController?command=viewAll");
                     } else {
-                        out.println("<div><b> Caixa Eletrônico não deletado! </b></div>");
+                        request.setAttribute("msgError", "Caixa Eletrônico não deletado!");
+                        request.getRequestDispatcher("/caixa_viewAll.jsp").forward(request, response);
                     }
 
                     break;
@@ -80,29 +83,31 @@ public class CaixaEletronicoController extends HttpServlet {
                     if (caixaEletronico.view(request)) {
                         request.getRequestDispatcher("caixa_view.jsp").forward(request, response);
                     } else {
-                        out.println("<div><b> Caixa Eletrônico não pode ser visualizado! </b></div>");
+                        request.setAttribute("msgError", "Caixa Eletrônico não pode ser visualizado!");
+                        request.getRequestDispatcher("/caixa_viewAll.jsp").forward(request, response);
                     }
 
                     break;
 
-                case "viewAll":                    
+                case "viewAll":
                     if (caixaEletronico.viewAll(request)) {
                         request.getRequestDispatcher("caixa_viewAll.jsp").forward(request, response);
                     } else {
-                        out.println("<div><b> Caixa Eletrônico não pode ser visualizado! </b></div>");
+                        request.setAttribute("msgError", "Caixa Eletrônico não pode ser visualizado!");
+                        request.getRequestDispatcher("/caixa_viewAll.jsp").forward(request, response);
                     }
 
                     break;
                 case "printPage":
-                    if(caixaEletronico.printPage()) {
+                    if (caixaEletronico.printPage()) {
                         out.println("<div><b> Comprovante/Extrato impresso com sucesso! </b><br /><a href='login.jsp'>Voltar</a></div>");
                         //request.getRequestDispatcher((String) request.getAttribute("javax.servlet.forward.request_uri")).forward(request, response);
                     } else {
                         out.println("<div><b> Caixa Eletrônico não conseguiu imprimir! </b><br /><a href='login.jsp'>Voltar</a></div>");
                         //request.getRequestDispatcher( ((String) request.getAttribute("javax.servlet.forward.request_uri")).concat("?error=1") ).forward(request, response);
                     }
-            }            
-            
+            }
+
             out.println("</body>");
             out.println("</html>");
         }

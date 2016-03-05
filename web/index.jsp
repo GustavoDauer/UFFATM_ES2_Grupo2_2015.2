@@ -26,5 +26,11 @@
     <input class="campo" type="password" name="senha" placeholder="SENHA" /><br />
     <input class="botao" type="submit" value="Inserir cartão" /><br />
     <a href="index_nao_correntista.jsp">Não correntista</a> <a href="index_gerente.jsp">Gerente</a>
+    <br /><br />
+    <%        
+        if (request.getAttribute("msgError") != null) {
+            out.println(request.getAttribute("msgError"));
+        }
+    %>
 </form>
 <%@include file="include/footer.jsp" %>   
