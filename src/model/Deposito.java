@@ -54,7 +54,7 @@ public class Deposito extends Transacao implements DatabaseActions {
                     + "CURRENT_TIMESTAMP(), "
                     + this.idCliente + ", "
                     + this.idConta + ", "
-                    + "+" + this.valor + ", "
+                    + this.valor + ", "
                     + this.valor_centavos + ", "
                     + "'" + this.tipo + "', "
                     + "NULL"

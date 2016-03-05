@@ -111,7 +111,7 @@ public class Transferencia extends Transacao implements DatabaseActions {
 
                     stmt = conexao.prepareStatement(query);
                     stmt.executeUpdate(query);
-
+                    /*
                     query = "SELECT `Cliente_idCliente` "
                             + "FROM `BD_ES2`.`cliente_has_conta` "
                             + " WHERE `Conta_idConta` = " + idContaTransferencia;
@@ -140,7 +140,7 @@ public class Transferencia extends Transacao implements DatabaseActions {
                             + ")";
                     stmt = conexao.prepareStatement(query);
                     stmt.executeUpdate(query);
-
+                    */
                 } else {
                     // Conta de outro banco                    
                     // Armazena transação            
@@ -157,7 +157,7 @@ public class Transferencia extends Transacao implements DatabaseActions {
                             + "CURRENT_TIMESTAMP(), "
                             + this.idCliente + ", "
                             + this.idConta + ", "
-                            + "-" + this.valor + ", "
+                            + this.valor + ", "
                             + this.valor_centavos + ", "
                             + "'" + this.tipo + "', "
                             + "NULL"
