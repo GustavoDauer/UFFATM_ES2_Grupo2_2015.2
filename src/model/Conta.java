@@ -511,7 +511,7 @@ public class Conta implements DatabaseActions {
                     + "    `Transacao`.`tipoTransacao`,"
                     + "    `Transacao`.`Transferencia_Conta_idConta` "
                     + "FROM `BD_ES2`.`Transacao` "
-                    + "WHERE Conta_idConta = " + id;
+                    + "WHERE Conta_idConta = " + id + " OR Transferencia_Conta_idConta = " + id;
 
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
