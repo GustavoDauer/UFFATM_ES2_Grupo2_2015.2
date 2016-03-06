@@ -149,6 +149,16 @@ public class ContaController extends HttpServlet {
                     }
 
                     break;
+                case "investimento":
+                    if (conta.investimento(request)) {
+                        out.println("<div><b> Investimento efetuado com sucesso!</b></div>");                        
+                        response.sendRedirect("consulta_poupanca.jsp");
+                    } else {
+                        request.setAttribute("msgError", "Investimento não efetuado!");
+                        request.getRequestDispatcher("/investimento.jsp").forward(request, response);
+                    }
+
+                    break;
             }
 
             out.println("</body>");

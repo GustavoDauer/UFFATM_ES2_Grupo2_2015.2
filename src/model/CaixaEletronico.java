@@ -255,7 +255,7 @@ public class CaixaEletronico implements DatabaseActions {
         }
     }
 
-    public boolean login(HttpServletRequest request) {        
+    public boolean login(HttpServletRequest request) {
         String idCliente = request.getParameter("numeroCartao"); // Por enquanto o numeroCartao é o ID do cliente, então
         //  vamos consultar logo o idCliente
         String senha = request.getParameter("senha");
@@ -263,7 +263,7 @@ public class CaixaEletronico implements DatabaseActions {
 
         Connection conexao = null;
         PreparedStatement stmt;
-        String query;        
+        String query;
         try {
             conexao = Conexao.conectar();
 
@@ -273,7 +273,7 @@ public class CaixaEletronico implements DatabaseActions {
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
 
-            if (rs.next()) {                
+            if (rs.next()) {
                 setId(rs.getString("idCaixaEletronico"));
                 setNota50(rs.getString("nota50"));
                 setNota100(rs.getString("nota100"));
@@ -286,10 +286,11 @@ public class CaixaEletronico implements DatabaseActions {
                         + "INNER JOIN Conta on Conta_idConta = idConta "
                         //+ "WHERE numeroCartao = '" + numeroCartao + "' AND senha = '" + senha + "'";
                         + "WHERE numeroCartao = '" + idCliente + "' AND senha = '" + senha + "'";
-                
+
                 stmt = conexao.prepareStatement(query);
-                ResultSet rs2 = stmt.executeQuery(query);                
-                if (rs2.next()) {                                                     
+                ResultSet rs2 = stmt.executeQuery(query);
+
+                if (rs2.next()) {
                     Cliente cliente = new Cliente();
                     cliente.setId(rs2.getString("idCliente"));
                     cliente.setNome(rs2.getString("nome"));
@@ -312,17 +313,21 @@ public class CaixaEletronico implements DatabaseActions {
 
                     if (!request.getSession(false).isNew()) {
                         CaixaEletronico.sessao = request.getSession(true);
-                        CaixaEletronico.sessao.setAttribute("cliente", cliente);
-                        CaixaEletronico.sessao.setAttribute("conta", conta);
+
                         CaixaEletronico.sessao.setAttribute("caixaEletronico", this);
+                        CaixaEletronico.sessao.setAttribute("cliente", cliente);  
+                        CaixaEletronico.sessao.setAttribute("conta", conta);
+
+                        conta.calculaInvestimentos();                 
+                        
                         return true;
                     }
                     conexao.close();
 
                 }
-            }            
+            }
             return false;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {            
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             return false;
         }
     }

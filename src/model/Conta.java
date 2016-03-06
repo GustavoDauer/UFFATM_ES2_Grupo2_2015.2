@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import static java.time.temporal.ChronoUnit.MONTHS;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
@@ -488,7 +490,7 @@ public class Conta implements DatabaseActions {
         Pagamento pagamento = new Pagamento(request);
         return pagamento.insert();
     }
-    
+
     public boolean transferencia(HttpServletRequest request) {
         Transferencia transferencia = new Transferencia(request);
         return transferencia.insert();
@@ -509,13 +511,14 @@ public class Conta implements DatabaseActions {
                     + "    `Transacao`.`valor`,"
                     + "    `Transacao`.`valor_centavos`,"
                     + "    `Transacao`.`tipoTransacao`,"
-                    + "    `Transacao`.`Transferencia_Conta_idConta` "
+                    + "    `Transacao`.`Transferencia_Conta_idConta`, "
+                    + "    `Transacao`.`rendimento` "
                     + "FROM `BD_ES2`.`Transacao` "
                     + "WHERE Conta_idConta = " + id + " OR Transferencia_Conta_idConta = " + id;
 
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
-           
+
             while (rs.next()) {
                 Transacao transacao = new Transacao();
                 transacao.setData(rs.getString("data"));
@@ -524,14 +527,161 @@ public class Conta implements DatabaseActions {
                 transacao.setIdContaTransferencia(rs.getString("Transferencia_Conta_idConta"));
                 transacao.setTipo(Transacao.tipoTransacao.valueOf(rs.getString("tipoTransacao")));
                 transacao.setValor(rs.getString("valor"));
-                transacao.setValor_centavos(rs.getString("valor_centavos"));  
+                transacao.setValor_centavos(rs.getString("valor_centavos"));
+                transacao.setRendimento(rs.getString("rendimento"));
                 transacaoList.add(transacao);
-            }            
+            }
 
             conexao.close();
             return transacaoList;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             return transacaoList;
-        }        
+        }
+    }
+
+    public void calculaInvestimentos() {
+        ArrayList<Transacao> transacaoList = getExtrato();
+        CaixaEletronico caixaEletronico = (CaixaEletronico) CaixaEletronico.getSessao().getAttribute("caixaEletronico");
+        Conta conta = (Conta) CaixaEletronico.getSessao().getAttribute("conta");
+        String dataCaixa = caixaEletronico.getDataDoCaixa();
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+
+        try {
+            conexao = Conexao.conectar();
+            query = "SELECT valor"
+                    + " FROM Transacao "
+                    + " WHERE Cliente_idCliente = " + conta.getIdCliente()
+                    + " AND Conta_idConta = " + conta.getId()
+                    + " AND tipoTransacao = '" + Transacao.tipoTransacao.POUPANCA + "'";
+
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs2 = stmt.executeQuery(query);
+
+            int totalAplicacao = 0;
+
+            while (rs2.next()) {
+                int aplicacao = rs2.getInt("valor");
+                totalAplicacao += aplicacao;
+            }
+
+            query = "UPDATE Conta "
+                    + " SET "
+                    + " poupanca_saldo = " + totalAplicacao
+                    + " WHERE idConta = " + conta.getId();
+
+            stmt = conexao.prepareStatement(query);
+            stmt.executeUpdate(query);
+            
+            conta.setPoupanca(Integer.toString(totalAplicacao));
+            
+            conexao.close();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+        }
+
+        for (Transacao transacao : transacaoList) {
+            if (transacao.tipo == Transacao.tipoTransacao.POUPANCA) {
+                calculaRendimento(transacao, dataCaixa);              
+
+                try {
+                    conexao = Conexao.conectar();
+
+                    query = "SELECT rendimento "
+                            + " FROM Transacao "
+                            + " WHERE Cliente_idCliente = " + transacao.getIdCliente()
+                            + " AND Conta_idConta = " + transacao.getIdConta()
+                            + " AND tipoTransacao = '" + transacao.getTipo() + "'";
+
+                    stmt = conexao.prepareStatement(query);
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    int totalRendimentos = 0;
+
+                    while (rs.next()) {
+                        int rendimento = rs.getInt("rendimento");
+                        totalRendimentos += rendimento;
+                    }
+
+                    query = "UPDATE Conta "
+                            + " SET "
+                            + " poupanca_saldo = poupanca_saldo + " + totalRendimentos
+                            + " WHERE idConta = " + transacao.getIdConta();
+
+                    stmt = conexao.prepareStatement(query);
+                    stmt.executeUpdate(query);
+
+                    
+                    int poupancaBase = Integer.parseInt(conta.getPoupanca());
+                    poupancaBase += totalRendimentos;
+                    conta.setPoupanca(Integer.toString(poupancaBase));
+                    
+                    conexao.close();
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+                }
+            }
+        }
+    }
+
+    public boolean calculaRendimento(Transacao transacao, String strDataCaixa) {
+        String strDataTransacao = transacao.getData();
+        String[] splitDataTransacao = strDataTransacao.split("-");
+        String[] splitDayTransacao = splitDataTransacao[2].split(" ");
+
+        int year = Integer.parseInt(splitDataTransacao[0]);
+        int month = Integer.parseInt(splitDataTransacao[1]);
+        int day = Integer.parseInt(splitDayTransacao[0]);
+
+        LocalDate dataTransacao = LocalDate.of(year, month, day);
+
+        String[] splitDataCaixa = strDataCaixa.split("-");
+        String[] splitDayCaixa = splitDataCaixa[2].split(" ");
+
+        year = Integer.parseInt(splitDataCaixa[0]);
+        month = Integer.parseInt(splitDataCaixa[1]);
+        day = Integer.parseInt(splitDayCaixa[0]);
+
+        LocalDate dataCaixa = LocalDate.of(year, month, day);
+
+        long months = MONTHS.between(dataTransacao, dataCaixa);
+
+        for (long i = 0; i < months; i++) {
+            Double valor = Double.parseDouble(transacao.getValor());
+            Double rendimento = valor * 0.01;
+            valor += rendimento;
+
+            int intValor = valor.intValue();
+            String strValor = Integer.toString(intValor); // Ignora centavos do rendimento
+
+            transacao.setValor(strValor);
+        }
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "UPDATE Transacao "
+                    + " SET "
+                    + " rendimento = " + transacao.getValor() + " - valor"
+                    + " WHERE data = '" + transacao.getData() + "' "
+                    + " AND Cliente_idCliente = " + transacao.getIdCliente()
+                    + " AND Conta_idConta = " + transacao.getIdConta();
+
+            stmt = conexao.prepareStatement(query);
+            stmt.executeUpdate(query);
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean investimento(HttpServletRequest request) {
+        Investimento investimento = new Investimento(request);
+        return investimento.insert();
     }
 }

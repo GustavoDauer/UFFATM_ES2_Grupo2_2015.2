@@ -21,15 +21,27 @@
 <h1>Consulta extrato</h1>
 <table class="dadosTabelados" cellpadding="0" cellspacing="0">    
     <tr>
+        <th>Data</th>
         <th>Transação</th>
-        <th>Valor</th>                   
+        <th>Valor</th>  
+        <th>Rendimento (1% ao mês)</th> 
     </tr>    
     <%
         for (Transacao transacao : transacaoList) {
     %>
     <tr>
+        <td><%=CaixaEletronico.toDateNormalFormat(transacao.getData())%></td>
         <td><%=transacao.getTipo()%></td>
-        <td><%=transacao.getValor()%>,<%=transacao.getValor_centavos()%></td>        
+        <td>R$ <%=transacao.getValor()%>,<%=transacao.getValor_centavos()%></td>    
+        <td><% 
+        String rendimento = transacao.getRendimento(); 
+        
+        if(!(rendimento.equals("") || rendimento.isEmpty() || rendimento.equals("0"))) {
+            %>
+            R$ <%=transacao.getRendimento()%>,00
+            <%
+        }
+        %></td>    
     </tr>
     <%
         }

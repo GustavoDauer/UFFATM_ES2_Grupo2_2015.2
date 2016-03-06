@@ -25,8 +25,7 @@
                     </ul>                   
                               
                     <ul>
-                        <!-- Usuário -->    
-                        <li><a href="login.jsp">Página inicial da conta</a></li>                                    
+                        <!-- Usuário -->                                                            
                         <li><a href="deposito_em_conta_nao_cliente.jsp">Depósito</a></li>                            
                         <li><a href="pagamento_autenticado.jsp">Pagamentos</a></li>                           
                     </ul>

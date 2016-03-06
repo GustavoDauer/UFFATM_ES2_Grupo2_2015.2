@@ -15,16 +15,16 @@ public class Transacao {
 
     enum tipoTransacao {
 
-        PAGAMENTO("pagamento"), SAQUE("saque"), DEPOSITO("deposito"), MOVIMENTO_POUPANCA("movimento_poupanca"), TRANSFERENCIA("transferencia");
+        PAGAMENTO("PAGAMENTO"), SAQUE("SAQUE"), DEPOSITO("DEPOSITO"), POUPANCA("POUPANCA"), TRANSFERENCIA("TRANSFERENCIA"), RESGATE("RESGATE");
         String tipo;
 
-        private tipoTransacao(String tipo) {
+        tipoTransacao(String tipo) {
             this.tipo = tipo;
         }
 
     };
 
-    String data, idCliente, idConta, valor, valor_centavos;
+    String data, idCliente, idConta, valor, valor_centavos, rendimento;
     tipoTransacao tipo;
 
     String idContaTransferencia; // Só usado caso seja uma transferência
@@ -106,5 +106,13 @@ public class Transacao {
 
     public void setIdContaTransferencia(String idContaTransferencia) {
         this.idContaTransferencia = idContaTransferencia;
+    }    
+
+    public String getRendimento() {
+        return rendimento;
+    }
+
+    public void setRendimento(String rendimento) {
+        this.rendimento = rendimento;
     }    
 }
