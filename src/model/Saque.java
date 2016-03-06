@@ -73,6 +73,8 @@ public class Saque extends Transacao implements DatabaseActions {
                 } else if ((iNota50 - 1 >= 0) && (iValor - 50 >= 0)) {
                     iNota50--;
                     iValor -= 50;
+                } else {
+                    break;
                 }
             }
 
