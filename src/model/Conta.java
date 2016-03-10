@@ -526,7 +526,11 @@ public class Conta implements DatabaseActions {
                 transacao.setIdConta(rs.getString("Conta_idConta"));
                 transacao.setIdContaTransferencia(rs.getString("Transferencia_Conta_idConta"));
                 transacao.setTipo(Transacao.tipoTransacao.valueOf(rs.getString("tipoTransacao")));
-                transacao.setValor(rs.getString("valor"));
+                if(rs.getString("Transferencia_Conta_idConta") != null  && rs.getString("Transferencia_Conta_idConta").equals(id)){
+                    transacao.setValor(String.valueOf(Integer.parseInt(rs.getString("valor"))*(-1)));
+                } else {
+                    transacao.setValor(rs.getString("valor"));
+                }
                 transacao.setValor_centavos(rs.getString("valor_centavos"));
                 transacao.setRendimento(rs.getString("rendimento"));
                 transacaoList.add(transacao);

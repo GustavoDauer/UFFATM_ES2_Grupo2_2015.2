@@ -11,7 +11,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="include/header.jsp" %>                       
 <%
-  
     CaixaEletronico caixaEletronico = (CaixaEletronico) request.getSession().getAttribute("caixaEletronico");
 %>    
 <h1>Depositar em conta</h1>
@@ -20,10 +19,15 @@
         <tr>
             <td>
                 <input type="hidden"  name="command" value="deposit" /> 
-                Id Cliente <input type="text" name="idCliente" class="campo"/> <br>
-                Conta Corrente <input type="text" name="idConta" class="campo" /><br> 
-                R$ <input type="text" name="valor" class="campo" /> 
-                <input type="submit" value="Depositar" />    
+                <input type="text" name="idCliente" placeholder="NÚMERO DO CLIENTE" class="campo"/> <br />
+                <input type="text" name="idConta" placeholder="NÚMERO DA CONTA" class="campo" /><br /> 
+                <input type="text" name="valor" placeholder="VALOR" class="campo" /><br />
+                <input type="submit" value="Depositar" class="botao" /> <br /><br />
+                <%
+                    if (request.getAttribute("msg") != null) {
+                        out.println(request.getAttribute("msg"));
+                    }
+                %>  
             </td>
         </tr>
     </table>

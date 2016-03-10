@@ -27,8 +27,8 @@
                     <input type="text" name="valor" placeholder="VALOR"class="campo" /> <br />
                     <input type="submit" value="Depositar" class="botao" /><br /><br />
                     <%
-                        if (request.getAttribute("msgError") != null) {
-                            out.println(request.getAttribute("msgError"));
+                        if (request.getAttribute("msg") != null) {
+                            out.println(request.getAttribute("msg"));
                         }
                     %>    
                 </td>

@@ -80,7 +80,7 @@ public class Deposito extends Transacao implements DatabaseActions {
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
 
-            if (rs.next()) {
+            if (rs.next() && (CaixaEletronico.sessao != null)) {
                 Conta conta = new Conta();
                 conta.setId(rs.getString("idConta"));
                 conta.setAgencia(rs.getString("agencia"));
