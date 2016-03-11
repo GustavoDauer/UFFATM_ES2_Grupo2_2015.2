@@ -580,6 +580,7 @@ public class Conta implements DatabaseActions {
             stmt.executeUpdate(query);
             
             conta.setPoupanca(Integer.toString(totalAplicacao));
+            CaixaEletronico.getSessao().setAttribute("conta", conta);
             
             conexao.close();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
@@ -620,6 +621,7 @@ public class Conta implements DatabaseActions {
                     int poupancaBase = Integer.parseInt(conta.getPoupanca());
                     poupancaBase += totalRendimentos;
                     conta.setPoupanca(Integer.toString(poupancaBase));
+                    CaixaEletronico.getSessao().setAttribute("conta", conta);
                     
                     conexao.close();
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
