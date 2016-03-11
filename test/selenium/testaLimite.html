@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/" />
+<title>testaLimite</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">testaLimite</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/uffatm_es2_grupo2_2015/index.jsp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=id</td>
+	<td>label=Caixa Eletrônico 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=numeroCartao</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=senha</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.botao</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Consulta saldo</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>css=label</td>
+	<td>saldoString</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>storedVars['saldoString'].match(/^\d+/);</td>
+	<td>saldo</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Consulta limite</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>css=label</td>
+	<td>limiteString</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>storedVars['limiteString'].match(/^\d+/);</td>
+	<td>limite</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Pagamentos</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=numeroDocumento</td>
+	<td>987452</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>${saldo}+${limite}+1</td>
+	<td>valorMaiorQueLimiteString</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=valor</td>
+	<td>${valorMaiorQueLimiteString}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.botao</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=table.formulario &gt; tbody &gt; tr &gt; td</td>
+	<td>Pagamento não efetuado!</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Transferência</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=idContaTransferencia</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=valor</td>
+	<td>${valorMaiorQueLimiteString}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.botao</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=table.formulario &gt; tbody &gt; tr &gt; td</td>
+	<td>Transferência não efetuada!</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=LogOut</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
