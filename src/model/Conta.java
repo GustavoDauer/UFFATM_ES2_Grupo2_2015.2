@@ -526,8 +526,8 @@ public class Conta implements DatabaseActions {
                 transacao.setIdConta(rs.getString("Conta_idConta"));
                 transacao.setIdContaTransferencia(rs.getString("Transferencia_Conta_idConta"));
                 transacao.setTipo(Transacao.tipoTransacao.valueOf(rs.getString("tipoTransacao")));
-                if(rs.getString("Transferencia_Conta_idConta") != null  && rs.getString("Transferencia_Conta_idConta").equals(id)){
-                    transacao.setValor(String.valueOf(Integer.parseInt(rs.getString("valor"))*(-1)));
+                if (rs.getString("Transferencia_Conta_idConta") != null && rs.getString("Transferencia_Conta_idConta").equals(id)) {
+                    transacao.setValor(String.valueOf(Integer.parseInt(rs.getString("valor")) * (-1)));
                 } else {
                     transacao.setValor(rs.getString("valor"));
                 }
@@ -578,17 +578,17 @@ public class Conta implements DatabaseActions {
 
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
-            
+
             conta.setPoupanca(Integer.toString(totalAplicacao));
             CaixaEletronico.getSessao().setAttribute("conta", conta);
-            
+
             conexao.close();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
         }
 
         for (Transacao transacao : transacaoList) {
             if (transacao.tipo == Transacao.tipoTransacao.POUPANCA) {
-                calculaRendimento(transacao, dataCaixa);              
+                calculaRendimento(transacao, dataCaixa);
 
                 try {
                     conexao = Conexao.conectar();
@@ -617,12 +617,11 @@ public class Conta implements DatabaseActions {
                     stmt = conexao.prepareStatement(query);
                     stmt.executeUpdate(query);
 
-                    
                     int poupancaBase = Integer.parseInt(conta.getPoupanca());
                     poupancaBase += totalRendimentos;
                     conta.setPoupanca(Integer.toString(poupancaBase));
                     CaixaEletronico.getSessao().setAttribute("conta", conta);
-                    
+
                     conexao.close();
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
                 }
@@ -689,5 +688,46 @@ public class Conta implements DatabaseActions {
     public boolean investimento(HttpServletRequest request) {
         Investimento investimento = new Investimento(request);
         return investimento.insert();
+    }
+
+    public ArrayList<Transacao> getListaInvestimentos() {
+        ArrayList<Transacao> listaPoupanca = new ArrayList();
+
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            query = "SELECT * "
+                    + " FROM Transacao "                                        
+                    + " WHERE Conta_idConta = " + id
+                    + " AND tipoTransacao = '" + Transacao.tipoTransacao.POUPANCA + "'";
+            stmt = conexao.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+
+            while(rs.next()) {
+                Transacao transacao = new Transacao();
+                transacao.setData(rs.getString("data"));
+                transacao.setIdCliente(rs.getString("Cliente_idCliente"));
+                transacao.setIdConta(rs.getString("Conta_idConta"));
+                transacao.setIdContaTransferencia(rs.getString("Transferencia_Conta_idConta"));
+                transacao.setRendimento(rs.getString("rendimento"));
+                transacao.setTipo(Transacao.tipoTransacao.DEPOSITO);
+                transacao.setValor(rs.getString("valor"));
+                transacao.setValor_centavos(rs.getString("valor_centavos"));
+                listaPoupanca.add(transacao);
+            }
+
+            conexao.close();
+            return listaPoupanca;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return null;
+        }
+    }
+    
+    public boolean resgate(HttpServletRequest request) {
+        Resgate resgate = new Resgate(request);
+        return resgate.edit();
     }
 }

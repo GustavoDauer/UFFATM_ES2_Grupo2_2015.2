@@ -30,7 +30,7 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(HttpServletRequest request) {
-        //id = request.getParameter("id");
+        id = request.getParameter("id");
         nota50 = request.getParameter("nota50");
         nota100 = request.getParameter("nota100");
         cheque = request.getParameter("cheque");

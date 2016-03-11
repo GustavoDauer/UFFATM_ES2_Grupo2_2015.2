@@ -49,7 +49,8 @@ public class Transacao {
 
         valor_centavos = centavos;
 
-        idContaTransferencia = request.getParameter("idContaTransferencia");;
+        idContaTransferencia = request.getParameter("idContaTransferencia");
+        rendimento = request.getParameter("rendimento");
     }
 
     public String getData() {

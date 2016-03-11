@@ -118,7 +118,7 @@ public class ContaController extends HttpServlet {
 
                 case "deposit_nao_cliente":
                     if (conta.deposit(request)) {
-                        out.println("<div><b> Depositado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");                                                
+                        out.println("<div><b> Depositado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
                         request.setAttribute("msgError", "Depósito efetuado!");
                         request.getRequestDispatcher("/index_nao_correntista.jsp").forward(request, response);
                     } else {
@@ -168,6 +168,17 @@ public class ContaController extends HttpServlet {
                     } else {
                         request.setAttribute("msgError", "Investimento não efetuado!");
                         request.getRequestDispatcher("/investimento.jsp").forward(request, response);
+                    }
+
+                    break;
+
+                case "resgate":
+                    if (conta.resgate(request)) {
+                        out.println("<div><b> Resgate efetuado com sucesso!</b></div>");
+                        response.sendRedirect("resgate.jsp");
+                    } else {
+                        request.setAttribute("msgError", "Resgate não efetuado!");
+                        request.getRequestDispatcher("/resgate.jsp").forward(request, response);
                     }
 
                     break;
