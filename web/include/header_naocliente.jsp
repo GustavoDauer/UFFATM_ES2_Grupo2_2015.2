@@ -27,7 +27,7 @@
                     <ul>
                         <!-- Usuário -->                                                            
                         <li><a href="deposito_em_conta_nao_cliente.jsp">Depósito</a></li>                            
-                        <li><a href="pagamento_autenticado.jsp">Pagamentos</a></li>                           
+                        <li><a href="pagamento_nao_cliente.jsp">Pagamentos</a></li>                           
                     </ul>
                    
                  

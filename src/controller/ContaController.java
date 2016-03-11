@@ -116,6 +116,18 @@ public class ContaController extends HttpServlet {
 
                     break;
 
+                case "deposit_nao_cliente":
+                    if (conta.deposit(request)) {
+                        out.println("<div><b> Depositado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");                                                
+                        request.setAttribute("msgError", "Depósito efetuado!");
+                        request.getRequestDispatcher("/index_nao_correntista.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("msgError", "Depósito não efetuado!");
+                        request.getRequestDispatcher("/index_nao_correntista.jsp").forward(request, response);
+                    }
+
+                    break;
+
                 case "saque":
                     if (conta.saque(request)) {
                         out.println("<div><b> Sacado com sucesso! </b> <input type=\"button\" value=\"Imprimir comprovante\" onclick=\"document.location = 'CaixaEletronicoController?command=printPage'\" /></div>");
@@ -151,7 +163,7 @@ public class ContaController extends HttpServlet {
                     break;
                 case "investimento":
                     if (conta.investimento(request)) {
-                        out.println("<div><b> Investimento efetuado com sucesso!</b></div>");                        
+                        out.println("<div><b> Investimento efetuado com sucesso!</b></div>");
                         response.sendRedirect("consulta_poupanca.jsp");
                     } else {
                         request.setAttribute("msgError", "Investimento não efetuado!");

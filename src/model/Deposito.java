@@ -93,7 +93,10 @@ public class Deposito extends Transacao implements DatabaseActions {
                 conta.setPoupanca(rs.getString("poupanca_saldo"));
                 conta.setPoupanca_centavos(rs.getString("poupanca_saldo_centavos"));
 
-                CaixaEletronico.sessao.setAttribute("conta", conta);
+                // Verifica se cliente está logado e precisa atualizar objeto
+                if(CaixaEletronico.sessao.getAttribute("conta") != null) {
+                    CaixaEletronico.sessao.setAttribute("conta", conta);
+                }
             }
 
             conexao.close();

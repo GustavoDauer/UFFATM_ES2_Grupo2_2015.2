@@ -18,7 +18,7 @@
     <table class="formulario">
         <tr>
             <td>
-                <input type="hidden"  name="command" value="deposit" /> 
+                <input type="hidden"  name="command" value="deposit_nao_cliente" /> 
                 <input type="text" name="idCliente" placeholder="NÚMERO DO CLIENTE" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="10"/> <br />
                 <input type="text" name="idConta" placeholder="NÚMERO DA CONTA" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="10" /><br /> 
                 <input type="text" name="valor" placeholder="VALOR" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /><br />

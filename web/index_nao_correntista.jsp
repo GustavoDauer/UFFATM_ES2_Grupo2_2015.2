@@ -8,4 +8,9 @@
 <%@page import="java.util.ArrayList"%>
 <%@include file="include/header_naocliente.jsp" %>   
 <h1>Banco UFF</h1>
+<div>
+    <% if (request.getAttribute("msgError") != null) {%>   
+    <%=request.getAttribute("msgError")%>
+    <%}%>
+</div>
 <%@include file="include/footer.jsp" %>   
