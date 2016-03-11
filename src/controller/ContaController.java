@@ -122,7 +122,7 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        request.setAttribute("msgError", "Saque não efetuado!");
+                        request.setAttribute("msgError", "Saque não efetuado, saldo insuficiente ou notas no caixa insuficientes!");
                         request.getRequestDispatcher("/saque.jsp").forward(request, response);
                     }
 
@@ -133,7 +133,7 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        request.setAttribute("msgError", "Pagamento não efetuado!");
+                        request.setAttribute("msgError", "Pagamento não efetuado, saldo insuficiente!");
                         request.getRequestDispatcher("/pagamento_autenticado.jsp").forward(request, response);;
                     }
 
@@ -144,18 +144,28 @@ public class ContaController extends HttpServlet {
                         out.println("<div><a href='consulta_saldo.jsp'>Consulta saldo</a>");
                         response.sendRedirect("consulta_saldo.jsp");
                     } else {
-                        request.setAttribute("msgError", "Transferência não efetuada!");
+                        request.setAttribute("msgError", "Transferência não efetuada, saldo insuficiente!");
                         request.getRequestDispatcher("/transferencia.jsp").forward(request, response);
                     }
 
                     break;
                 case "investimento":
                     if (conta.investimento(request)) {
-                        out.println("<div><b> Investimento efetuado com sucesso!</b></div>");                        
+                        out.println("<div><b> Investimento efetuado com sucesso!</b></div>");
                         response.sendRedirect("consulta_poupanca.jsp");
                     } else {
-                        request.setAttribute("msgError", "Investimento não efetuado!");
+                        request.setAttribute("msgError", "Investimento não efetuado, saldo insuficiente!");
                         request.getRequestDispatcher("/investimento.jsp").forward(request, response);
+                    }
+
+                    break;
+                case "cheque":
+                    if (conta.cheque(request)) {
+                        request.setAttribute("msgError", "Cheque impresso!");
+                        request.getRequestDispatcher("/cheque.jsp").forward(request, response);
+                    } else {
+                        request.setAttribute("msgError", "Cheque não impresso, cheques no caixa insuficiente!");
+                        request.getRequestDispatcher("/cheque.jsp").forward(request, response);
                     }
 
                     break;

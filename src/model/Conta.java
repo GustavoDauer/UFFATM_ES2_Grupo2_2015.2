@@ -526,8 +526,8 @@ public class Conta implements DatabaseActions {
                 transacao.setIdConta(rs.getString("Conta_idConta"));
                 transacao.setIdContaTransferencia(rs.getString("Transferencia_Conta_idConta"));
                 transacao.setTipo(Transacao.tipoTransacao.valueOf(rs.getString("tipoTransacao")));
-                if(rs.getString("Transferencia_Conta_idConta") != null  && rs.getString("Transferencia_Conta_idConta").equals(id)){
-                    transacao.setValor(String.valueOf(Integer.parseInt(rs.getString("valor"))*(-1)));
+                if (rs.getString("Transferencia_Conta_idConta") != null && rs.getString("Transferencia_Conta_idConta").equals(id)) {
+                    transacao.setValor(String.valueOf(Integer.parseInt(rs.getString("valor")) * (-1)));
                 } else {
                     transacao.setValor(rs.getString("valor"));
                 }
@@ -578,16 +578,16 @@ public class Conta implements DatabaseActions {
 
             stmt = conexao.prepareStatement(query);
             stmt.executeUpdate(query);
-            
+
             conta.setPoupanca(Integer.toString(totalAplicacao));
-            
+
             conexao.close();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
         }
 
         for (Transacao transacao : transacaoList) {
             if (transacao.tipo == Transacao.tipoTransacao.POUPANCA) {
-                calculaRendimento(transacao, dataCaixa);              
+                calculaRendimento(transacao, dataCaixa);
 
                 try {
                     conexao = Conexao.conectar();
@@ -616,11 +616,10 @@ public class Conta implements DatabaseActions {
                     stmt = conexao.prepareStatement(query);
                     stmt.executeUpdate(query);
 
-                    
                     int poupancaBase = Integer.parseInt(conta.getPoupanca());
                     poupancaBase += totalRendimentos;
                     conta.setPoupanca(Integer.toString(poupancaBase));
-                    
+
                     conexao.close();
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
                 }
@@ -687,5 +686,40 @@ public class Conta implements DatabaseActions {
     public boolean investimento(HttpServletRequest request) {
         Investimento investimento = new Investimento(request);
         return investimento.insert();
+    }
+
+    public boolean cheque(HttpServletRequest request) {
+        String qtdCheque = request.getParameter("valor");
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            CaixaEletronico atm = (CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico");
+
+            if ((Integer.parseInt(atm.getCheque()) - Integer.parseInt(qtdCheque)) >= 0) {
+
+                query = "UPDATE `BD_ES2`.`CaixaEletronico` "
+                        + "SET "
+                        + "`cheque` = " + String.valueOf((Integer.parseInt(atm.getCheque()) - Integer.parseInt(qtdCheque)))
+                        + " WHERE `idCaixaEletronico` = " + atm.getId();
+
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+
+                atm.setCheque(String.valueOf((Integer.parseInt(atm.getCheque()) - Integer.parseInt(qtdCheque))));
+
+                CaixaEletronico.sessao.setAttribute("caixaEletronico", atm);
+
+            } else {
+                return false;
+            }
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
     }
 }
