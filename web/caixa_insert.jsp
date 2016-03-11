@@ -9,19 +9,19 @@
     <h1>Cadastrar Caixa Eletrônico</h1>
     <table class="formulario" cellpadding="0" cellspacing="0">              
         <tr>
-            <td><input class="campo" type="text" name="nota50" value="100" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="nota50" value="100" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Notas de 50 reais)</sub></td>
         </tr>
         <tr>
-            <td><input class="campo" type="text" name="nota100" value="100" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="nota100" value="100" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Notas de 100 reais)</sub></td>
         </tr>
         <tr>
-            <td><input class="campo" type="text" name="cheque" value="100" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="cheque" value="100" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Cheque)</sub></td>
         </tr>
         <tr>
-            <td><input class="campo" type="text" name="papelComprovante" value="1000" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="papelComprovante" value="1000" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Papel comprovante)</sub></td>
         </tr>
         <tr>

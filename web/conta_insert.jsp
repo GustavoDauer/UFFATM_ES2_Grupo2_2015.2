@@ -49,17 +49,17 @@
             </td>
         </tr> 
         <tr>
-            <td><input id="numeroCartao" placeholder="NÚMERO CARTÃO" class="campo" type="text" name="numeroCartao" readonly="readonly" />
+            <td><input id="numeroCartao" placeholder="NÚMERO CARTÃO" class="campo" type="text" name="numeroCartao" readonly="readonly" maxlength="10" />
                 <br /><sub>(Gerado automaticamente)</sub></td>
         </tr>     
         <tr>
             <td><select name="banco"><option selected="selected">Banco UFF</option></select></td>
         </tr>
         <tr>
-            <td><input class="campo" placeholder="AGÊNCIA" type="text" name="agencia" /></td>
+            <td><input class="campo" placeholder="AGÊNCIA" type="text" name="agencia" maxlength="5" /></td>
         </tr>                 
         <tr>
-            <td><input class="campo" placeholder="LIMITE" type="text" name="limite" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" placeholder="LIMITE" type="text" name="limite" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
         </tr>    
         <tr>
             <td><input type="checkbox" name="poupanca_status" checked="checked" value="1"/> Poupança</td>
@@ -68,10 +68,10 @@
             <td><input type="checkbox" name="status" checked="checked" value="1" /> Conta ativa</td>
         </tr>
         <tr>
-            <td><input class="campo" placeholder="SENHA" type="password" name="senha" value="" /></td>
+            <td><input class="campo" placeholder="SENHA" type="password" name="senha" value="" maxlength="7" /></td>
         </tr> 
         <tr>
-            <td><input placeholder="REPETIR SENHA" class="campo" type="password" name="senha2" value="" /></td>
+            <td><input placeholder="REPETIR SENHA" class="campo" type="password" name="senha2" value="" maxlength="7" /></td>
         </tr>
         <tr>            
             <td><input class="botao" type="submit" value="Cadastrar" /></td>

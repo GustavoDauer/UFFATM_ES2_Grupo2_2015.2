@@ -90,18 +90,18 @@
                         <td class="param" align="left"> (novo cliente)</td> 
                     </tr> 
                     <tr>
-                        <td class="param"><input class="campo" placeholder="SENHA" type="password" name="senha" value="" /></td>
+                        <td class="param"><input class="campo" placeholder="SENHA" type="password" name="senha" value="" maxlength="7" /></td>
                         <td class="param" align="left"> (novo cliente)</td> 
                     </tr> 
                     <tr>
-                        <td class="param"><input class="campo" placeholder="REPETIR SENHA" type="password" name="senha2" value="" /></td>
+                        <td class="param"><input class="campo" placeholder="REPETIR SENHA" type="password" name="senha2" value="" maxlength="7" /></td>
                         <td class="param" align="left"> (novo cliente)</td> 
                     </tr>
                     <tr>
                         <td colspan="2"/><hr /></td>
                     </tr> 
                     <tr>
-                        <td><input class="campo" type="text" name="agencia" value="<%=conta.getAgencia()%>" /></td>
+                        <td><input class="campo" type="text" name="agencia" value="<%=conta.getAgencia()%>" maxlength="5" /></td>
                         <td align="left"><sub>(Agência)</sub></td>
                     </tr> 
                     <tr>
@@ -117,7 +117,7 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><input class="campo" type="text" name="limite" value="<%=conta.getLimite()%>" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+                        <td><input class="campo" type="text" name="limite" value="<%=conta.getLimite()%>" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
                         <td align="left"><sub>(Limite)</sub></td>
                     </tr>
                     <tr>

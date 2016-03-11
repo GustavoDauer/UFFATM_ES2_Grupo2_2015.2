@@ -17,19 +17,19 @@
             <td>&nbsp;</td>
         </tr>         
         <tr>
-            <td><input class="campo" type="text" name="nota50" value="<%=caixaEletronico.getNota50()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="nota50" value="<%=caixaEletronico.getNota50()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Notas de 50 reais)</sub></td>
         </tr>
         <tr>
-            <td><input class="campo" type="text" name="nota100" value="<%=caixaEletronico.getNota100()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="nota100" value="<%=caixaEletronico.getNota100()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Notas de 100 reais)</sub></td>
         </tr>
         <tr>
-            <td><input class="campo" type="text" name="cheque" value="<%=caixaEletronico.getCheque()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="cheque" value="<%=caixaEletronico.getCheque()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Cheque)</sub></td>
         </tr>
         <tr>
-            <td><input class="campo" type="text" name="papelComprovante" value="<%=caixaEletronico.getPapelComprovante()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
+            <td><input class="campo" type="text" name="papelComprovante" value="<%=caixaEletronico.getPapelComprovante()%>" required="required" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /></td>
             <td><sub>(Papel comprovante)</sub></td>
         </tr>
         <tr>
