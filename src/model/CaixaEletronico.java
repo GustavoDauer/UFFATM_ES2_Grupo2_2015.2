@@ -30,21 +30,12 @@ public class CaixaEletronico implements DatabaseActions {
     }
 
     public CaixaEletronico(HttpServletRequest request) {
-        id = request.getParameter("id");
+        //id = request.getParameter("id");
         nota50 = request.getParameter("nota50");
         nota100 = request.getParameter("nota100");
         cheque = request.getParameter("cheque");
         papelComprovante = request.getParameter("papelComprovante");
         dataDoCaixa = request.getParameter("dataDoCaixa");
-    }
-
-    public CaixaEletronico(CaixaEletronico caixaEletronico) {
-        id = caixaEletronico.id;
-        nota50 = caixaEletronico.nota50;
-        nota100 = caixaEletronico.nota100;
-        cheque = caixaEletronico.cheque;
-        papelComprovante = caixaEletronico.papelComprovante;
-        dataDoCaixa = caixaEletronico.dataDoCaixa;
     }
 
     public String getId() {
@@ -111,9 +102,8 @@ public class CaixaEletronico implements DatabaseActions {
         try {
             conexao = Conexao.conectar();
 
-            query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`idCaixaEletronico`, `nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
+            query = "INSERT INTO `BD_ES2`.`CaixaEletronico` (`nota50`, `nota100`, `cheque`, `papelComprovante`, `dataDoCaixa`) "
                     + "VALUES ('"
-                    + id + "', '"
                     + nota50 + "', '"
                     + nota100 + "', '"
                     + cheque + "', '"
