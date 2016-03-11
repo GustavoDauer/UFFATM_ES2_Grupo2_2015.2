@@ -22,7 +22,7 @@
             }
         %>
     </select><br />
-    <input class="campo" type="text" name="numeroCartao" placeholder="NÚMERO DO CARTÃO" /><br />
+    <input class="campo" type="text" name="numeroCartao" placeholder="NÚMERO DO CARTÃO" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><br />
     <input class="campo" type="password" name="senha" placeholder="SENHA" /><br />
     <input class="botao" type="submit" value="Inserir cartão" /><br />
     <a href="index_nao_correntista.jsp">Não correntista</a> <a href="index_gerente.jsp">Gerente</a>

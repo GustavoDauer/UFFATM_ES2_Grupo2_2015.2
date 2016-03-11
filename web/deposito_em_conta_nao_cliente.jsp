@@ -19,9 +19,9 @@
         <tr>
             <td>
                 <input type="hidden"  name="command" value="deposit" /> 
-                <input type="text" name="idCliente" placeholder="NÚMERO DO CLIENTE" class="campo"/> <br />
-                <input type="text" name="idConta" placeholder="NÚMERO DA CONTA" class="campo" /><br /> 
-                <input type="text" name="valor" placeholder="VALOR" class="campo" /><br />
+                <input type="text" name="idCliente" placeholder="NÚMERO DO CLIENTE" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/> <br />
+                <input type="text" name="idConta" placeholder="NÚMERO DA CONTA" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><br /> 
+                <input type="text" name="valor" placeholder="VALOR" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><br />
                 <input type="submit" value="Depositar" class="botao" /> <br /><br />
                 <%
                     if (request.getAttribute("msg") != null) {

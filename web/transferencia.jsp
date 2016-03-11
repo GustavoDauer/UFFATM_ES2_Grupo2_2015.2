@@ -24,8 +24,8 @@
         <table class="formulario">
             <tr>
                 <td>
-                    <input type="text" placeholder="CONTA DE DESTINO" name="idContaTransferencia" class="campo" /> <br />
-                    <input type="text" name="valor" placeholder="VALOR" class="campo" /> <br />
+                    <input type="text" placeholder="CONTA DE DESTINO" name="idContaTransferencia" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /> <br />
+                    <input type="text" name="valor" placeholder="VALOR" class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /> <br />
                     <input type="submit" value="Transferir" class="botao"/> <br /><br />  
                     <%
                         if (request.getAttribute("msgError") != null) {

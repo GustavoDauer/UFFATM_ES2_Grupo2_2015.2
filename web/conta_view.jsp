@@ -117,7 +117,7 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><input class="campo" type="text" name="limite" value="<%=conta.getLimite()%>" /></td>
+                        <td><input class="campo" type="text" name="limite" value="<%=conta.getLimite()%>" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
                         <td align="left"><sub>(Limite)</sub></td>
                     </tr>
                     <tr>

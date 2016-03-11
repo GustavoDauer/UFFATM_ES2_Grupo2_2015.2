@@ -59,7 +59,7 @@
             <td><input class="campo" placeholder="AGÊNCIA" type="text" name="agencia" /></td>
         </tr>                 
         <tr>
-            <td><input class="campo" placeholder="LIMITE" type="text" name="limite" /></td>
+            <td><input class="campo" placeholder="LIMITE" type="text" name="limite" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>
         </tr>    
         <tr>
             <td><input type="checkbox" name="poupanca_status" checked="checked" value="1"/> Poupança</td>
