@@ -700,13 +700,13 @@ public class Conta implements DatabaseActions {
             conexao = Conexao.conectar();
 
             query = "SELECT * "
-                    + " FROM Transacao "                                        
+                    + " FROM Transacao "
                     + " WHERE Conta_idConta = " + id
                     + " AND tipoTransacao = '" + Transacao.tipoTransacao.POUPANCA + "'";
             stmt = conexao.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
 
-            while(rs.next()) {
+            while (rs.next()) {
                 Transacao transacao = new Transacao();
                 transacao.setData(rs.getString("data"));
                 transacao.setIdCliente(rs.getString("Cliente_idCliente"));
@@ -725,9 +725,45 @@ public class Conta implements DatabaseActions {
             return null;
         }
     }
-    
+
     public boolean resgate(HttpServletRequest request) {
         Resgate resgate = new Resgate(request);
         return resgate.edit();
     }
+
+    public boolean cheque(HttpServletRequest request) {
+        String qtdCheque = request.getParameter("valor");
+        Connection conexao = null;
+        PreparedStatement stmt;
+        String query;
+        try {
+            conexao = Conexao.conectar();
+
+            CaixaEletronico atm = (CaixaEletronico) CaixaEletronico.sessao.getAttribute("caixaEletronico");
+
+            if ((Integer.parseInt(atm.getCheque()) - Integer.parseInt(qtdCheque)) >= 0) {
+
+                query = "UPDATE `BD_ES2`.`CaixaEletronico` "
+                        + "SET "
+                        + "`cheque` = " + String.valueOf((Integer.parseInt(atm.getCheque()) - Integer.parseInt(qtdCheque)))
+                        + " WHERE `idCaixaEletronico` = " + atm.getId();
+
+                stmt = conexao.prepareStatement(query);
+                stmt.executeUpdate(query);
+
+                atm.setCheque(String.valueOf((Integer.parseInt(atm.getCheque()) - Integer.parseInt(qtdCheque))));
+
+                CaixaEletronico.sessao.setAttribute("caixaEletronico", atm);
+
+            } else {
+                return false;
+            }
+
+            conexao.close();
+            return true;
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
+            return false;
+        }
+    }
+}
 }

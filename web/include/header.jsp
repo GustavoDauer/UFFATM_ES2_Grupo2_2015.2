@@ -36,7 +36,8 @@
                         <li><a href="pagamento_autenticado.jsp">Pagamentos</a></li>                
                         <li><a href="transferencia.jsp">Transferência</a></li>  
                         <li><a href="investimento.jsp">Investimento</a></li>
-                        <li><a href="resgate.jsp">Resgate</a></li>
+                        <li><a href="resgate.jsp">Resgate (TODO)</a></li>
+                        <li><a href="cheque.jsp">Impressão Cheque</a></li>
                     </ul>
                     <ul>
                         <li><a href="LogoutController">LogOut</a></li>

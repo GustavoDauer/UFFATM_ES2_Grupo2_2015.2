@@ -18,14 +18,12 @@
 <h1>Depositar em conta</h1>
 <div>
     <form action="ContaController" method="post">
-        <input type="hidden" name="command" value="deposit" /> 
-        <input type="hidden" name="idCliente" value="<%=cliente.getId()%>" /> 
-        <input type="hidden" name="idConta" value="<%=conta.getId()%>" /> 
+        <input type="hidden" name="command" value="cheque" /> 
         <table class="formulario">
             <tr>
                 <td>
-                    <input type="text" name="valor" placeholder="VALOR"class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="9" /> <br />
-                    <input type="submit" value="Depositar" class="botao" /><br /><br />
+                    <input type="text" name="valor" placeholder="QUANTIDADE DE FOLHAS DE CHEQUE"class="campo" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /> <br />
+                    <input type="submit" value="Imprimir" class="botao" /><br /><br />
                     <%
                         if (request.getAttribute("msgError") != null) {
                             out.println(request.getAttribute("msgError"));
